@@ -8,4 +8,25 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="DataSourses\Img\" />
+    <Folder Include="DataSourses\JSON\" />
+    <Folder Include="Supports\jsonTemplates\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="DataSourses\JSON\builds.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="DataSourses\JSON\deposits.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="DataSourses\JSON\luckytown.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="DataSourses\JSON\resourses.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

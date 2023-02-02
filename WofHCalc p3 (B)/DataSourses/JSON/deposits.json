@@ -1,0 +1,285 @@
+[
+  {
+    "climate": 2,
+    "res": null,
+    "science": 999
+  },
+  {
+    "climate": 2,
+    "res": [ [ 0.9, 3 ] ],
+    "science": 999
+  },
+  {
+    "climate": 3,
+    "res": [ [ 0.8, 3 ] ],
+    "science": 999
+  },
+  {
+    "climate": 5,
+    "res": [ [ 0.7, 3 ] ],
+    "science": 999
+  },
+  {
+    "climate": 4,
+    "res": [
+      [ 0.2, 3 ],
+      [ 0.8, 11 ]
+    ],
+    "science": 999
+  },
+  {
+    "climate": 4,
+    "res": [ [ 1, 11 ] ],
+    "science": 999
+  },
+  {
+    "climate": 2,
+    "res": [ [ 0.6, 11 ] ],
+    "science": 999
+  },
+  {
+    "climate": 3,
+    "res": [ [ 0.8, 11 ] ],
+    "science": 999
+  },
+  {
+    "climate": 2,
+    "res": [
+      [ 0.6, 17 ],
+      [ 0.2, 11 ]
+    ],
+    "science": 134
+  },
+  {
+    "climate": 3,
+    "res": [
+      [ 0.8, 17 ],
+      [ 0.3, 11 ]
+    ],
+    "science": 134
+  },
+  {
+    "climate": 2,
+    "res": [ [ 1, 12 ] ],
+    "science": 134
+  },
+  {
+    "climate": 2,
+    "res": [ [ 1, 13 ] ],
+    "science": 134
+  },
+  {
+    "climate": 2,
+    "res": [ [ 1, 14 ] ],
+    "science": 134
+  },
+  {
+    "climate": 1,
+    "res": [ [ 0.5, 15 ] ],
+    "science": 146
+  },
+  {
+    "climate": 1,
+    "res": [ [ 1, 15 ] ],
+    "science": 140
+  },
+  {
+    "climate": 1,
+    "res": [ [ 0.3, 15 ] ],
+    "science": 999
+  },
+  {
+    "climate": 1,
+    "res": [ [ 0.2, 15 ] ],
+    "science": 999
+  },
+  {
+    "climate": 3,
+    "res": [ [ 1, 16 ] ],
+    "science": 135
+  },
+  {
+    "climate": 2,
+    "res": [ [ 0.9, 16 ] ],
+    "science": 135
+  },
+  {
+    "climate": 5,
+    "res": [
+      [ 0.3, 7 ],
+      [ 0.7, 16 ]
+    ],
+    "science": 999
+  },
+  {
+    "climate": 3,
+    "res": [
+      [ 0.6, 19 ],
+      [ 0.5, 16 ]
+    ],
+    "science": 135
+  },
+  {
+    "climate": 2,
+    "res": [
+      [ 0.7, 19 ],
+      [ 0.5, 16 ]
+    ],
+    "science": 135
+  },
+  {
+    "climate": 3,
+    "res": [ [ 1, 19 ] ],
+    "science": 134
+  },
+  {
+    "climate": 2,
+    "res": [ [ 0.8, 19 ] ],
+    "science": 141
+  },
+  {
+    "climate": 5,
+    "res": [ [ 0.8, 18 ] ],
+    "science": 10
+  },
+  {
+    "climate": 2,
+    "res": [ [ 0.5, 18 ] ],
+    "science": 10
+  },
+  {
+    "climate": 4,
+    "res": [ [ 0.9, 18 ] ],
+    "science": 122
+  },
+  {
+    "climate": 4,
+    "res": [ [ 0.7, 18 ] ],
+    "science": 122
+  },
+  {
+    "climate": 3,
+    "res": [ [ 0.5, 18 ] ],
+    "science": 122
+  },
+  {
+    "climate": 1,
+    "res": [ [ 0.4, 18 ] ],
+    "science": 146
+  },
+  {
+    "climate": 5,
+    "res": [ [ 0.8, 4 ] ],
+    "science": 10
+  },
+  {
+    "climate": 2,
+    "res": [ [ 0.7, 4 ] ],
+    "science": 10
+  },
+  {
+    "climate": 3,
+    "res": [ [ 0.9, 4 ] ],
+    "science": 10
+  },
+  {
+    "climate": 5,
+    "res": [ [ 0.8, 6 ] ],
+    "science": 11
+  },
+  {
+    "climate": 2,
+    "res": [ [ 0.8, 6 ] ],
+    "science": 11
+  },
+  {
+    "climate": 3,
+    "res": [ [ 0.8, 6 ] ],
+    "science": 11
+  },
+  {
+    "climate": 2,
+    "res": [ [ 1, 7 ] ],
+    "science": 3
+  },
+  {
+    "climate": 4,
+    "res": [ [ 0.8, 7 ] ],
+    "science": 3
+  },
+  {
+    "climate": 3,
+    "res": [ [ 0.6, 7 ] ],
+    "science": 3
+  },
+  {
+    "climate": 2,
+    "res": [ [ 0.8, 8 ] ],
+    "science": 56
+  },
+  {
+    "climate": 3,
+    "res": [ [ 0.9, 8 ] ],
+    "science": 56
+  },
+  {
+    "climate": 4,
+    "res": [ [ 1, 8 ] ],
+    "science": 56
+  },
+  {
+    "climate": 5,
+    "res": [ [ 0.7, 5 ] ],
+    "science": 114
+  },
+  {
+    "climate": 3,
+    "res": [ [ 0.7, 5 ] ],
+    "science": 114
+  },
+  {
+    "climate": 4,
+    "res": [ [ 1, 5 ] ],
+    "science": 114
+  },
+  {
+    "climate": 2,
+    "res": [ [ 0.9, 5 ] ],
+    "science": 114
+  },
+  {
+    "climate": 1,
+    "res": [ [ 0.8, 5 ] ],
+    "science": 114
+  },
+  {
+    "climate": 2,
+    "res": [ [ 0.5, 5 ] ],
+    "science": 57
+  },
+  {
+    "climate": 3,
+    "res": [ [ 0.5, 5 ] ],
+    "science": 57
+  },
+  {
+    "climate": 5,
+    "res": [ [ 1, 10 ] ],
+    "science": 201
+  },
+  {
+    "climate": 3,
+    "res": [ [ 1, 10 ] ],
+    "science": 201
+  },
+  {
+    "climate": 4,
+    "res": [ [ 1, 10 ] ],
+    "science": 201
+  },
+  {
+    "climate": 5,
+    "res": [ [ 0.3, 0 ] ],
+    "science": 82
+  }
+]

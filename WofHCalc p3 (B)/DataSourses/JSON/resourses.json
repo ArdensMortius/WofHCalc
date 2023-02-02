@@ -1,0 +1,140 @@
+[
+  {
+    "consumption": 0,
+    "effect": 1,
+    "prodtype": 0,
+    "type": 0
+  },
+  {
+    "consumption": 0,
+    "effect": 1,
+    "prodtype": 1,
+    "type": 0
+  },
+  {
+    "consumption": 0,
+    "effect": 1,
+    "prodtype": 2,
+    "type": 0
+  },
+  {
+    "consumption": 0,
+    "effect": 1,
+    "prodtype": 3,
+    "type": 0
+  },
+  {
+    "consumption": 0,
+    "effect": 1,
+    "prodtype": 3,
+    "type": 0
+  },
+  {
+    "consumption": 0,
+    "effect": 1,
+    "prodtype": 3,
+    "type": 0
+  },
+  {
+    "consumption": 0,
+    "effect": 1,
+    "prodtype": 3,
+    "type": 0
+  },
+  {
+    "consumption": 0,
+    "effect": 1,
+    "prodtype": 3,
+    "type": 0
+  },
+  {
+    "consumption": 0,
+    "effect": 1,
+    "prodtype": 3,
+    "type": 0
+  },
+  {
+    "consumption": 0.1,
+    "effect": 0.15,
+    "prodtype": 3,
+    "type": 0
+  },
+  {
+    "consumption": 0,
+    "effect": 1,
+    "prodtype": 3,
+    "type": 0
+  },
+  {
+    "consumption": 11,
+    "effect": 0.15,
+    "prodtype": 2,
+    "type": 1
+  },
+  {
+    "consumption": 8,
+    "effect": 0.2,
+    "prodtype": 2,
+    "type": 1
+  },
+  {
+    "consumption": 8,
+    "effect": 0.2,
+    "prodtype": 2,
+    "type": 1
+  },
+  {
+    "consumption": 8,
+    "effect": 0.2,
+    "prodtype": 2,
+    "type": 1
+  },
+  {
+    "consumption": 11,
+    "effect": 0.2,
+    "prodtype": 3,
+    "type": 1
+  },
+  {
+    "consumption": 12,
+    "effect": 0.15,
+    "prodtype": 2,
+    "type": 1
+  },
+  {
+    "consumption": 0.5,
+    "effect": 0.2,
+    "prodtype": 2,
+    "type": 2
+  },
+  {
+    "consumption": 0.34,
+    "effect": 0.3,
+    "prodtype": 3,
+    "type": 2
+  },
+  {
+    "consumption": 0.72,
+    "effect": 0.25,
+    "prodtype": 3,
+    "type": 2
+  },
+  {
+    "consumption": 0,
+    "effect": 1,
+    "prodtype": 3,
+    "type": 0
+  },
+  {
+    "consumption": 0.4,
+    "effect": 0.3,
+    "prodtype": 3,
+    "type": 2
+  },
+  {
+    "consumption": 10,
+    "effect": 0.15,
+    "prodtype": 3,
+    "type": 3
+  }
+]
