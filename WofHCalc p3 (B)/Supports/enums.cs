@@ -63,11 +63,17 @@ namespace WofHCalc.Supports
     }
     public enum Slot //+
     {
+        [Description("Равнина")]
         plain = 0,
+        [Description("Центр")]
         center = 1,
+        [Description("Холм")]
         hill = 2,
+        [Description("Вода")]
         water = 3,
+        [Description("Защита")]
         fort = 4,
+        [Description("Чудо")]
         wounder = 5,
     }
     public enum Terrain //+
@@ -79,7 +85,44 @@ namespace WofHCalc.Supports
         plane = 4,
         nowhere = 5
     }
-
+    public enum BuildType
+    {
+        production = 0,
+        prodBoost = 1,
+        store = 4,
+        defence = 5,
+        train = 6,
+        grown = 7,
+        culture = 8,
+        administration = 9,
+        hide = 10,
+        trade = 11,
+        embassy = 12,
+        corruption = 13,
+        watertradespeed = 14,
+        waterarmyspeed = 15,
+        wonder = 16,
+        airdef = 17,
+        airarmyspeed = 18,
+        fake = 19,
+        ecology = 20,
+        tradespeed = 21
+    }
+    public enum AreaImprovementName
+    {        
+        Bridge = 0,
+        Irrigation = 1,
+        Mines = 2,
+        Campus = 3,
+        Fair = 4, //ярмарка
+        HydrotechnicalFacility = 5, //гтс
+        Suburb = 6, //пригород
+        Reservation = 7, //заповедник
+        Resort = 10, //курорт
+        SkiResort = 11, //горнолыжка
+        FishingArea = 8, //промысловая зоны
+        ResearchWaterArea = 9 //аква
+    }
     public enum DepositName //+
     {
         none = 0,
@@ -374,11 +417,44 @@ namespace WofHCalc.Supports
         LasVegas = 107,
         [Description("Грузовой аэропорт")]
         Freight_airport = 30,
-        [Description("Центр управления полетами")]
+        [Description("ЦУП")]
         Mission_control_center = 29,
         [Description("Космодром")]
         Spaceport = 77,
     }
-
+    public enum LuckBonusNames //++значения в этом перечислении отличаются от оригинальных! Оригинальные оставил в комментарии, вдруг нужны
+    {
+        [Description("Прирост")]
+        grown = 0,
+        [Description("Наука")]
+        science = 1,
+        [Description("Производ")]
+        production = 2,//3,
+        [Description("ВБ")]
+        war = 3,//4,
+        [Description("Культура")]
+        culture = 4,//5,
+        //sciencePack= 6,//наука СРАЗУ
+        //productionPack= 7,//производство СРАЗУ
+        [Description("Торговцы")]
+        traders =5, //9,              
+    }
+    public enum GreatCitizensNames//++
+    {
+        [Description ("Учёный")]
+        Scientist = 0,
+        [Description("Инжинер")]
+        Engineer = 1,
+        [Description("Агроном")]
+        Agronomist = 2,
+        [Description("Финансист")]
+        Financier = 3,
+        [Description("Полководец")]
+        General = 4,
+        [Description("Творец")]
+        Creator = 5,
+        [Description("Врач")]
+        Doctor = 6,
+    }
 
 }

@@ -8,7 +8,7 @@
 #pragma warning disable CS8601
 #pragma warning disable CS8603
 
-namespace WofHCalc.Supports.jsontemplates
+namespace WofHCalc.Supports.jsonTemplates
 {
     using System;
     using System.Collections.Generic;
@@ -37,7 +37,7 @@ namespace WofHCalc.Supports.jsontemplates
         public int Maxcount { get; set; }
 
         [JsonPropertyName("next")]
-        public int[] Next { get; set; }
+        public BuildName[] Next { get; set; }
 
         [JsonPropertyName("pay")]
         public double[] Pay { get; set; }
@@ -51,8 +51,8 @@ namespace WofHCalc.Supports.jsontemplates
         [JsonPropertyName("terrain")]
         public Terrain Terrain { get; set; } //положение города
 
-        //[JsonPropertyName("type")] //для фильтров. Пока пофиг
-        //public int Type { get; set; }
+        [JsonPropertyName("type")] //для фильтров, но это не точно
+        public BuildType Type { get; set; }
 
         [JsonPropertyName("ungrown")]
         public double[] Ungrown { get; set; }
@@ -68,13 +68,13 @@ namespace WofHCalc.Supports.jsontemplates
         //[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         //[JsonPropertyName("wonderradius")]
         //public int? Wonderradius { get; set; }
-        public static Build[] FromJson(string json) => JsonSerializer.Deserialize<Build[]>(json, WofHCalc.Supports.jsontemplates.Converter.Settings);
+        public static Build[] FromJson(string json) => JsonSerializer.Deserialize<Build[]>(json, WofHCalc.Supports.jsonTemplates.Converter.Settings);
     }
 
     public partial class Productre
     {
         [JsonPropertyName("res")]
-        public int Res { get; set; }
+        public ResName Res { get; set; }
     }
 
     public partial struct Cost
@@ -87,7 +87,7 @@ namespace WofHCalc.Supports.jsontemplates
     }
     public static class Serialize
     {
-        public static string ToJson(this Build[] self) => JsonSerializer.Serialize(self, WofHCalc.Supports.jsontemplates.Converter.Settings);
+        public static string ToJson(this Build[] self) => JsonSerializer.Serialize(self, WofHCalc.Supports.jsonTemplates.Converter.Settings);
     }
 
     internal static class Converter

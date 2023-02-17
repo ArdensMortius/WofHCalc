@@ -5,16 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 using WofHCalc.Supports;
 using System.IO;
-using WofHCalc.Supports.jsontemplates;
+using WofHCalc.Supports.jsonTemplates;
 
 namespace WofHCalc.DataSourses
 {
     //Через это класс можно удобно получить нужные константы из *.json файлов и некоторые другие.
-    public static class Data 
+    public static class Data
     {
         public static Resource[] ResData { get; }
         public static Deposit[] DepositsData { get; }
         public static Build[] BuildindsData { get; }
+        public static LuckBonus[] LuckBonusesData { get; }
+        public static AreaImprovement[] AreaImprovementsData {get;}
         public static float RaceEffect_Consumption(Race race)
         {
             if (race == Race.indians) return 0.85f;
@@ -77,6 +79,14 @@ namespace WofHCalc.DataSourses
             }
 
         }
+        public static float RebuildReturn { get => 0.35f; }
+        public static int SwitchCost { get => 60; }
+        public static double[] ColonyDestroy { get => new double[] { 3000, 1.5d }; }
+        public static double[] AdministrationCulture { get => new double[] { 500.0001f, 400 }; }
+        //по чудесам света в источнике очень неприятная каша, так что пока руками перепишу нужное.
+        //Потом можно будет сделать частичную привязку к серверу.        
+        public static Dictionary<BuildName,double> WounderEffects{ get; }
+
         static Data()
         {
             string path = "DataSourses/JSON/";
@@ -88,10 +98,33 @@ namespace WofHCalc.DataSourses
             DepositsData = new Deposit[53];
             data = File.ReadAllText($"{path}deposits.json");
             DepositsData = System.Text.Json.JsonSerializer.Deserialize<Deposit[]>(data)!;
-            //?
+            //+
             BuildindsData = new Build[120];
             data = File.ReadAllText($"{path}builds.json");
             BuildindsData = Build.FromJson(data)!;
+            //?
+            LuckBonusesData = new LuckBonus[14];
+            data = File.ReadAllText($"{path}luckytown.json");
+            LuckBonusesData = System.Text.Json.JsonSerializer.Deserialize<LuckBonus[]>(data)!;
+            //?
+            AreaImprovementsData = new AreaImprovement[12];
+            data = File.ReadAllText($"{path}AreaImprovements.json");
+            AreaImprovementsData = System.Text.Json.JsonSerializer.Deserialize<AreaImprovement[]>(data)!;
+
+            WounderEffects = new()
+            {
+                { BuildName.Pagan_temple, 10 }, //капище, даёт прирост
+                { BuildName.The_Hanging_Gardens, 20 }, //прирост. Мб не правильно это            
+                { BuildName.Earth_Mother, 100 }, //культура
+                { BuildName.Coliseum, 200 }, //культура, ВБ тут не учтён
+                { BuildName.The_Pyramids, 1000 },//культура
+                { BuildName.Stonehenge, 15 }, //торгаши
+                { BuildName.Earthen_dam, 160 }, //рыба
+                { BuildName.The_Colossus, 200 }, //монеты
+                { BuildName.Geoglyph, 30 }, //колбы
+                { BuildName.The_Great_Library, 100 },//колбы
+                { BuildName.Helioconcentrator, 200 }, //колбы
+            };
         }
 
     }

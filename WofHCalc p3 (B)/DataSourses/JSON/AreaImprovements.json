@@ -1,0 +1,279 @@
+
+[
+  {
+    "levels": [
+      {
+        "cost": "c1000.000^d3000.000^",
+        "effect": 0,
+        "science": 84,
+        "workers": 25
+      },
+      {
+        "cost": "c5000.000^d15000.00^g5000.000^",
+        "effect": 0,
+        "science": 86,
+        "workers": 125
+      },
+      {
+        "cost": "c25000.00^d75000.00^e25000.00^",
+        "effect": 0,
+        "science": 37,
+        "workers": 500
+      }
+    ],
+    "main": 0
+  },
+  {
+    "levels": [
+      {
+        "cost": "c300.0000^d750.0000^",
+        "effect": 0.02,
+        "science": 134,
+        "workers": 8
+      },
+      {
+        "cost": "c3000.000^d10000.00^",
+        "effect": 0.05,
+        "science": 117,
+        "workers": 50
+      },
+      {
+        "cost": "c15000.00^d30000.00^",
+        "effect": 0.1,
+        "science": 79,
+        "workers": 150
+      }
+    ],
+    "main": 1
+  },
+  {
+    "levels": [
+      {
+        "cost": "c500.0000^d1000.000^",
+        "effect": 0.02,
+        "science": 122,
+        "workers": 8
+      },
+      {
+        "cost": "c5000.000^d10000.00^e2000.000^",
+        "effect": 0.05,
+        "science": 56,
+        "workers": 50
+      },
+      {
+        "cost": "c20000.00^d30000.00^e8000.000^",
+        "effect": 0.1,
+        "science": 42,
+        "workers": 150
+      }
+    ],
+    "main": 1
+  },
+  {
+    "levels": [
+      {
+        "cost": "c3000.000^d6000.000^g2000.000^",
+        "effect": 0.01,
+        "science": 22,
+        "workers": 50
+      },
+      {
+        "cost": "c10000.00^d20000.00^g5000.000^",
+        "effect": 0.02,
+        "science": 86,
+        "workers": 175
+      },
+      {
+        "cost": "c30000.00^d60000.00^g20000.00^",
+        "effect": 0.03,
+        "science": 198,
+        "workers": 350
+      }
+    ],
+    "main": 1
+  },
+  {
+    "levels": [
+      {
+        "cost": "c1000.000^d2000.000^e500.0000^",
+        "effect": 0.04,
+        "science": 23,
+        "workers": 25
+      },
+      {
+        "cost": "c4000.000^d12000.00^e3000.000^",
+        "effect": 0.08,
+        "science": 128,
+        "workers": 100
+      },
+      {
+        "cost": "c15000.00^d40000.00^e15000.00^",
+        "effect": 0.12,
+        "science": 193,
+        "workers": 200
+      }
+    ],
+    "main": 1
+  },
+  {
+    "levels": [
+      {
+        "cost": "c3000.000^d10000.00^e1000.000^",
+        "effect": 0.08,
+        "science": 157,
+        "workers": 50
+      },
+      {
+        "cost": "c15000.00^d20000.00^e10000.00^g10000.00^",
+        "effect": 0.12,
+        "science": 33,
+        "workers": 175
+      },
+      {
+        "cost": "c50000.00^d80000.00^e30000.00^g30000.00^",
+        "effect": 0.15,
+        "science": 42,
+        "workers": 250
+      }
+    ],
+    "main": 0
+  },
+  {
+    "levels": [
+      {
+        "cost": "c10000.00^d5000.000^g1000.000^",
+        "effect": 0.05,
+        "science": 25,
+        "workers": 38
+      },
+      {
+        "cost": "c25000.00^d15000.00^g4000.000^",
+        "effect": 0.08,
+        "science": 55,
+        "workers": 125
+      },
+      {
+        "cost": "c70000.00^d50000.00^g15000.00^",
+        "effect": 0.1,
+        "science": 76,
+        "workers": 200
+      }
+    ],
+    "main": 1
+  },
+  {
+    "levels": [
+      {
+        "cost": "c3000.000^d10000.00^g1500.000^",
+        "effect": 0.05,
+        "science": 158,
+        "workers": 38
+      },
+      {
+        "cost": "c10000.00^d30000.00^g6000.000^",
+        "effect": 0.08,
+        "science": 169,
+        "workers": 125
+      },
+      {
+        "cost": "c30000.00^d75000.00^g20000.00^",
+        "effect": 0.1,
+        "science": 79,
+        "workers": 250
+      }
+    ],
+    "main": 1
+  },
+  {
+    "levels": [
+      {
+        "cost": "c500.0000^d2000.000^",
+        "effect": 0.05,
+        "science": 123,
+        "workers": 10
+      },
+      {
+        "cost": "c5000.000^d10000.00^",
+        "effect": 0.09,
+        "science": 144,
+        "workers": 75
+      },
+      {
+        "cost": "c25000.00^d50000.00^",
+        "effect": 0.12,
+        "science": 32,
+        "workers": 175
+      }
+    ],
+    "main": 1
+  },
+  {
+    "levels": [
+      {
+        "cost": "c2000.000^d10000.00^p10000.00^",
+        "effect": 0.04,
+        "science": 54,
+        "workers": 60
+      },
+      {
+        "cost": "c10000.00^d35000.00^p35000.00^",
+        "effect": 0.07,
+        "science": 31,
+        "workers": 250
+      },
+      {
+        "cost": "c30000.00^d100000.0^p100000.0^",
+        "effect": 0.09,
+        "science": 78,
+        "workers": 500
+      }
+    ],
+    "main": 1
+  },
+  {
+    "levels": [
+      {
+        "cost": "c10000.00^d10000.00^r35000.00^s35000.00^",
+        "effect": 0.1,
+        "science": 37,
+        "workers": 250
+      },
+      {
+        "cost": "c20000.00^d30000.00^r65000.00^s65000.00^",
+        "effect": 0.15,
+        "science": 78,
+        "workers": 375
+      },
+      {
+        "cost": "c30000.00^d50000.00^r100000.0^s100000.0^",
+        "effect": 0.2,
+        "science": 51,
+        "workers": 500
+      }
+    ],
+    "main": 1
+  },
+  {
+    "levels": [
+      {
+        "cost": "c30000.00^d10000.00^f20000.00^",
+        "effect": 500,
+        "science": 72,
+        "workers": 300
+      },
+      {
+        "cost": "c50000.00^d30000.00^f40000.00^",
+        "effect": 1200,
+        "science": 105,
+        "workers": 450
+      },
+      {
+        "cost": "c100000.0^d50000.00^f65000.00^",
+        "effect": 2800,
+        "science": 51,
+        "workers": 600
+      }
+    ],
+    "main": 1
+  }
+]

@@ -3,18 +3,1417 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net7.0-windows</TargetFramework>
-    <RootNamespace>WofHCalc_p3__B_</RootNamespace>
+    <RootNamespace>WofHCalc</RootNamespace>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DataSourses\Img\" />
-    <Folder Include="DataSourses\JSON\" />
-    <Folder Include="Supports\jsonTemplates\" />
+    <None Remove="DataSourses\Img\builds\0_1.png" />
+    <None Remove="DataSourses\Img\builds\0_10_1.png" />
+    <None Remove="DataSourses\Img\builds\0_1_1.png" />
+    <None Remove="DataSourses\Img\builds\0_2_1.png" />
+    <None Remove="DataSourses\Img\builds\0_4_1.png" />
+    <None Remove="DataSourses\Img\builds\0_6_1.png" />
+    <None Remove="DataSourses\Img\builds\100_1.png" />
+    <None Remove="DataSourses\Img\builds\100_1_1.png" />
+    <None Remove="DataSourses\Img\builds\101_1.png" />
+    <None Remove="DataSourses\Img\builds\101_1_1.png" />
+    <None Remove="DataSourses\Img\builds\102_1.png" />
+    <None Remove="DataSourses\Img\builds\102_1_1.png" />
+    <None Remove="DataSourses\Img\builds\103_1.png" />
+    <None Remove="DataSourses\Img\builds\103_1_1.png" />
+    <None Remove="DataSourses\Img\builds\104_1.png" />
+    <None Remove="DataSourses\Img\builds\104_1_1.png" />
+    <None Remove="DataSourses\Img\builds\105_1.png" />
+    <None Remove="DataSourses\Img\builds\105_1_1.png" />
+    <None Remove="DataSourses\Img\builds\106_1.png" />
+    <None Remove="DataSourses\Img\builds\106_1_1.png" />
+    <None Remove="DataSourses\Img\builds\107_1.png" />
+    <None Remove="DataSourses\Img\builds\107_1_1.png" />
+    <None Remove="DataSourses\Img\builds\108_1.png" />
+    <None Remove="DataSourses\Img\builds\108_1_1.png" />
+    <None Remove="DataSourses\Img\builds\109_1.png" />
+    <None Remove="DataSourses\Img\builds\109_1_1.png" />
+    <None Remove="DataSourses\Img\builds\10_1.png" />
+    <None Remove="DataSourses\Img\builds\10_1_1.png" />
+    <None Remove="DataSourses\Img\builds\110_1.png" />
+    <None Remove="DataSourses\Img\builds\110_1_1.png" />
+    <None Remove="DataSourses\Img\builds\111_1.png" />
+    <None Remove="DataSourses\Img\builds\111_10_1.png" />
+    <None Remove="DataSourses\Img\builds\111_18_1.png" />
+    <None Remove="DataSourses\Img\builds\111_1_1.png" />
+    <None Remove="DataSourses\Img\builds\112_1.png" />
+    <None Remove="DataSourses\Img\builds\112_1_1.png" />
+    <None Remove="DataSourses\Img\builds\11_1.png" />
+    <None Remove="DataSourses\Img\builds\11_10_1.png" />
+    <None Remove="DataSourses\Img\builds\11_18_1.png" />
+    <None Remove="DataSourses\Img\builds\11_1_1.png" />
+    <None Remove="DataSourses\Img\builds\12_1.png" />
+    <None Remove="DataSourses\Img\builds\12_1_1.png" />
+    <None Remove="DataSourses\Img\builds\13_1.png" />
+    <None Remove="DataSourses\Img\builds\13_10_1.png" />
+    <None Remove="DataSourses\Img\builds\13_18_1.png" />
+    <None Remove="DataSourses\Img\builds\13_1_1.png" />
+    <None Remove="DataSourses\Img\builds\14_1.png" />
+    <None Remove="DataSourses\Img\builds\14_13_1.png" />
+    <None Remove="DataSourses\Img\builds\14_14_1.png" />
+    <None Remove="DataSourses\Img\builds\14_1_1.png" />
+    <None Remove="DataSourses\Img\builds\15_1.png" />
+    <None Remove="DataSourses\Img\builds\15_1_1.png" />
+    <None Remove="DataSourses\Img\builds\16_1.png" />
+    <None Remove="DataSourses\Img\builds\16_1_1.png" />
+    <None Remove="DataSourses\Img\builds\17_1.png" />
+    <None Remove="DataSourses\Img\builds\17_1_1.png" />
+    <None Remove="DataSourses\Img\builds\18_1.png" />
+    <None Remove="DataSourses\Img\builds\18_10_1.png" />
+    <None Remove="DataSourses\Img\builds\18_15_1.png" />
+    <None Remove="DataSourses\Img\builds\18_18_1.png" />
+    <None Remove="DataSourses\Img\builds\18_1_1.png" />
+    <None Remove="DataSourses\Img\builds\18_2_1.png" />
+    <None Remove="DataSourses\Img\builds\18_3_1.png" />
+    <None Remove="DataSourses\Img\builds\18_4_1.png" />
+    <None Remove="DataSourses\Img\builds\18_6_1.png" />
+    <None Remove="DataSourses\Img\builds\19_1.png" />
+    <None Remove="DataSourses\Img\builds\19_1_1.png" />
+    <None Remove="DataSourses\Img\builds\19_1_99.png" />
+    <None Remove="DataSourses\Img\builds\1_1.png" />
+    <None Remove="DataSourses\Img\builds\1_12_1.png" />
+    <None Remove="DataSourses\Img\builds\1_18_1.png" />
+    <None Remove="DataSourses\Img\builds\1_1_1.png" />
+    <None Remove="DataSourses\Img\builds\1_2_1.png" />
+    <None Remove="DataSourses\Img\builds\1_3_1.png" />
+    <None Remove="DataSourses\Img\builds\1_4_1.png" />
+    <None Remove="DataSourses\Img\builds\1_7_1.png" />
+    <None Remove="DataSourses\Img\builds\20_1.png" />
+    <None Remove="DataSourses\Img\builds\20_1_1.png" />
+    <None Remove="DataSourses\Img\builds\21_1.png" />
+    <None Remove="DataSourses\Img\builds\21_1_1.png" />
+    <None Remove="DataSourses\Img\builds\22_1.png" />
+    <None Remove="DataSourses\Img\builds\22_1_1.png" />
+    <None Remove="DataSourses\Img\builds\23_1.png" />
+    <None Remove="DataSourses\Img\builds\23_1_1.png" />
+    <None Remove="DataSourses\Img\builds\24_1.png" />
+    <None Remove="DataSourses\Img\builds\24_1_1.png" />
+    <None Remove="DataSourses\Img\builds\25_1.png" />
+    <None Remove="DataSourses\Img\builds\25_1_1.png" />
+    <None Remove="DataSourses\Img\builds\26_1.png" />
+    <None Remove="DataSourses\Img\builds\26_12_1.png" />
+    <None Remove="DataSourses\Img\builds\26_1_1.png" />
+    <None Remove="DataSourses\Img\builds\27_1.png" />
+    <None Remove="DataSourses\Img\builds\27_1_1.png" />
+    <None Remove="DataSourses\Img\builds\28_1.png" />
+    <None Remove="DataSourses\Img\builds\28_1_1.png" />
+    <None Remove="DataSourses\Img\builds\29_1.png" />
+    <None Remove="DataSourses\Img\builds\29_1_1.png" />
+    <None Remove="DataSourses\Img\builds\2_1.png" />
+    <None Remove="DataSourses\Img\builds\2_10_1.png" />
+    <None Remove="DataSourses\Img\builds\2_18_1.png" />
+    <None Remove="DataSourses\Img\builds\2_1_1.png" />
+    <None Remove="DataSourses\Img\builds\2_2_1.png" />
+    <None Remove="DataSourses\Img\builds\2_4_1.png" />
+    <None Remove="DataSourses\Img\builds\2_6_1.png" />
+    <None Remove="DataSourses\Img\builds\30_1.png" />
+    <None Remove="DataSourses\Img\builds\30_1_1.png" />
+    <None Remove="DataSourses\Img\builds\31_1.png" />
+    <None Remove="DataSourses\Img\builds\31_1_1.png" />
+    <None Remove="DataSourses\Img\builds\32_1.png" />
+    <None Remove="DataSourses\Img\builds\32_1_1.png" />
+    <None Remove="DataSourses\Img\builds\33_1.png" />
+    <None Remove="DataSourses\Img\builds\33_1_1.png" />
+    <None Remove="DataSourses\Img\builds\34_1.png" />
+    <None Remove="DataSourses\Img\builds\34_14_1.png" />
+    <None Remove="DataSourses\Img\builds\34_1_1.png" />
+    <None Remove="DataSourses\Img\builds\35_1.png" />
+    <None Remove="DataSourses\Img\builds\35_10_1.png" />
+    <None Remove="DataSourses\Img\builds\35_1_1.png" />
+    <None Remove="DataSourses\Img\builds\36_1.png" />
+    <None Remove="DataSourses\Img\builds\36_1_1.png" />
+    <None Remove="DataSourses\Img\builds\37_1.png" />
+    <None Remove="DataSourses\Img\builds\37_1_1.png" />
+    <None Remove="DataSourses\Img\builds\38_1.png" />
+    <None Remove="DataSourses\Img\builds\38_1_1.png" />
+    <None Remove="DataSourses\Img\builds\38_1_99.png" />
+    <None Remove="DataSourses\Img\builds\39_1.png" />
+    <None Remove="DataSourses\Img\builds\39_1_1.png" />
+    <None Remove="DataSourses\Img\builds\3_1.png" />
+    <None Remove="DataSourses\Img\builds\3_1_1.png" />
+    <None Remove="DataSourses\Img\builds\3_1_99.png" />
+    <None Remove="DataSourses\Img\builds\3_2_1.png" />
+    <None Remove="DataSourses\Img\builds\3_2_99.png" />
+    <None Remove="DataSourses\Img\builds\3_3_1.png" />
+    <None Remove="DataSourses\Img\builds\3_3_99.png" />
+    <None Remove="DataSourses\Img\builds\400_1.png" />
+    <None Remove="DataSourses\Img\builds\40_1.png" />
+    <None Remove="DataSourses\Img\builds\40_1_1.png" />
+    <None Remove="DataSourses\Img\builds\41_1.png" />
+    <None Remove="DataSourses\Img\builds\41_1_1.png" />
+    <None Remove="DataSourses\Img\builds\42_1.png" />
+    <None Remove="DataSourses\Img\builds\42_1_1.png" />
+    <None Remove="DataSourses\Img\builds\43_1.png" />
+    <None Remove="DataSourses\Img\builds\43_1_1.png" />
+    <None Remove="DataSourses\Img\builds\44_1.png" />
+    <None Remove="DataSourses\Img\builds\44_1_1.png" />
+    <None Remove="DataSourses\Img\builds\45_1.png" />
+    <None Remove="DataSourses\Img\builds\45_1_1.png" />
+    <None Remove="DataSourses\Img\builds\46_1.png" />
+    <None Remove="DataSourses\Img\builds\46_1_1.png" />
+    <None Remove="DataSourses\Img\builds\47_1.png" />
+    <None Remove="DataSourses\Img\builds\47_1_1.png" />
+    <None Remove="DataSourses\Img\builds\48_1.png" />
+    <None Remove="DataSourses\Img\builds\48_1_1.png" />
+    <None Remove="DataSourses\Img\builds\49_1.png" />
+    <None Remove="DataSourses\Img\builds\49_1_1.png" />
+    <None Remove="DataSourses\Img\builds\4_1.png" />
+    <None Remove="DataSourses\Img\builds\4_18_1.png" />
+    <None Remove="DataSourses\Img\builds\4_1_1.png" />
+    <None Remove="DataSourses\Img\builds\4_3_1.png" />
+    <None Remove="DataSourses\Img\builds\4_6_1.png" />
+    <None Remove="DataSourses\Img\builds\50_1.png" />
+    <None Remove="DataSourses\Img\builds\50_1_1.png" />
+    <None Remove="DataSourses\Img\builds\51_1.png" />
+    <None Remove="DataSourses\Img\builds\51_1_1.png" />
+    <None Remove="DataSourses\Img\builds\52_1.png" />
+    <None Remove="DataSourses\Img\builds\52_1_1.png" />
+    <None Remove="DataSourses\Img\builds\53_1.png" />
+    <None Remove="DataSourses\Img\builds\53_1_1.png" />
+    <None Remove="DataSourses\Img\builds\54_1.png" />
+    <None Remove="DataSourses\Img\builds\54_1_1.png" />
+    <None Remove="DataSourses\Img\builds\55_1.png" />
+    <None Remove="DataSourses\Img\builds\55_1_1.png" />
+    <None Remove="DataSourses\Img\builds\56_1.png" />
+    <None Remove="DataSourses\Img\builds\56_1_1.png" />
+    <None Remove="DataSourses\Img\builds\57_1.png" />
+    <None Remove="DataSourses\Img\builds\57_1_1.png" />
+    <None Remove="DataSourses\Img\builds\57_1_99.png" />
+    <None Remove="DataSourses\Img\builds\57_2_1.png" />
+    <None Remove="DataSourses\Img\builds\57_2_99.png" />
+    <None Remove="DataSourses\Img\builds\58_1.png" />
+    <None Remove="DataSourses\Img\builds\58_1_1.png" />
+    <None Remove="DataSourses\Img\builds\59_1.png" />
+    <None Remove="DataSourses\Img\builds\59_1_1.png" />
+    <None Remove="DataSourses\Img\builds\5_1.png" />
+    <None Remove="DataSourses\Img\builds\5_10_1.png" />
+    <None Remove="DataSourses\Img\builds\5_16_1.png" />
+    <None Remove="DataSourses\Img\builds\5_1_1.png" />
+    <None Remove="DataSourses\Img\builds\5_4_1.png" />
+    <None Remove="DataSourses\Img\builds\60_1.png" />
+    <None Remove="DataSourses\Img\builds\60_1_1.png" />
+    <None Remove="DataSourses\Img\builds\61_1.png" />
+    <None Remove="DataSourses\Img\builds\61_1_1.png" />
+    <None Remove="DataSourses\Img\builds\62_1.png" />
+    <None Remove="DataSourses\Img\builds\62_1_1.png" />
+    <None Remove="DataSourses\Img\builds\63_1.png" />
+    <None Remove="DataSourses\Img\builds\63_1_1.png" />
+    <None Remove="DataSourses\Img\builds\64_1.png" />
+    <None Remove="DataSourses\Img\builds\64_1_1.png" />
+    <None Remove="DataSourses\Img\builds\64_2_1.png" />
+    <None Remove="DataSourses\Img\builds\65_1.png" />
+    <None Remove="DataSourses\Img\builds\65_1_1.png" />
+    <None Remove="DataSourses\Img\builds\66_1.png" />
+    <None Remove="DataSourses\Img\builds\66_1_1.png" />
+    <None Remove="DataSourses\Img\builds\67_1.png" />
+    <None Remove="DataSourses\Img\builds\67_12_1.png" />
+    <None Remove="DataSourses\Img\builds\67_1_1.png" />
+    <None Remove="DataSourses\Img\builds\68_1.png" />
+    <None Remove="DataSourses\Img\builds\68_1_1.png" />
+    <None Remove="DataSourses\Img\builds\69_1.png" />
+    <None Remove="DataSourses\Img\builds\69_1_1.png" />
+    <None Remove="DataSourses\Img\builds\6_1.png" />
+    <None Remove="DataSourses\Img\builds\6_1_1.png" />
+    <None Remove="DataSourses\Img\builds\70_1.png" />
+    <None Remove="DataSourses\Img\builds\70_1_1.png" />
+    <None Remove="DataSourses\Img\builds\71_1.png" />
+    <None Remove="DataSourses\Img\builds\71_1_1.png" />
+    <None Remove="DataSourses\Img\builds\72_1.png" />
+    <None Remove="DataSourses\Img\builds\72_1_1.png" />
+    <None Remove="DataSourses\Img\builds\73_1.png" />
+    <None Remove="DataSourses\Img\builds\73_10_1.png" />
+    <None Remove="DataSourses\Img\builds\73_11_1.png" />
+    <None Remove="DataSourses\Img\builds\73_12_1.png" />
+    <None Remove="DataSourses\Img\builds\73_13_1.png" />
+    <None Remove="DataSourses\Img\builds\73_14_1.png" />
+    <None Remove="DataSourses\Img\builds\73_15_1.png" />
+    <None Remove="DataSourses\Img\builds\73_16_1.png" />
+    <None Remove="DataSourses\Img\builds\73_17_1.png" />
+    <None Remove="DataSourses\Img\builds\73_18_1.png" />
+    <None Remove="DataSourses\Img\builds\73_19_1.png" />
+    <None Remove="DataSourses\Img\builds\73_1_1.png" />
+    <None Remove="DataSourses\Img\builds\73_20_1.png" />
+    <None Remove="DataSourses\Img\builds\73_2_1.png" />
+    <None Remove="DataSourses\Img\builds\73_3_1.png" />
+    <None Remove="DataSourses\Img\builds\73_4_1.png" />
+    <None Remove="DataSourses\Img\builds\73_5_1.png" />
+    <None Remove="DataSourses\Img\builds\73_6_1.png" />
+    <None Remove="DataSourses\Img\builds\73_7_1.png" />
+    <None Remove="DataSourses\Img\builds\73_8_1.png" />
+    <None Remove="DataSourses\Img\builds\73_9_1.png" />
+    <None Remove="DataSourses\Img\builds\74_1.png" />
+    <None Remove="DataSourses\Img\builds\74_1_1.png" />
+    <None Remove="DataSourses\Img\builds\75_1.png" />
+    <None Remove="DataSourses\Img\builds\75_1_1.png" />
+    <None Remove="DataSourses\Img\builds\76_1.png" />
+    <None Remove="DataSourses\Img\builds\76_10_1.png" />
+    <None Remove="DataSourses\Img\builds\76_1_1.png" />
+    <None Remove="DataSourses\Img\builds\77_1.png" />
+    <None Remove="DataSourses\Img\builds\77_1_1.png" />
+    <None Remove="DataSourses\Img\builds\78_1.png" />
+    <None Remove="DataSourses\Img\builds\78_1_1.png" />
+    <None Remove="DataSourses\Img\builds\79_1.png" />
+    <None Remove="DataSourses\Img\builds\79_16_1.png" />
+    <None Remove="DataSourses\Img\builds\79_1_1.png" />
+    <None Remove="DataSourses\Img\builds\7_1.png" />
+    <None Remove="DataSourses\Img\builds\7_1_1.png" />
+    <None Remove="DataSourses\Img\builds\80_1.png" />
+    <None Remove="DataSourses\Img\builds\80_1_1.png" />
+    <None Remove="DataSourses\Img\builds\81_1.png" />
+    <None Remove="DataSourses\Img\builds\81_1_1.png" />
+    <None Remove="DataSourses\Img\builds\82_1.png" />
+    <None Remove="DataSourses\Img\builds\82_1_1.png" />
+    <None Remove="DataSourses\Img\builds\83_1.png" />
+    <None Remove="DataSourses\Img\builds\83_1_1.png" />
+    <None Remove="DataSourses\Img\builds\84_1.png" />
+    <None Remove="DataSourses\Img\builds\84_1_1.png" />
+    <None Remove="DataSourses\Img\builds\85_1.png" />
+    <None Remove="DataSourses\Img\builds\85_10_1.png" />
+    <None Remove="DataSourses\Img\builds\85_14_1.png" />
+    <None Remove="DataSourses\Img\builds\85_18_1.png" />
+    <None Remove="DataSourses\Img\builds\85_1_1.png" />
+    <None Remove="DataSourses\Img\builds\85_2_1.png" />
+    <None Remove="DataSourses\Img\builds\85_3_1.png" />
+    <None Remove="DataSourses\Img\builds\85_4_1.png" />
+    <None Remove="DataSourses\Img\builds\85_6_1.png" />
+    <None Remove="DataSourses\Img\builds\86_1.png" />
+    <None Remove="DataSourses\Img\builds\86_18_1.png" />
+    <None Remove="DataSourses\Img\builds\86_1_1.png" />
+    <None Remove="DataSourses\Img\builds\86_2_1.png" />
+    <None Remove="DataSourses\Img\builds\86_5_1.png" />
+    <None Remove="DataSourses\Img\builds\87_1.png" />
+    <None Remove="DataSourses\Img\builds\87_1_1.png" />
+    <None Remove="DataSourses\Img\builds\88_1.png" />
+    <None Remove="DataSourses\Img\builds\88_12_1.png" />
+    <None Remove="DataSourses\Img\builds\88_13_1.png" />
+    <None Remove="DataSourses\Img\builds\88_1_1.png" />
+    <None Remove="DataSourses\Img\builds\88_2_1.png" />
+    <None Remove="DataSourses\Img\builds\88_4_1.png" />
+    <None Remove="DataSourses\Img\builds\88_7_1.png" />
+    <None Remove="DataSourses\Img\builds\89_1.png" />
+    <None Remove="DataSourses\Img\builds\89_1_1.png" />
+    <None Remove="DataSourses\Img\builds\8_1.png" />
+    <None Remove="DataSourses\Img\builds\8_10_1.png" />
+    <None Remove="DataSourses\Img\builds\8_16_1.png" />
+    <None Remove="DataSourses\Img\builds\8_1_1.png" />
+    <None Remove="DataSourses\Img\builds\90_1.png" />
+    <None Remove="DataSourses\Img\builds\90_1_1.png" />
+    <None Remove="DataSourses\Img\builds\90_6_1.png" />
+    <None Remove="DataSourses\Img\builds\91_1.png" />
+    <None Remove="DataSourses\Img\builds\91_1_1.png" />
+    <None Remove="DataSourses\Img\builds\92_1.png" />
+    <None Remove="DataSourses\Img\builds\92_1_1.png" />
+    <None Remove="DataSourses\Img\builds\93_1.png" />
+    <None Remove="DataSourses\Img\builds\93_1_1.png" />
+    <None Remove="DataSourses\Img\builds\94_1.png" />
+    <None Remove="DataSourses\Img\builds\94_1_1.png" />
+    <None Remove="DataSourses\Img\builds\95_1.png" />
+    <None Remove="DataSourses\Img\builds\95_1_1.png" />
+    <None Remove="DataSourses\Img\builds\95_20_1.png" />
+    <None Remove="DataSourses\Img\builds\96_1.png" />
+    <None Remove="DataSourses\Img\builds\96_10_1.png" />
+    <None Remove="DataSourses\Img\builds\96_15_1.png" />
+    <None Remove="DataSourses\Img\builds\96_18_1.png" />
+    <None Remove="DataSourses\Img\builds\96_1_1.png" />
+    <None Remove="DataSourses\Img\builds\96_2_1.png" />
+    <None Remove="DataSourses\Img\builds\96_3_1.png" />
+    <None Remove="DataSourses\Img\builds\96_4_1.png" />
+    <None Remove="DataSourses\Img\builds\96_6_1.png" />
+    <None Remove="DataSourses\Img\builds\97_1.png" />
+    <None Remove="DataSourses\Img\builds\97_1_1.png" />
+    <None Remove="DataSourses\Img\builds\97_20_1.png" />
+    <None Remove="DataSourses\Img\builds\98_1.png" />
+    <None Remove="DataSourses\Img\builds\98_1_1.png" />
+    <None Remove="DataSourses\Img\builds\99_1.png" />
+    <None Remove="DataSourses\Img\builds\99_1_1.png" />
+    <None Remove="DataSourses\Img\builds\9_1.png" />
+    <None Remove="DataSourses\Img\builds\9_1_1.png" />
+    <None Remove="DataSourses\Img\icons\res\res0.png" />
+    <None Remove="DataSourses\Img\icons\res\res1.png" />
+    <None Remove="DataSourses\Img\icons\res\res10.png" />
+    <None Remove="DataSourses\Img\icons\res\res11.png" />
+    <None Remove="DataSourses\Img\icons\res\res12.png" />
+    <None Remove="DataSourses\Img\icons\res\res13.png" />
+    <None Remove="DataSourses\Img\icons\res\res14.png" />
+    <None Remove="DataSourses\Img\icons\res\res15.png" />
+    <None Remove="DataSourses\Img\icons\res\res16.png" />
+    <None Remove="DataSourses\Img\icons\res\res17.png" />
+    <None Remove="DataSourses\Img\icons\res\res18.png" />
+    <None Remove="DataSourses\Img\icons\res\res19.png" />
+    <None Remove="DataSourses\Img\icons\res\res2.png" />
+    <None Remove="DataSourses\Img\icons\res\res20.png" />
+    <None Remove="DataSourses\Img\icons\res\res21.png" />
+    <None Remove="DataSourses\Img\icons\res\res22.png" />
+    <None Remove="DataSourses\Img\icons\res\res3.png" />
+    <None Remove="DataSourses\Img\icons\res\res4.png" />
+    <None Remove="DataSourses\Img\icons\res\res5.png" />
+    <None Remove="DataSourses\Img\icons\res\res6.png" />
+    <None Remove="DataSourses\Img\icons\res\res7.png" />
+    <None Remove="DataSourses\Img\icons\res\res8.png" />
+    <None Remove="DataSourses\Img\icons\res\res9.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="DataSourses\Img\builds\0_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\0_10_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\0_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\0_2_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\0_4_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\0_6_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\100_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\100_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\101_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\101_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\102_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\102_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\103_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\103_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\104_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\104_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\105_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\105_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\106_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\106_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\107_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\107_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\108_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\108_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\109_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\109_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\10_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\10_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\110_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\110_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\111_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\111_10_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\111_18_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\111_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\112_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\112_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\11_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\11_10_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\11_18_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\11_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\12_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\12_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\13_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\13_10_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\13_18_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\13_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\14_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\14_13_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\14_14_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\14_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\15_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\15_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\16_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\16_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\17_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\17_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\18_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\18_10_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\18_15_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\18_18_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\18_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\18_2_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\18_3_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\18_4_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\18_6_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\19_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\19_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\19_1_99.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\1_12_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\1_18_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\1_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\1_2_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\1_3_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\1_4_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\1_7_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\20_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\20_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\21_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\21_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\22_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\22_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\23_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\23_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\24_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\24_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\25_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\25_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\26_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\26_12_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\26_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\27_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\27_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\28_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\28_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\29_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\29_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\2_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\2_10_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\2_18_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\2_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\2_2_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\2_4_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\2_6_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\30_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\30_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\31_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\31_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\32_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\32_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\33_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\33_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\34_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\34_14_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\34_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\35_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\35_10_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\35_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\36_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\36_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\37_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\37_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\38_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\38_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\38_1_99.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\39_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\39_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\3_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\3_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\3_1_99.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\3_2_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\3_2_99.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\3_3_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\3_3_99.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\400_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\40_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\40_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\41_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\41_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\42_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\42_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\43_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\43_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\44_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\44_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\45_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\45_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\46_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\46_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\47_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\47_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\48_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\48_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\49_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\49_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\4_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\4_18_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\4_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\4_3_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\4_6_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\50_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\50_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\51_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\51_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\52_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\52_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\53_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\53_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\54_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\54_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\55_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\55_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\56_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\56_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\57_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\57_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\57_1_99.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\57_2_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\57_2_99.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\58_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\58_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\59_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\59_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\5_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\5_10_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\5_16_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\5_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\5_4_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\60_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\60_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\61_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\61_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\62_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\62_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\63_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\63_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\64_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\64_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\64_2_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\65_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\65_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\66_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\66_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\67_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\67_12_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\67_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\68_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\68_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\69_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\69_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\6_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\6_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\70_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\70_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\71_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\71_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\72_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\72_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\73_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\73_10_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\73_11_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\73_12_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\73_13_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\73_14_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\73_15_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\73_16_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\73_17_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\73_18_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\73_19_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\73_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\73_20_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\73_2_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\73_3_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\73_4_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\73_5_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\73_6_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\73_7_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\73_8_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\73_9_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\74_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\74_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\75_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\75_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\76_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\76_10_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\76_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\77_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\77_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\78_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\78_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\79_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\79_16_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\79_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\7_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\7_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\80_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\80_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\81_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\81_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\82_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\82_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\83_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\83_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\84_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\84_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\85_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\85_10_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\85_14_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\85_18_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\85_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\85_2_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\85_3_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\85_4_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\85_6_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\86_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\86_18_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\86_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\86_2_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\86_5_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\87_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\87_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\88_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\88_12_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\88_13_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\88_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\88_2_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\88_4_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\88_7_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\89_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\89_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\8_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\8_10_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\8_16_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\8_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\90_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\90_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\90_6_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\91_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\91_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\92_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\92_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\93_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\93_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\94_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\94_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\95_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\95_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\95_20_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\96_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\96_10_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\96_15_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\96_18_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\96_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\96_2_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\96_3_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\96_4_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\96_6_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\97_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\97_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\97_20_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\98_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\98_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\99_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\99_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\9_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\builds\9_1_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\icons\res\res0.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\icons\res\res1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\icons\res\res10.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\icons\res\res11.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\icons\res\res12.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\icons\res\res13.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\icons\res\res14.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\icons\res\res15.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\icons\res\res16.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\icons\res\res17.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\icons\res\res18.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\icons\res\res19.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\icons\res\res2.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\icons\res\res20.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\icons\res\res21.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\icons\res\res22.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\icons\res\res3.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\icons\res\res4.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\icons\res\res5.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\icons\res\res6.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\icons\res\res7.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\icons\res\res8.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DataSourses\Img\icons\res\res9.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="DataSourses\JSON\AreaImprovements.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="DataSourses\JSON\builds.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

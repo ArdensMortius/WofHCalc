@@ -74,6 +74,30 @@ namespace WofHCalc.Models
                 OnPropertyChanged(nameof(TownBuilds));
             }
         }
+        private ObservableCollection<byte> great_citizens;
+        public ObservableCollection<byte> GreatCitizens
+        {
+            get=> great_citizens;
+            set { great_citizens= value; OnPropertyChanged(nameof(GreatCitizens));}
+        }
+        private ObservableCollection<byte> lucky_town;
+        public ObservableCollection<byte> LuckyTown
+        {
+            get => lucky_town;
+            set { lucky_town= value; OnPropertyChanged(nameof(LuckyTown)); }
+        }
+        private ObservableCollection<bool> resconsumption;
+        public ObservableCollection<bool> ResConsumption
+        {
+            get=> resconsumption;
+            set { resconsumption= value; OnPropertyChanged(nameof(ResConsumption));}
+        }
+        private ObservableCollection<bool> product;
+        public ObservableCollection<bool> Product
+        {
+            get => product;                
+            set { product = value; OnPropertyChanged(nameof(Product)); }
+        }
         public Town() 
         {
             name = "new town";
@@ -82,9 +106,9 @@ namespace WofHCalc.Models
             on_hill = false;
             town_buldings = new ObservableCollection<BuildSlot>
             {
-                new BuildSlot(Slot.wounder), //0 чудо
-                new BuildSlot(Slot.fort), //1 защита
-                new BuildSlot(Slot.center), //2 центр
+                new BuildSlot(Slot.wounder), //0 чудо //НЕ МЕНЯТЬ ТИП ЭТОГО СЛОТА
+                new BuildSlot(Slot.fort), //1 защита //НЕ МЕНЯТЬ ТИП ЭТОГО СЛОТА
+                new BuildSlot(Slot.center), //2 центр //НЕ МЕНЯТЬ ТИП ЭТОГО СЛОТА
                 new BuildSlot(), //3
                 new BuildSlot(), //4
                 new BuildSlot(), //5
@@ -102,6 +126,12 @@ namespace WofHCalc.Models
                 new BuildSlot(), //17 холм или равнина
                 new BuildSlot(Slot.hill) //18 холм
             };
+            great_citizens = new ObservableCollection<byte>() { 0, 0, 0, 0, 0, 0, 0, };
+            lucky_town = new ObservableCollection<byte>() { 0, 0, 0, 0, 0, 0, };
+            resconsumption = new ObservableCollection<bool>();
+            product = new ObservableCollection<bool>();
+            for (int i = 0; i < 23; i++) { resconsumption.Add(false); product.Add(false); }
+
         }
         public event PropertyChangedEventHandler? PropertyChanged;
         public void OnPropertyChanged(string propertyName = "")
@@ -129,7 +159,7 @@ namespace WofHCalc.Models
             get=>level;
             set { level = value; OnPropertyChanged(nameof(Level)); }
         }
-        private bool available;
+        private bool available;//куплен?
         public bool Available 
         { 
             get=>available;
@@ -146,6 +176,8 @@ namespace WofHCalc.Models
             Level = null;
             this.Available = available;
         }
+        
+        
         public event PropertyChangedEventHandler? PropertyChanged;
         public void OnPropertyChanged(string propertyName = "")
         {

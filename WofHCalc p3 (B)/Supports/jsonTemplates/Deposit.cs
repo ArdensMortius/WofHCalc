@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WofHCalc.Supports.jsontemplates
+namespace WofHCalc.Supports.jsonTemplates
 {
     public class Deposit
     {

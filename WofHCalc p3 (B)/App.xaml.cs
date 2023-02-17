@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace WofHCalc_p3__B_
+namespace WofHCalc
 {
     /// <summary>
     /// Interaction logic for App.xaml
