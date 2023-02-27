@@ -90,7 +90,7 @@ namespace WofHCalc.Views
                 if (AllBuilds == null) ans = null;
                 else
                 {
-                    var types = new List<BuildType> { BuildType.store, BuildType.tradespeed, BuildType.trade };
+                    var types = new List<BuildType> { BuildType.store, BuildType.tradespeed, BuildType.trade, BuildType.watertradespeed };
                     ans = (List<BuildName>?)AllBuilds.Where(x => types.Any(t => t == Data.BuildindsData[(int)x].Type)).ToList();
                 }
                 if (ans is null || ans.Count == 0)
@@ -118,6 +118,63 @@ namespace WofHCalc.Views
                 else return ans;
             }
         }
+        public List<BuildName>? GrownBuilds
+        {
+            get
+            {
+                List<BuildName>? ans;
+                if (AllBuilds == null) ans = null;
+                else ans = (List<BuildName>?)AllBuilds.Where(x => Data.BuildindsData[(int)x].Type == BuildType.grown).ToList();
+                if (ans is null || ans.Count == 0)
+                {
+                    Grown.Visibility = Visibility.Hidden;
+                    Grown.Height = 0;
+                    return null;
+                }
+                else return ans;
+            }
+        }
+        public List<BuildName>? WarBuilds
+        {
+            get
+            {
+                List<BuildName>? ans;
+                if (AllBuilds == null) ans = null;
+                else ans = (List<BuildName>?)AllBuilds.Where(x => Data.BuildindsData[(int)x].Type == BuildType.train
+                                                               || Data.BuildindsData[(int)x].Type == BuildType.waterarmyspeed
+                                                               || Data.BuildindsData[(int)x].Type == BuildType.airarmyspeed).ToList();
+                if (ans is null || ans.Count == 0)
+                {
+                    War.Visibility = Visibility.Hidden;
+                    War.Height = 0;
+                    return null;
+                }
+                else return ans;
+            }
+        }
+        public List<BuildName>? SpecialBuilds
+        {
+            get
+            {
+                List<BuildName>? ans;
+                if (AllBuilds == null) ans = null;
+                else ans = (List<BuildName>?)AllBuilds.Where(x => Data.BuildindsData[(int)x].Type == BuildType.fake
+                                                               || Data.BuildindsData[(int)x].Type == BuildType.embassy
+                                                               || Data.BuildindsData[(int)x].Type == BuildType.administration
+                                                               || Data.BuildindsData[(int)x].Type == BuildType.corruption
+                                                               || Data.BuildindsData[(int)x].Type == BuildType.ecology
+                                                               || Data.BuildindsData[(int)x].Type == BuildType.hide                                                               
+                                                               ).ToList();
+                if (ans is null || ans.Count == 0)
+                {
+                    Special.Visibility = Visibility.Hidden;
+                    Special.Height = 0;
+                    return null;
+                }
+                else return ans;
+            }
+        }
+
 
         public SlotBuildsList(Town t, byte s, Race race)
         {

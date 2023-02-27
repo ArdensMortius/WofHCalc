@@ -118,7 +118,9 @@ namespace WofHCalc.MathFuncs
         public static double Pay(BuildName name, int lvl)
         {
             if (name == BuildName.none) return 0;
-            return FuncsBase.MainFunc(Data.BuildindsData[(int)name].Pay, lvl);
+            double ans = FuncsBase.MainFunc(Data.BuildindsData[(int)name].Pay, lvl);
+            if (ans < 0) return 0;
+            else return ans;
         }                                
         public static double Ungrown(BuildName name, int lvl)
         {

@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using WofHCalc.Supports;
+using WofHCalc.Supports.ForEnumBinds;
 
 namespace WofHCalc.Models
 {
 
-    public class Town : INotifyPropertyChanged
+    public class Town : INotifyPropertyChanged, ICloneable
     {
         private string name;
         public string Name 
@@ -98,6 +100,12 @@ namespace WofHCalc.Models
             get => product;                
             set { product = value; OnPropertyChanged(nameof(Product)); }
         }
+        private ObservableCollection<AreaImprovementSlot> area_improvements;
+        public ObservableCollection<AreaImprovementSlot> AreaImprovements
+        {
+            get=> area_improvements;
+            set { area_improvements= value; OnPropertyChanged(nameof(AreaImprovements)); }
+        }
         public Town() 
         {
             name = "new town";
@@ -128,18 +136,44 @@ namespace WofHCalc.Models
             };
             great_citizens = new ObservableCollection<byte>() { 0, 0, 0, 0, 0, 0, 0, };
             lucky_town = new ObservableCollection<byte>() { 0, 0, 0, 0, 0, 0, };
+            area_improvements = new ObservableCollection<AreaImprovementSlot>();
             resconsumption = new ObservableCollection<bool>();
             product = new ObservableCollection<bool>();
             for (int i = 0; i < 23; i++) { resconsumption.Add(false); product.Add(false); }
 
         }
-        public event PropertyChangedEventHandler? PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;        
+
         public void OnPropertyChanged(string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        public object Clone()
+        {
+            Town ans = new();
+            ans.Name = this.Name;
+            ans.Climate = this.Climate;
+            ans.Deposit = this.Deposit;
+            ans.WaterPlaces = this.WaterPlaces;
+            ans.OnHill= this.OnHill;
+            for (int i = 0; i < 19; i++)
+                ans.TownBuilds[i] = (BuildSlot)this.TownBuilds[i].Clone();
+            for (int i = 0; i < 7; i++)
+                ans.GreatCitizens[i] = this.GreatCitizens[i];
+            for (int i = 0; i < 6; i++)
+                ans.LuckyTown[i] = this.LuckyTown[i];
+            for (int i = 0; i < 23; i++)
+            {
+                ans.ResConsumption[i] = this.ResConsumption[i];
+                ans.Product[i] = this.Product[i];
+            }
+            for (int i = 0; i<this.AreaImprovements.Count; i++)
+                ans.AreaImprovements.Add((AreaImprovementSlot)this.AreaImprovements[i].Clone());
+            return ans;
+        }
     }
-    public class BuildSlot : INotifyPropertyChanged
+    public class BuildSlot : INotifyPropertyChanged, ICloneable
     {
         private Slot slot;
         public Slot Slot 
@@ -175,13 +209,77 @@ namespace WofHCalc.Models
             Building = BuildName.none;
             Level = null;
             this.Available = available;
-        }
-        
-        
+        }        
         public event PropertyChangedEventHandler? PropertyChanged;
         public void OnPropertyChanged(string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public object Clone()
+        {
+            return new BuildSlot
+            {
+                Slot = this.Slot,
+                Building = this.Building,
+                Available = this.Available,
+                Level = this.Level
+            };            
+        }
+    }
+    public class AreaImprovementSlot : INotifyPropertyChanged, ICloneable
+    {
+        private AreaImprovementName name;
+        public AreaImprovementName AIName 
+        {
+            get => name;            
+            set
+            {
+                name = value;
+                OnPropertyChanged(nameof(AIName));
+            }   
+        }
+        private byte level;
+        public byte Level
+        {
+            get=> level;
+            set
+            {
+                level = value;
+                OnPropertyChanged(nameof(Level));
+            }
+        }
+        private byte users;
+        public byte Users
+        {
+            get=> users;
+            set
+            {
+                users = value;
+                OnPropertyChanged(nameof(Users));
+            }
+        }
+        public AreaImprovementSlot()
+        {
+            AIName = AreaImprovementName.none; Level = 0; users = 1;
+        }
+        public AreaImprovementSlot(AreaImprovementName name, byte level, byte users)
+        {
+            AIName = name; Level = level; Users = users;
+        }
+        public event PropertyChangedEventHandler? PropertyChanged;
+        public void OnPropertyChanged(string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        public object Clone()
+        {
+            return new AreaImprovementSlot
+            {
+                AIName = this.AIName,
+                Level = this.Level,
+                Users = this.Users,
+            };
         }
     }
 }

@@ -57,7 +57,7 @@ namespace WofHCalc
         {
             
             byte slot_id = (byte)WrapBuilds.SelectedIndex;
-            SlotBuildsList sbv = new(dc.SelectedTown!, slot_id, dc.ActiveAccount!.R);
+            SlotBuildsList sbv = new(dc.SelectedTown!, slot_id, dc.ActiveAccount!.Race);
             if (sbv.ShowDialog() == true)
             {
                 dc.SelectedTown!.TownBuilds[slot_id].Building = (BuildName)sbv.selected_build!;
@@ -73,7 +73,7 @@ namespace WofHCalc
         }
 
         private void GSV_LoadingRow(object sender, DataGridRowEventArgs e) =>        
-            e.Row.Header =((GreatCitizensNames)e.Row.GetIndex()).Description();
+            e.Row.Header = ((GreatCitizensNames)e.Row.GetIndex()).Description();
         private void LBV_LoadingRow(object sender, DataGridRowEventArgs e) =>
             e.Row.Header = ((LuckBonusNames)e.Row.GetIndex()).Description();
 
@@ -97,8 +97,13 @@ namespace WofHCalc
                 dc.SelectedTown!.LuckyTown[e.Row.GetIndex()] = v;
             }
         }
+        private void CheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            //а всё потому что при binding-е к элементу коллекции она умудряется обновляться через get, а не через set.
+            dc.OnPropertyChanged(nameof(dc.SelectedTown));
+        }
 
-        private void ProdDisplay_MouseDown(object sender, MouseButtonEventArgs e)
+        private void ProdDisplay_MouseDown(object sender, RoutedEventArgs e)
         {
             if (Prod.Visibility == Visibility.Visible) 
             {
@@ -110,10 +115,23 @@ namespace WofHCalc
             }
         }
 
-        private void CheckBox_Click(object sender, RoutedEventArgs e)
+        private void PricesEdit_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            //а всё потому что при binding-е к элементу коллекции она умудряется обновляться через get, а не через set.
-            dc.OnPropertyChanged(nameof(dc.SelectedTown));
+            int v;
+            string? new_value = (e.EditingElement as TextBox)!.Text;
+            if (int.TryParse(new_value, out v))
+            {
+                dc.ActiveAccount.Financial.Prices[e.Row.GetIndex()] = v;
+            }
+        }
+        private void TaxesEdit_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            int v;
+            string? new_value = (e.EditingElement as TextBox)!.Text;
+            if (int.TryParse(new_value, out v))
+            {
+                dc.ActiveAccount.Financial.Taxes[e.Row.GetIndex()] = v;
+            }
         }
     }
 }

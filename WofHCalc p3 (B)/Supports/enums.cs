@@ -19,30 +19,53 @@ namespace WofHCalc.Supports
         [Description("Африканцы")]
         africans = 8
     }
-    public enum ResName //+
+    public enum ResName //++
     {
+        [Description("Наука")]
         science = 0,
+        [Description("Деньги")]
         money = 1,
+        [Description("Еда")]
         food = 2,
+        [Description("Дерево")]
         wood = 3,
+        [Description("Железо")]
         iron = 4,
+        [Description("Топливо")]
         fuel = 5,
+        [Description("Гранит")]
         stone = 6,
+        [Description("Вьюки")]
         horses = 7,
+        [Description("Сера")]
         sulfur = 8,
+        [Description("Алюминий")]
         aluminium = 9,
+        [Description("Уран")]
         uranium = 10,
+        [Description("Фрукты")]
         fruit = 11,
+        [Description("Кукуруза")]
         corn = 12,
+        [Description("Пшеница")]
         grain = 13,
+        [Description("Рис")]
         rice = 14,
+        [Description("Рыба")]
         fish = 15,
+        [Description("Мясо")]
         meat = 16,
+        [Description("Вино")]
         wine = 17,
+        [Description("Драги")]
         jewelry = 18,
+        [Description("Одежда")]
         clothes = 19,
+        [Description("Музыка")]
         music = 20,
+        [Description("Фильмы")]
         films = 21,
+        [Description("Книги")]
         books = 22
     }
     public enum ResProdType //+
@@ -52,16 +75,22 @@ namespace WofHCalc.Supports
         agriculture = 2,
         industry = 3,
     }
-    public enum Climate //+
+    public enum Climate //++
     {
+        [Description("Не указан")]
         unknown = 0,
+        [Description("Вода")]
         water = 1,
+        [Description("Луга")]
         meadows = 2,
+        [Description("Степь")]
         steppe = 3,
+        [Description("Пустыня")]
         desert = 4,
+        [Description("Снега")]
         snow = 5
     }
-    public enum Slot //+
+    public enum Slot //++
     {
         [Description("Равнина")]
         plain = 0,
@@ -108,75 +137,142 @@ namespace WofHCalc.Supports
         ecology = 20,
         tradespeed = 21
     }
-    public enum AreaImprovementName
-    {        
+    public enum AreaImprovementName //++
+    {
+        [Description("Нет")]
+        none = 400,
+        [Description("Мост")]
         Bridge = 0,
+        [Description("Ирригация")]
         Irrigation = 1,
+        [Description("Шахты")]
         Mines = 2,
+        [Description("Кампус")]
         Campus = 3,
+        [Description("Ярмарка")]
         Fair = 4, //ярмарка
+        [Description("ГТС")]
         HydrotechnicalFacility = 5, //гтс
+        [Description("Пригород")]
         Suburb = 6, //пригород
+        [Description("Заповедник")]
         Reservation = 7, //заповедник
+        [Description("Курорт")]
         Resort = 10, //курорт
+        [Description("Горнолыжка")]
         SkiResort = 11, //горнолыжка
+        [Description("Промысловая зона")]
         FishingArea = 8, //промысловая зоны
+        [Description("Исслед. аква")]
         ResearchWaterArea = 9 //аква
     }
-    public enum DepositName //+
+    public enum DepositName //++
     {
+        [Description("Нет")]
         none = 0,
+        [Description("Лес луг")]
         wood_meadows = 1,
+        [Description("Лес степь")]
         wood_steppe = 2,
+        [Description("Лес снег")]
         wood_snow = 3,
+        [Description("Оазис")]
         oasis = 4,
+        [Description("Бананы")]
         bananas = 5,
+        [Description("Яблоки")]
         apples = 6,
+        [Description("Абрикосы")]
         apricots = 7,
+        [Description("Виноград луг")]
         grape_meadows = 8,
+        [Description("Виногдад степь")]
         grape_steppe = 9,
+        [Description("Кукуруза")]
         corn = 10,
+        [Description("Пшеница")]
         grain = 11,
+        [Description("Рис")]
         rice = 12,
+        [Description("Рыба")]
         fish = 13,
+        [Description("Киты")]
         whales = 14,
+        [Description("Крабы")]
         crabs = 15,
+        [Description("Устрицы")]
         oysters = 16,
+        [Description("Свиньи")]
         pigs = 17,
+        [Description("Коровы")]
         cows = 18,
+        [Description("Олени")]
         deers = 19,
+        [Description("Овцы степь")]
         ships_steppe = 20,
+        [Description("Овцы луг")]
         ships_meadows = 21,
+        [Description("Хлопок")]
         cotton = 22,
+        [Description("Лён")]
         linen = 23,
+        [Description("Золото")]
         gold = 24,
+        [Description("Серебро")]
         silver = 25,
+        [Description("Алмазы")]
         diamonds = 26,
+        [Description("Изумруды")]
         emeralds = 27,
+        [Description("Рубины")]
         rubies = 28,
+        [Description("Жемчуг")]
         pearls = 29,
+        [Description("Железо снег")]
         iron_snow = 30,
+        [Description("Железо луг")]
         iron_meadows = 31,
+        [Description("Железо степь")]
         iron_steppe = 32,
+        [Description("Гранит снег")]
         stone_snow = 33,
+        [Description("Гранит луг")]
         stone_meadows = 34,
+        [Description("Гранит степь")]
         stone_steppe = 35,
+        [Description("Лошади")]
         horses = 36,
+        [Description("Верблюды")]
         camels = 37,
+        [Description("Слоны")]
         elephants = 38,
+        [Description("Сера луг")]
         sulfur_meadows = 39,
+        [Description("Сера степь")]
         sulfur_steppe = 40,
+        [Description("Сера пустыня")]
         sulfur_desert = 41,
+        [Description("Газ снег")]
         gas_snow = 42,
+        [Description("Газ степь")]
         gas_steppe = 43,
+        [Description("Нефть пустыня")]
         oil_desert = 44,
+        [Description("Нефть луг")]
         oil_meadows = 45,
+        [Description("Нефть вода")]
         oil_water = 46,
+        [Description("Уголь луг")]
         coal_meadow = 47,
+        [Description("Уголь степь")]
         coal_steppe = 48,
+        [Description("Уран снег")]
         uran_snow = 49,
+        [Description("Уран степь")]
         uran_steppe = 50,
+        [Description("Уран пустыня")]
         uran_desert = 51,
+        [Description("Источник мудрости")]
         source_of_wisdom = 52
     }
     public enum BuildName //++
@@ -422,7 +518,7 @@ namespace WofHCalc.Supports
         [Description("Космодром")]
         Spaceport = 77,
     }
-    public enum LuckBonusNames //++значения в этом перечислении отличаются от оригинальных! Оригинальные оставил в комментарии, вдруг нужны
+    public enum LuckBonusNames //++значения в этом перечислении отличаются от оригинальных! Оригинальные оставил в комментарии
     {
         [Description("Прирост")]
         grown = 0,

@@ -17,8 +17,7 @@
     </Window.Resources>
 
     <TabControl 
-        TabStripPlacement="Left"
-        
+        TabStripPlacement="Left"        
         >
         <TabItem Name="All"            
             Header="Все">
@@ -174,37 +173,11 @@
             </ListBox>
 
         </TabItem>
-        <TabItem
-            Header="Военные">
-            <ListBox
-                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                ItemsSource="{Binding AllBuilds}"                
-                SelectedValue="{Binding selected_build}"
-                MouseDoubleClick="ListBox_MouseDoubleClick"
-                >
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel/>
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Border BorderBrush="#FF5D5D5D" BorderThickness = "1">
-                            <StackPanel Margin="5" Height="66" Width="160" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <Image Height="45" Width="46" Stretch="Uniform" Source="{Binding Converter={StaticResource BuildToImgConverter}}"/>
-                                <TextBlock Text="{Binding Converter={StaticResource EnumDescriptionConverter}, Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </Border>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-
-        </TabItem>
-        <TabItem
+        <TabItem Name="Grown"
             Header="Демографические">
             <ListBox
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                ItemsSource="{Binding AllBuilds}"                
+                ItemsSource="{Binding GrownBuilds}"                
                 SelectedValue="{Binding selected_build}"
                 MouseDoubleClick="ListBox_MouseDoubleClick"
                 >
@@ -224,13 +197,37 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-
         </TabItem>
-        <TabItem
+        <TabItem Name="War"
+            Header="Военные">
+            <ListBox
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                ItemsSource="{Binding WarBuilds}"                
+                SelectedValue="{Binding selected_build}"
+                MouseDoubleClick="ListBox_MouseDoubleClick"
+                >
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel/>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="#FF5D5D5D" BorderThickness = "1">
+                            <StackPanel Margin="5" Height="66" Width="160" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Image Height="45" Width="46" Stretch="Uniform" Source="{Binding Converter={StaticResource BuildToImgConverter}}"/>
+                                <TextBlock Text="{Binding Converter={StaticResource EnumDescriptionConverter}, Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </TabItem>
+        <TabItem Name="Special"
             Header="Особые">
             <ListBox
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                ItemsSource="{Binding AllBuilds}"                
+                ItemsSource="{Binding SpecialBuilds}"                
                 SelectedValue="{Binding selected_build}"
                 MouseDoubleClick="ListBox_MouseDoubleClick"
                 >

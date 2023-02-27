@@ -5,23 +5,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
-using System.Windows;
+using System.Windows.Documents;
 
 namespace WofHCalc.Supports.Converters
 {
-    [ValueConversion(typeof(string), typeof(Visibility))]
-    public class StringToVisibilityConverter : IValueConverter
+    internal class ResToImgConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-           if (string.IsNullOrEmpty(value.ToString()) || value.ToString() == "0")
+            try
             {
-                return Visibility.Collapsed;
+                return $"/DataSourses/Img/icons/res/res{(int)value}.png";                
             }
-            else
-            {
-                return Visibility.Visible;
-            }
+            catch { return null; }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

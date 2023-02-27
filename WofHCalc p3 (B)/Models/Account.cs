@@ -14,7 +14,7 @@ namespace WofHCalc.Models
     {
         public string Name { get;}        
         public byte World { get;}
-        public Race R { get; set; }
+        public Race Race { get; set; }
         public ObservableCollection<Town> Towns { get; set; }
         public float PopulationGrowth { get; set; }
         public float Culture { get; set; }
@@ -25,7 +25,7 @@ namespace WofHCalc.Models
         {            
             Name = name;
             World = world;
-            R = Race.unknown;
+            Race = Race.unknown;
             PopulationGrowth = 0;
             Culture = 0;
             Traiders = 0;

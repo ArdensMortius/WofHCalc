@@ -8,13 +8,14 @@ using WofHCalc.DataSourses;
 using System.Runtime.InteropServices.Marshalling;
 using WofHCalc.Supports.jsonTemplates;
 using System.Windows.Documents;
+using Microsoft.Windows.Themes;
 
 namespace WofHCalc.MathFuncs
 {
     public static class TownFuncs
     {
         //прирост
-        private static double TownGrowsFromBuilds(BuildName[] builds, int?[] lvls)
+        private static double TownGrowthFromBuilds(BuildName[] builds, int?[] lvls)
         {
             double ans = 0;
             for (int i = 3; i < builds.Length;i++)
@@ -22,48 +23,49 @@ namespace WofHCalc.MathFuncs
                 if (builds[i] != BuildName.none && Data.BuildindsData[(int)builds[i]].Type == BuildType.grown)                
                     ans += BuildFuncs.BuildEffect(builds[i], (int)lvls[i]!);                                    
             }
+            ans *= 24;
             if (builds[0] == BuildName.Pagan_temple && lvls[0] == 20)
             {
                 ans += Data.WounderEffects[BuildName.Pagan_temple];
             }
             return ans;
         }
-        private static double TownUngrownFromBuilds(BuildName[] builds, int?[] lvls)
+        private static double TownUngrownFromBuilds(BuildName[] builds, int?[] lvls) //+ но погрешность небольшая есть
         {
             double ans = 0;
             for (int i = 2; i<builds.Length;i++)            
                 if (builds[i] != BuildName.none)
                     ans +=FuncsBase.MainFunc(Data.BuildindsData[(int)builds[i]].Ungrown, (int)lvls[i]!);            
-            return ans;
+            return ans*24;
         }
-        public static double TownGrowsWOUngrownAndResourses(double basegrown,BuildName[] builds, int?[] lvls, Race race, bool deposit, byte numofdoctors, IList<AreaImprovementName> areaimps, int[] ailvls, byte[] aiusers, byte luck_bonus_lvl)
+        public static double TownGrowthWOUngrownAndResourses(double basegrown,BuildName[] builds, int?[] lvls, Race race, bool deposit, byte numofdoctors, AreaImprovementName[] areaimps, byte[] ailvls, byte[] aiusers, byte luck_bonus_lvl)
         {            
-            double ans = TownGrowsFromBuilds(builds,lvls) + basegrown;
+            double ans = TownGrowthFromBuilds(builds,lvls) + basegrown;
             ans *= Data.RaceEffect_PopulationGrowth(race);
             ans *= FuncsBase.GreatCitizenBonus(numofdoctors);
             if (deposit) ans *= 0.85f; //число убрать в datasourses
             double aiinc = 1;
-            for (int i = 0; i < areaimps.Count; i++)
+            for (int i = 0; i < areaimps.Length; i++)
                 if (areaimps[i] == AreaImprovementName.Suburb) aiinc += FuncsBase.AreaImprovementBonus(areaimps[i], ailvls[i], aiusers[i]);
             ans *= aiinc;
-            ans *= Data.LuckBonusesData[(int)LuckBonusNames.grown].effect[luck_bonus_lvl];            
+            ans *= 1+Data.LuckBonusesData[(int)LuckBonusNames.grown].effect[luck_bonus_lvl];            
             return ans;
         }
-        public static double TownGrows(double basegrown, BuildName[] builds, int?[] lvls, Race race, bool havedeposit, bool[] resconsumption, byte numofdoctors, IList<AreaImprovementName> areaimps, int[] ailvls, byte[] aiusers, byte luck_bonus_lvl)
+        public static double TownGrowth(double basegrown, BuildName[] builds, int?[] lvls, Race race, bool havedeposit, bool[] resconsumption, byte numofdoctors, AreaImprovementName[] areaimps, byte[] ailvls, byte[] aiusers, byte luck_bonus_lvl)
         {
-            double ans = TownGrowsFromBuilds(builds,lvls) + basegrown;
+            double ans = TownGrowthFromBuilds(builds,lvls) + basegrown;
             ans *= Data.RaceEffect_PopulationGrowth(race);
             ans *= FuncsBase.GreatCitizenBonus(numofdoctors);
             if (havedeposit) ans *= 0.85f; //число убрать в datasourses
             double aiinc = 1;
             double aidec = 0;
-            for (int i = 0; i < areaimps.Count; i++)
+            for (int i = 0; i < areaimps.Length; i++)
             {
                 if (areaimps[i] == AreaImprovementName.Suburb) aiinc += FuncsBase.AreaImprovementBonus(areaimps[i], ailvls[i], aiusers[i]);
                 else if (areaimps[i] == AreaImprovementName.SkiResort) aidec += FuncsBase.AreaImprovementBonus(areaimps[i], ailvls[i], aiusers[i])*0.027d;
             }
             ans *= aiinc;
-            ans *= Data.LuckBonusesData[(int)LuckBonusNames.grown].effect[luck_bonus_lvl];
+            ans *= 1 + Data.LuckBonusesData[(int)LuckBonusNames.grown].effect[luck_bonus_lvl];
             double resbonus = 1;
             for (int i = (int)ResName.fruit; i <= (int)ResName.meat; i++)
                 if (resconsumption[i]) resbonus += Data.ResData[i].effect;
@@ -96,20 +98,20 @@ namespace WofHCalc.MathFuncs
             }
             return ans;
         }
-        public static double TownCultureWOResourses(int baseculture, BuildName[] builds, int?[] lvls, Race race, byte numofcreators, IList<AreaImprovementName> areaimps, int[] ailvls, byte[] aiusers, byte luck_bonus_lvl)
+        public static double TownCultureWOResourses(int baseculture, BuildName[] builds, int?[] lvls, Race race, byte numofcreators, AreaImprovementName[] areaimps, byte[] ailvls, byte[] aiusers, byte luck_bonus_lvl)
         {
             double ans = baseculture + TownCultureFromBuilds(builds, lvls);
             //строения
             ans *= Data.RaceEffect_Culture(race);
             ans *= FuncsBase.GreatCitizenBonus(numofcreators);
-            double aiinc = 1;
-            for (int i = 0; i < areaimps.Count; i++)            
+            double aiinc = 0;
+            for (int i = 0; i < areaimps.Length; i++)            
                 if (areaimps[i] == AreaImprovementName.Reservation) aiinc += FuncsBase.AreaImprovementBonus(areaimps[i], ailvls[i], aiusers[i]);        
-            ans *= aiinc;
-            ans *= Data.LuckBonusesData[(int)LuckBonusNames.culture].effect[luck_bonus_lvl];                                                                            
+            ans *= 1 + aiinc;
+            ans *= 1 + Data.LuckBonusesData[(int)LuckBonusNames.culture].effect[luck_bonus_lvl];                                                                            
             return ans;
         }
-        public static int TownCulture(int baseculture, BuildName[] builds, int?[] lvls, Race race, byte numofcreators, bool[] resconsumption, IList<AreaImprovementName> areaimps, int[] ailvls, byte[] aiusers, byte luck_bonus_lvl)
+        public static int TownCulture(int baseculture, BuildName[] builds, int?[] lvls, Race race, byte numofcreators, bool[] resconsumption, AreaImprovementName[] areaimps, byte[] ailvls, byte[] aiusers, byte luck_bonus_lvl)
         {
             double ans = TownCultureWOResourses(baseculture, builds, lvls, race, numofcreators, areaimps, ailvls, aiusers, luck_bonus_lvl);
             double resbonus = 1;
@@ -137,27 +139,27 @@ namespace WofHCalc.MathFuncs
             }            
             return workplacesmod;
         }
-        private static double WorkplacesmodScience(IList<AreaImprovementName> areaimps, int[] ailvls, byte[] aiusers)
+        private static double WorkplacesmodScience(AreaImprovementName[] areaimps, byte[] ailvls, byte[] aiusers)//
         {
             double ans = 1;
-            for (int i = 0; i < areaimps.Count; i++)            
+            for (int i = 0; i < areaimps.Length; i++)            
                 if (areaimps[i] == AreaImprovementName.Campus)
                     ans+=FuncsBase.AreaImprovementBonus(areaimps[i], ailvls[i], aiusers[i])*2;
             return ans;
         }
-        private static double[] AIBonuses(IList<AreaImprovementName> areaimps, int[] ailvls, byte[] aiusers, DepositName deposit)
+        private static double[] AIBonuses(AreaImprovementName[] areaimps, byte[] ailvls, byte[] aiusers, DepositName deposit)//+
         {
             double[] ans = new double[23];
             for (int i = 0; i < 23; i++)
                 ans[i] = 1;
-            for (int i = 0; i < areaimps.Count; i++)
+            for (int i = 0; i < areaimps.Length; i++)
             {
                 if (ailvls[i] == 0) continue;
                 double bonus = FuncsBase.AreaImprovementBonus(areaimps[i], ailvls[i], aiusers[i]);
                 switch (areaimps[i])
                 {
                     case AreaImprovementName.Irrigation:
-                        for (int j = 0; i < 23; i++)
+                        for (int j = 0; j < 23; j++)
                             if (Data.ResData[j].prodtype == ResProdType.agriculture)
                                 ans[j] += bonus;
                         break;
@@ -186,7 +188,7 @@ namespace WofHCalc.MathFuncs
             }
             return ans;
         }
-        private static double[] BaseProd(DepositName deposit, bool on_hill, byte waterplaces)
+        private static double[] BaseProd(DepositName deposit, bool on_hill, byte waterplaces)//+
         {
             double[] ans = new double[23];
             for (int i= 0; i < 23;i++)
@@ -196,7 +198,7 @@ namespace WofHCalc.MathFuncs
                     ans[(int)x[1]] += x[0];
             return ans;
         }
-        private static double[] GreatSitizensProdBonus(byte[] gs)
+        private static double[] GreatSitizensProdBonus(byte[] gs)//+
         {
             double[] ans = new double[4];
             ans[(int)ResProdType.research] = FuncsBase.GreatCitizenBonus(gs[(int)GreatCitizensNames.Scientist]);
@@ -205,7 +207,7 @@ namespace WofHCalc.MathFuncs
             ans[(int)ResProdType.industry] = FuncsBase.GreatCitizenBonus(gs[(int)GreatCitizensNames.Engineer]);
             return ans;
         }
-        public static double[] Production(BuildName[] builds, int?[] lvls, byte[] greatsitizens, double corruption, bool[] product, DepositName deposit, Climate climate, bool on_hill, byte waterplaces, int[] Science_Bonuses, IList<AreaImprovementName> areaimps, int[] ailvls, byte[] aiusers, byte LevelLuckBonusSciense = 0, byte LevelLuckBonusProd = 0, bool eatbooks = false)
+        public static double[] Production(BuildName[] builds, int?[] lvls, byte[] greatsitizens, double corruption, bool[] product, DepositName deposit, Climate climate, bool on_hill, byte waterplaces, int[] Science_Bonuses, AreaImprovementName[] areaimps, byte[] ailvls, byte[] aiusers, byte LevelLuckBonusSciense = 0, byte LevelLuckBonusProd = 0, bool eatbooks = false)//+
         {
             double[] ans = new double[23];            
             double workplacesmod = Workplacesmod(builds, lvls);
@@ -215,7 +217,7 @@ namespace WofHCalc.MathFuncs
             //и рабочие места по ресам с учётом эффективности строения
             int[] workplaces = new int[23];
             double[] workplaces_efbuildmod = new double[23];
-            for (int i = 4; i<builds.Length; i++) 
+            for (int i = 3; i<builds.Length; i++) 
             {
                 if (builds[i] == BuildName.none) continue;
                 if (Data.BuildindsData[(int)builds[i]].Type == BuildType.production)
@@ -240,10 +242,10 @@ namespace WofHCalc.MathFuncs
             double[] baseprod = BaseProd(deposit, on_hill, waterplaces);
             /////////////
             //модификаторы от ум
-            double[] aibonuses = AIBonuses(areaimps, ailvls, aiusers, deposit);
+            double[] aibonuses = AIBonuses(areaimps, ailvls, aiusers, deposit);//-
             //отдельно бонус от горнолыжек
             double skyresortbonus = 0;
-            for (int i = 0; i < areaimps.Count; i++)
+            for (int i = 0; i < areaimps.Length; i++)
                 if (areaimps[i]==AreaImprovementName.SkiResort)
                     skyresortbonus += FuncsBase.AreaImprovementBonus(AreaImprovementName.SkiResort, ailvls[i], aiusers[i]);
             //великие граждание по типу производства
@@ -253,11 +255,12 @@ namespace WofHCalc.MathFuncs
             {
                 if (product[i]) ans[i] = workplaces_efbuildmod[i];
                 else {ans[i] = 0; continue; }
-                var type = (int)Data.ResData[i].prodtype;
+                int type = (int)Data.ResData[i].prodtype;
                 ans[i] *= townefficiency;
-                ans[i] *= 1 - corruption;
+                ans[i] *= 1 - corruption/100;
                 ans[i] *= Data.ClimateEffect(climate, (ResProdType)type);
-                ans[i] *= Science_Bonuses[type];
+                //double x = (double)Science_Bonuses[type]/100d;
+                ans[i] *= (double)Science_Bonuses[type]/100d;
                 ans[i] *= baseprod[i];
                 ans[i] *= gsb[type];
                 ans[i] *= aibonuses[i];
@@ -268,7 +271,7 @@ namespace WofHCalc.MathFuncs
 
             //+горнолыжки
             double srb = 0;
-            for (int i = 1; i < areaimps.Count; i++)
+            for (int i = 1; i < areaimps.Length; i++)
                 if (areaimps[i] == AreaImprovementName.SkiResort)
                     srb += FuncsBase.AreaImprovementBonus(AreaImprovementName.SkiResort, ailvls[i], aiusers[i]);
             srb *= 1 + Data.LuckBonusesData[(int)LuckBonusNames.production].effect[LevelLuckBonusProd];
@@ -290,10 +293,64 @@ namespace WofHCalc.MathFuncs
                     break;
                 default: break;
             }
-            if (eatbooks) ans[(int)ResName.science] *= Data.ResData[(int)ResName.books].effect;
+            if (eatbooks) ans[(int)ResName.science] *= 1+Data.ResData[(int)ResName.books].effect;
             //вроде ничего не забыл
             return ans;
+        }        
+        public static double Corruption(BuildName[] builds, int?[] lvls, int numoftowns)//+
+        {
+            byte chl = 0;
+            for (int i = 3; i < builds.Length; i++)
+                if (builds[i] == BuildName.courthouse)
+                {
+                    chl = (byte)lvls[i]!;
+                    break;
+                }
+            return FuncsBase.Corruption(numoftowns, chl);
         }
-        //потребление ресурсов и денег        
+        //потребление ресурсов
+        //культишка
+        private static double CultCons(double cultWOres, ResName res)
+        {
+            if (res < ResName.wine || res > ResName.films) return 0;
+            else return Data.ResData[(int)res].consumption * (int)cultWOres * Data.ResData[(int)res].effect;
+        }
+        //растишка
+        private static double GrowthCons(double growthWOres, ResName res)
+        {
+            if (res < ResName.fruit || res > ResName.meat) return 0;
+            else return Data.ResData[(int)res].consumption * growthWOres * Data.ResData[(int)res].effect;
+        }
+        public static double[] GetResConsumption(bool[] eat, double growthWOres, double cultWOres, double scienseWObooks = 0)
+        {
+            double[] ans = new double[23];
+            for (int i = 0; i < 23; i++)
+            {
+                if (!eat[i]) continue;
+                int t = Data.ResData[i].type;
+                if (t == 1) ans[i] = GrowthCons(growthWOres, (ResName)i); //food
+                if (t == 2) ans[i] = CultCons(cultWOres, (ResName)i); //cult
+                if (t == 3) ans[i] = Data.ResData[i].effect * scienseWObooks * Data.ResData[i].consumption;//books
+            }
+            return ans;
+        }
+        //потребление денег
+        public static double BuildsUpkeep(BuildName[] builds, int?[] lvls, Race race)
+        {
+            double ans = 0;
+            for (int i = 0; i < 19; i++)
+            {
+                if (builds[i] != BuildName.none && Data.BuildindsData[(int)builds[i]].Pay is not null)
+                {
+                    ans += BuildFuncs.Pay(builds[i], (int)lvls[i]!);
+                }
+            }
+            ans *= Data.RaceEffect_Upkeep(race);
+            double w_economy = 1;
+            if (builds[2] != BuildName.none && Data.BuildindsData[(int)builds[2]].Type == BuildType.administration)
+                w_economy -= BuildFuncs.AdminEconimy(builds[2], (int)lvls[2]!);
+            ans *= w_economy;
+            return ans;
+        }
     }
 }

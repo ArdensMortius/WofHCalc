@@ -30,7 +30,7 @@ namespace WofHCalc.Models
             Prices = new ObservableCollection<int>(list);
             Taxes= new ObservableCollection<int>(list);
             DepositsTaxes = new ObservableCollection<int>();
-            for (int i = 0; i<53; i++) { DepositsTaxes.Add(i); }
+            for (int i = 0; i<53; i++) { DepositsTaxes.Add(0); }
         }
     
     }

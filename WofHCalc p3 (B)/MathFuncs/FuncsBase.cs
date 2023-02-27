@@ -28,12 +28,8 @@ namespace WofHCalc.MathFuncs
         }
         public static double Corruption(int numtowns, byte courthouse_level)
         {
-            if (numtowns < 1 || courthouse_level < 0 || courthouse_level > 20) throw new Exception("Corruption error");
-            double A = DataSourses.Data.BuildindsData[(int)BuildName.courthouse].Effect[0];
-            double B = DataSourses.Data.BuildindsData[(int)BuildName.courthouse].Effect[0];
-            double C = DataSourses.Data.BuildindsData[(int)BuildName.courthouse].Effect[0];
-            double D = DataSourses.Data.BuildindsData[(int)BuildName.courthouse].Effect[0];
-            return ((numtowns - 1) * 20/MainFunc(A,B,C,D,courthouse_level));
+            if (numtowns < 1 || courthouse_level < 0 || courthouse_level > 20) throw new Exception("Corruption error");            
+            return ((numtowns - 1) * 20/MainFunc(DataSourses.Data.BuildindsData[(int)BuildName.courthouse].Effect, courthouse_level));
         }
         public static double GreatCitizenBonus(int n) =>//конкретные числа должны быть в datasourses где-нибудь, а не тут
             MainFunc(0, 1, 0.04d, 0.75d, n);                
@@ -51,8 +47,8 @@ namespace WofHCalc.MathFuncs
         }
         public static double AreaImprovementBonus(AreaImprovementName name, int lvl, int users = 1)
         {
-            if (lvl == 0) return 1;
-            return 1 + (Data.AreaImprovementsData[(int)name].levels[lvl - 1].effect)*AreaImprovementEfficiencyPerUser(users); 
+            if (lvl == 0) return 0;
+            return 0 + (Data.AreaImprovementsData[(int)name].levels[lvl - 1].effect)*AreaImprovementEfficiencyPerUser(users); 
         }
 
     }

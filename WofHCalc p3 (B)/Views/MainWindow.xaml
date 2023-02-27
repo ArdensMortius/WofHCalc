@@ -1,471 +1,623 @@
 ﻿<Window x:Name="window" x:Class="WofHCalc.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WofHCalc"
-        xmlns:enumsup="clr-namespace:WofHCalc.Supports.ForEnumBinds"
-        xmlns:conv="clr-namespace:WofHCalc.Supports.Converters"
-        xmlns:sup="clr-namespace:WofHCalc.Supports" xmlns:controllers="clr-namespace:WofHCalc.Controllers" d:DataContext="{d:DesignInstance Type=controllers:MainWindowController}"
-        mc:Ignorable="d"
-        FontSize="15"
-        MinWidth="450"
-        MinHeight="450"
-        Title="MainWindow" WindowState="Maximized" Closing="Window_Closing" >
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:local="clr-namespace:WofHCalc"
+		xmlns:enumsup="clr-namespace:WofHCalc.Supports.ForEnumBinds"
+		xmlns:conv="clr-namespace:WofHCalc.Supports.Converters"
+		xmlns:sup="clr-namespace:WofHCalc.Supports" xmlns:controllers="clr-namespace:WofHCalc.Controllers" d:DataContext="{d:DesignInstance Type=controllers:MainWindowController}"
+		mc:Ignorable="d"
+		FontSize="15"
+		MinWidth="450"
+		MinHeight="450"
+		Title="MainWindow" WindowState="Maximized" Closing="Window_Closing" >
 
-    <Window.Resources>
-        <conv:BuildToImgConverter x:Key="BuildToImgConverter"/>
-        <conv:EnumDescriptionConverter x:Key="EnumDescriptionConverter"/>
-        <conv:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
-        <conv:ResProdConverter x:Key="ResProdConverter"/>
+	<Window.Resources>
+		<conv:BuildToImgConverter x:Key="BuildToImgConverter"/>
+		<conv:EnumDescriptionConverter x:Key="EnumDescriptionConverter"/>
+		<conv:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
+		<conv:ResProdConverter x:Key="ResProdConverter"/>
+        <conv:ResToImgConverter x:Key="ResToImgConverter"/>
 
         <Style TargetType="{x:Type DataGridCell}">
-            <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="BorderBrush" Value="Gray"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-        </Style>
-        <Style TargetType="{x:Type DataGrid}">
-            <Setter Property="GridLinesVisibility" Value="None"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="BorderBrush" Value="Gray"/>
-        </Style>
-        <Style TargetType="{x:Type DataGridRowHeader}">
-            <Setter Property="Padding" Value="2,2,6,2"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="Gray"/>
-        </Style>
-        <Style TargetType="{x:Type DataGridColumnHeader}">
-            <Setter Property="Padding" Value="2"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="Gray"/>
-        </Style>
-        <Style TargetType="{x:Type TextBlock}">
-            <!--<Setter Property="Margin" Value="5"/>-->
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="Padding" Value="2,2,6,2"/>
-        </Style>
-    </Window.Resources>
+			<Setter Property="BorderThickness" Value="1" />
+			<Setter Property="BorderBrush" Value="Gray"/>
+			<Setter Property="VerticalContentAlignment" Value="Center"/>
+		</Style>
+		<Style TargetType="{x:Type DataGrid}">
+			<Setter Property="GridLinesVisibility" Value="None"/>
+			<Setter Property="BorderThickness" Value="1"/>
+			<Setter Property="BorderBrush" Value="Gray"/>
+		</Style>
+		<Style TargetType="{x:Type DataGridRowHeader}">
+			<Setter Property="Padding" Value="2,2,6,2"/>
+			<Setter Property="BorderThickness" Value="1"/>
+			<Setter Property="Background" Value="Transparent"/>
+			<Setter Property="BorderBrush" Value="Gray"/>
+		</Style>
+		<Style TargetType="{x:Type DataGridColumnHeader}">
+			<Setter Property="Padding" Value="2"/>
+			<Setter Property="BorderThickness" Value="1"/>
+			<Setter Property="Background" Value="Transparent"/>
+			<Setter Property="BorderBrush" Value="Gray"/>
+		</Style>
+		<Style TargetType="{x:Type TextBlock}">
+			<!--<Setter Property="Margin" Value="5"/>-->
+			<Setter Property="VerticalAlignment" Value="Center"/>
+			<Setter Property="HorizontalAlignment" Value="Stretch"/>
+		</Style>
+	</Window.Resources>
 
-    <Grid Name="m1" ShowGridLines="True">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" MinWidth="250"/>
-            <ColumnDefinition Width="2*" MinWidth="150"/>
-            <ColumnDefinition Width="*" MinWidth="150"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Grid.Column="0" Panel.ZIndex="1" Margin="5">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Text="{Binding ActiveAccount.World}" VerticalAlignment="Center"/>
-            <TextBlock Grid.Column="1" Text="{Binding ActiveAccount.Name}" VerticalAlignment="Center"/>
-            <ComboBox 
-                Name="cmbRaces"
-                Grid.Column="2"                 
-                SelectedValuePath="Value"
-                DisplayMemberPath="Description"
-                SelectedValue="{Binding Path=ActiveAccount.R, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                ItemsSource="{Binding Path=ActiveAccount.R, Converter={enumsup:EnumToCollectionConverter}, Mode=OneTime}"                                
-                />
-        </Grid>
-        <Grid Grid.Row="0" Grid.Column="1" Panel.ZIndex="1" Margin="5">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
-            <TextBox 
-                Name="tbTownName"
-                Grid.Column="0"         
-                Text="{Binding SelectedTown.Name, UpdateSourceTrigger=PropertyChanged}"                
-                />
-            <ComboBox
-                Name="cmbDoposit"
-                Grid.Column="1"
-                SelectedItem="{Binding SelectedTown.Deposit}"
-                ItemsSource="{Binding Source={enumsup:EnumBindingSourse {x:Type sup:DepositName}}}"
-                />
-            <ComboBox
-                Name="cmbClimate"
-                Grid.Column="2"
-                SelectedItem="{Binding SelectedTown.Climate}"
-                ItemsSource="{Binding Source={enumsup:EnumBindingSourse {x:Type sup:Climate}}}"
-                />
-            <StackPanel 
-                Name ="WaterPlaces"
-                Grid.Column="3"
-                Orientation="Horizontal">
-                <TextBlock Margin="5">Water:</TextBlock>
-                <ComboBox
-                    SelectedIndex="{Binding SelectedTown.WaterPlaces}"                    
-                    >
-                    <TextBlock>0</TextBlock>
-                    <TextBlock>1</TextBlock>
-                    <TextBlock>1+1</TextBlock>
-                    <TextBlock>2+1</TextBlock>
-                    <TextBlock>3+1</TextBlock>
-                </ComboBox>
-            </StackPanel>
-            <StackPanel
-                Name="OnHill"
-                Grid.Column="4"
-                Orientation="Horizontal">
-                <TextBlock Margin="5">On hill</TextBlock>
-                <CheckBox 
-                    VerticalAlignment="Center"
-                    IsChecked="{Binding SelectedTown.OnHill}">
-                    <CheckBox.LayoutTransform>
-                        <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
-                    </CheckBox.LayoutTransform>
-                </CheckBox>
-            </StackPanel>
-        </Grid>
-        <ScrollViewer Grid.Row="1" Grid.Column="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-            <StackPanel Panel.ZIndex="1">
-                <ListView Name="Towns"
-                    Margin="5,5,5,0"
-                    Height="auto"
-                    ItemsSource="{Binding ActiveAccount.Towns}"
-                    SelectedItem="{Binding SelectedTown}">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Width="200" DisplayMemberBinding="{Binding Name}">Название</GridViewColumn>
-                            <GridViewColumn Width="50" DisplayMemberBinding="{Binding Deposit}">МР</GridViewColumn>
-                            <GridViewColumn Width="80" DisplayMemberBinding="{Binding Climate}">Климат</GridViewColumn>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-                <UniformGrid Columns="2">
-                    <Button Margin="5" Command="{Binding AddTown}">New Town</Button>
-                    <Button Margin="5" Command="{Binding DelTown}">Delete Town</Button>
-                </UniformGrid>
+	<Grid Name="m1" ShowGridLines="True">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" MinWidth="250"/>
+			<ColumnDefinition Width="2*" MinWidth="150"/>
+			<ColumnDefinition Width="*" MinWidth="150"/>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition />
+		</Grid.RowDefinitions>
+		<Grid Grid.Row="0" Grid.Column="0" Panel.ZIndex="1" Margin="5">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+			</Grid.ColumnDefinitions>
+			<TextBlock Grid.Column="0" Text="{Binding ActiveAccount.World}" VerticalAlignment="Center"/>
+			<TextBlock Grid.Column="1" Text="{Binding ActiveAccount.Name}" VerticalAlignment="Center"/>
+			<ComboBox 
+				Name="cmbRaces"
+				Grid.Column="2"                 
+				SelectedValuePath="Key"
+				DisplayMemberPath="Value"
+				SelectedValue="{Binding Path=ActiveAccount.Race, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+				ItemsSource="{Binding Source={enumsup:EnumBindingSourse {x:Type sup:Race}}}"
+				/>
+		</Grid>
+		<Grid Grid.Row="0" Grid.Column="1" Panel.ZIndex="1" Margin="5">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="auto"/>
+				<ColumnDefinition Width="auto"/>
+				<ColumnDefinition Width="auto"/>
+				<ColumnDefinition Width="auto"/>
+			</Grid.ColumnDefinitions>
+			<TextBox 
+				Name="tbTownName"
+				Grid.Column="0"         
+				Text="{Binding SelectedTown.Name, UpdateSourceTrigger=PropertyChanged}"                
+				/>
+			<ComboBox
+				Name="cmbDoposit"
+				Grid.Column="1"
+				SelectedValue="{Binding SelectedTown.Deposit}"
+				ItemsSource="{Binding Source={enumsup:EnumBindingSourse {x:Type sup:DepositName}}}"
+				SelectedValuePath="Key"
+				DisplayMemberPath="Value"
+				/>
+			<ComboBox
+				Name="cmbClimate"
+				Grid.Column="2"
+				SelectedValue="{Binding SelectedTown.Climate}"
+				ItemsSource="{Binding Source={enumsup:EnumBindingSourse {x:Type sup:Climate}}}"
+				SelectedValuePath="Key"
+				DisplayMemberPath="Value"
+				/>
+			<StackPanel 
+				Name ="WaterPlaces"
+				Grid.Column="3"
+				Orientation="Horizontal">
+				<TextBlock Margin="5">Water:</TextBlock>
+				<ComboBox
+					SelectedIndex="{Binding SelectedTown.WaterPlaces}"                    
+					>
+					<TextBlock>0</TextBlock>
+					<TextBlock>1</TextBlock>
+					<TextBlock>1+1</TextBlock>
+					<TextBlock>2+1</TextBlock>
+					<TextBlock>3+1</TextBlock>
+				</ComboBox>
+			</StackPanel>
+			<StackPanel
+				Name="OnHill"
+				Grid.Column="4"
+				Orientation="Horizontal">
+				<TextBlock Margin="5">On hill</TextBlock>
+				<CheckBox 
+					VerticalAlignment="Center"
+					IsChecked="{Binding SelectedTown.OnHill}">
+					<CheckBox.LayoutTransform>
+						<ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+					</CheckBox.LayoutTransform>
+				</CheckBox>
+			</StackPanel>
+		</Grid>
+		<ScrollViewer Grid.Row="1" Grid.Column="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+			<StackPanel Panel.ZIndex="1">
+				<ListView Name="Towns"
+					Margin="5,5,5,0"
+					Height="auto"
+					ItemsSource="{Binding ActiveAccount.Towns}"
+					SelectedItem="{Binding SelectedTown}">
+					<ListView.View>
+						<GridView>
+							<GridViewColumn Width="200" DisplayMemberBinding="{Binding Name}">Название</GridViewColumn>
+							<GridViewColumn Width="50" DisplayMemberBinding="{Binding Deposit}">МР</GridViewColumn>
+							<GridViewColumn Width="80" DisplayMemberBinding="{Binding Climate}">Климат</GridViewColumn>
+						</GridView>
+					</ListView.View>
+				</ListView>
+				<UniformGrid Columns="2">
+					<Button Margin="5" Command="{Binding AddTown}">New Town</Button>
+					<Button Margin="5" Command="{Binding DelTown}">Delete Town</Button>
+				</UniformGrid>
+
+                <StackPanel Orientation="Horizontal" Margin="5,0,0,5">
+                    <ItemsControl ItemsSource="{Binding Source={enumsup:EnumBindingSourse {x:Type sup:ResName}}}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="Gray" BorderThickness="1">
+                                    <StackPanel Orientation="Horizontal" Height="20" >
+                                        <Image Source="{Binding Path=Key, Converter={StaticResource ResToImgConverter}}"/>
+                                        <TextBlock Text="{Binding Path=Value}"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <DataGrid Name="PricesEdit"
+                        ItemsSource="{Binding ActiveAccount.Financial.Prices}"
+                        AutoGenerateColumns="False"
+                        HeadersVisibility="None" CellEditEnding="PricesEdit_CellEditEnding">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <DataGrid Name="TaxesEdit"
+                        ItemsSource="{Binding ActiveAccount.Financial.Taxes}"
+                        AutoGenerateColumns="False"
+                        HeadersVisibility="None" CellEditEnding="TaxesEdit_CellEditEnding">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
                 <DataGrid Name="PriсesTaxes"
-                    Margin="5,0,5,5"
-                    Height="auto"
-                    AutoGenerateColumns="False"
-                    ItemsSource="{Binding PriceTaxDataAdapter}"
-                    CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False"                
-                    HeadersVisibility="Column">
-                    <DataGrid.Columns>
-                        <DataGridTemplateColumn Width="18">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Image                                        
-                                        Stretch="None"
-                                        Source="{Binding Path=ImgPath}">
-                                    </Image>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="Resource" Width="130">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding Path=Resource}"/>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTextColumn Header="Price" Binding="{Binding Path=Price}"/>
-                        <DataGridTextColumn Header="Tax" Binding="{Binding Path=Tax}"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-                <Grid Name="ScienceBonuses" Panel.ZIndex="2" Margin="5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="3*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Culture Bonus"/>
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Growth Bonus"/>
+                          Visibility="Collapsed"
+					Margin="5,0,5,5"
+					Height="auto"
+					AutoGenerateColumns="False"
+					ItemsSource="{Binding PriceTaxDataAdapter}"
+					CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False"                
+					HeadersVisibility="Column">
+					<DataGrid.Columns>
+						<DataGridTemplateColumn Width="18">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<Image                                        
+										Stretch="None"
+										Source="{Binding Path=ImgPath}">
+									</Image>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+						<DataGridTemplateColumn Header="Resource" Width="130">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding Path=Resource}"/>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+						<DataGridTextColumn Header="Price" Binding="{Binding Path=Price}"/>
+						<DataGridTextColumn Header="Tax" Binding="{Binding Path=Tax}"/>
+					</DataGrid.Columns>
+				</DataGrid>
+				<Grid Name="ScienceBonuses" Panel.ZIndex="2" Margin="5">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="3*"/>
+						<ColumnDefinition Width="*"/>
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="*"/>
+						<RowDefinition Height="*"/>
+						<RowDefinition Height="*"/>
+						<RowDefinition Height="*"/>
+						<RowDefinition Height="*"/>
+						<RowDefinition Height="*"/>
+						<RowDefinition Height="*"/>
+					</Grid.RowDefinitions>
+					<TextBlock Grid.Row="0" Grid.Column="0" Text="Culture Bonus"/>
+					<TextBlock Grid.Row="1" Grid.Column="0" Text="Growth Bonus"/>
                     <TextBlock Grid.Row="2" Grid.Column="0" Text="Traiders"/>
-                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Research"/>
                     <TextBlock Grid.Row="4" Grid.Column="0" Text="Finance"/>
-                    <TextBlock Grid.Row="5" Grid.Column="0" Text="Agriculture"/>
-                    <TextBlock Grid.Row="6" Grid.Column="0" Text="Industry"/>
-                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding ActiveAccount.Culture}"/>
-                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ActiveAccount.PopulationGrowth}"/>
+					<TextBlock Grid.Row="5" Grid.Column="0" Text="Agriculture"/>
+					<TextBlock Grid.Row="6" Grid.Column="0" Text="Industry"/>
+					<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding ActiveAccount.Culture}"/>
+					<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ActiveAccount.PopulationGrowth}"/>
                     <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding ActiveAccount.Traiders}"/>
-                    <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding ActiveAccount.Science_Bonuses[0]}"/>
                     <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding ActiveAccount.Science_Bonuses[1]}"/>
-                    <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding ActiveAccount.Science_Bonuses[2]}"/>
-                    <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding ActiveAccount.Science_Bonuses[3]}"/>
-                </Grid>
+					<TextBox Grid.Row="5" Grid.Column="1" Text="{Binding ActiveAccount.Science_Bonuses[2]}"/>
+					<TextBox Grid.Row="6" Grid.Column="1" Text="{Binding ActiveAccount.Science_Bonuses[3]}"/>
+				</Grid>
 
-            </StackPanel>
-        </ScrollViewer>
-        <ScrollViewer Grid.Row="1" Grid.Column="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-            <StackPanel Orientation="Vertical">
-                <ListBox Name="WrapBuilds" Panel.ZIndex="1"
-                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                    ItemsSource="{Binding SelectedTown.TownBuilds}">
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel/>
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Border BorderBrush="#FF5D5D5D" BorderThickness = "1"
-                            >
-                                <Grid Name="bsell">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="30"/>
-                                        <ColumnDefinition Width="50"/>
-                                        <ColumnDefinition Width="30"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="auto"/>
-                                    </Grid.RowDefinitions>
-                                    <TextBox Grid.Column="0" Grid.Row="0" Panel.ZIndex="2" 
-                                    Text="{Binding Path=Level}"
-                                    VerticalAlignment="Center" HorizontalAlignment="Center"
-                                    />
-                                    <Image Grid.Column="1" Grid.Row="0" Panel.ZIndex="2" 
-                                    Height="45" Width="46" Stretch="Uniform" Source="{Binding Path=Building, Converter={StaticResource BuildToImgConverter}}"
-                                    VerticalAlignment="Center" HorizontalAlignment="Center"
-                                    PreviewMouseLeftButtonUp="Button_OpenSlot"
-                                    PreviewMouseRightButtonUp="Button_MouseRightButtonUp"/>
-                                    <CheckBox Grid.Column="2" Grid.Row="0" Panel.ZIndex="2" 
-                                    IsChecked="{Binding Path=Available}" VerticalAlignment="Center">
-                                        <CheckBox.LayoutTransform>
-                                            <ScaleTransform ScaleX="1.55" ScaleY="1.55"/>
-                                        </CheckBox.LayoutTransform>
-                                    </CheckBox>
-                                    <TextBlock Grid.ColumnSpan="3" Grid.Row="1" Panel.ZIndex="3"                                    
-                                    Text="{Binding Path=Building, Converter={StaticResource EnumDescriptionConverter}, Mode=OneWay}" 
-                                    HorizontalAlignment="Stretch"  VerticalAlignment="Center" TextAlignment="Center"                                    
-                                    Background="White"
-                                    Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Text, Converter = {StaticResource StringToVisibilityConverter}}"
-                                    />
-                                    <TextBlock Grid.ColumnSpan="3" Grid.Row="1"
-                                    Text="{Binding Path=Slot, Converter={StaticResource EnumDescriptionConverter}, Mode=OneWay}"
-                                    HorizontalAlignment="Stretch" VerticalAlignment="Center" TextAlignment="Center"/>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-                <Grid Margin="5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Grid.Column="0">Количество ВГ</TextBlock>
-                    <TextBlock Grid.Row="0" Grid.Column="1">МУ бонусы</TextBlock>
-                    <TextBlock Grid.Row="0" Grid.Column="2">Жрём</TextBlock>
-                    <TextBlock Grid.Row="0" Grid.Column="3">Производ</TextBlock>
-                    <DataGrid Name="GSV" Grid.Row="1" Grid.Column="0" Margin="0,0,5,0" Panel.ZIndex="2"
-                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                        AutoGenerateColumns="False"                        
-                        ItemsSource="{Binding SelectedTown.GreatCitizens}"
-                        HeadersVisibility="Row"
-                        CanUserAddRows="False" CanUserReorderColumns="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False" CanUserDeleteRows="False" 
-                        LoadingRow="GSV_LoadingRow" CellEditEnding="GSV_CellEditEnding"                                                 
-                              >
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding Path=., Mode=TwoWay}"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                    <DataGrid Name="LBV" Grid.Row="1" Grid.Column="1" Margin="0,0,5,0" Panel.ZIndex="2"
-                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                        AutoGenerateColumns="False"                        
-                        ItemsSource="{Binding SelectedTown.LuckyTown}"
-                        HeadersVisibility="Row"
-                        CanUserAddRows="False" CanUserReorderColumns="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False" CanUserDeleteRows="False" 
-                        LoadingRow="LBV_LoadingRow" CellEditEnding="LBV_CellEditEnding"                                                 
-                              >
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding Path=., Mode=TwoWay}"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                    <Grid Name="RCV" Grid.Row="1" Grid.Column="2" Margin="0,0,5,0" Panel.ZIndex="2"                        
-                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"                        
-                              >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <Image Grid.Column="0" Grid.Row="0" Margin="3" Source="../DataSourses/Img/icons/res/res16.png"></Image>
-                        <CheckBox Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.ResConsumption[16]}"/>
-                        <Image Grid.Column="0" Grid.Row="1" Margin="3" Source="../DataSourses/Img/icons/res/res11.png"></Image>
-                        <CheckBox Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.ResConsumption[11]}"/>
-                        <Image Grid.Column="0" Grid.Row="2" Margin="3" Source="../DataSourses/Img/icons/res/res15.png"></Image>
-                        <CheckBox Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.ResConsumption[15]}"/>
-                        <Image Grid.Column="0" Grid.Row="3" Margin="3" Source="../DataSourses/Img/icons/res/res12.png"></Image>
-                        <CheckBox Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.ResConsumption[12]}"/>
-                        <Image Grid.Column="0" Grid.Row="4" Margin="3" Source="../DataSourses/Img/icons/res/res13.png"></Image>
-                        <CheckBox Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.ResConsumption[13]}"/>
-                        <Image Grid.Column="0" Grid.Row="5" Margin="3" Source="../DataSourses/Img/icons/res/res14.png"></Image>
-                        <CheckBox Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.ResConsumption[14]}"/>
-                        <Image Grid.Column="2" Grid.Row="0" Margin="3" Source="../DataSourses/Img/icons/res/res17.png"></Image>
-                        <CheckBox Grid.Column="3" Grid.Row="0" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.ResConsumption[17]}"/>
-                        <Image Grid.Column="2" Grid.Row="1" Margin="3" Source="../DataSourses/Img/icons/res/res18.png"></Image>
-                        <CheckBox Grid.Column="3" Grid.Row="1" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.ResConsumption[18]}"/>
-                        <Image Grid.Column="2" Grid.Row="2" Margin="3" Source="../DataSourses/Img/icons/res/res19.png"></Image>
-                        <CheckBox Grid.Column="3" Grid.Row="2" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.ResConsumption[19]}"/>
-                        <Image Grid.Column="2" Grid.Row="3" Margin="3" Source="../DataSourses/Img/icons/res/res21.png"></Image>
-                        <CheckBox Grid.Column="3" Grid.Row="3" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.ResConsumption[21]}"/>
-                        <Image Grid.Column="2" Grid.Row="5" Margin="3" Source="../DataSourses/Img/icons/res/res22.png"></Image>
-                        <CheckBox Grid.Column="3" Grid.Row="5" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.ResConsumption[22]}"/>
-                        <Border Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="0" BorderBrush="Gray" BorderThickness="2,2,1,1"/>
-                        <Border Grid.ColumnSpan="2" Grid.Row="1" Grid.Column="0" BorderBrush="Gray" BorderThickness="2,1,1,1"/>
-                        <Border Grid.ColumnSpan="2" Grid.Row="2" Grid.Column="0" BorderBrush="Gray" BorderThickness="2,1,1,1"/>
-                        <Border Grid.ColumnSpan="2" Grid.Row="3" Grid.Column="0" BorderBrush="Gray" BorderThickness="2,1,1,1"/>
-                        <Border Grid.ColumnSpan="2" Grid.Row="4" Grid.Column="0" BorderBrush="Gray" BorderThickness="2,1,1,1"/>
-                        <Border Grid.ColumnSpan="2" Grid.Row="5" Grid.Column="0" BorderBrush="Gray" BorderThickness="2,1,1,2"/>
-                        <Border Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="2" BorderBrush="Gray" BorderThickness="1,2,2,1"/>
-                        <Border Grid.ColumnSpan="2" Grid.Row="1" Grid.Column="2" BorderBrush="Gray" BorderThickness="1,1,2,1"/>
-                        <Border Grid.ColumnSpan="2" Grid.Row="2" Grid.Column="2" BorderBrush="Gray" BorderThickness="1,1,2,1"/>
-                        <Border Grid.ColumnSpan="2" Grid.Row="3" Grid.Column="2" BorderBrush="Gray" BorderThickness="1,1,2,1"/>
-                        <Border Grid.ColumnSpan="2" Grid.Row="4" Grid.Column="2" BorderBrush="Gray" BorderThickness="1,1,0,1"/>
-                        <Border Grid.ColumnSpan="2" Grid.Row="5" Grid.Column="2" BorderBrush="Gray" BorderThickness="1,1,2,2"/>
-                    </Grid>
-                    <StackPanel Grid.Row="1" Grid.Column="3" Margin="0,0,5,0"
-                        Orientation="Vertical">
-                        <ItemsControl Name="ProdDisplay"                           
-                            ItemsSource="{Binding SelectedTown.Product, Converter={StaticResource ResProdConverter}}" 
-                            MouseDown="ProdDisplay_MouseDown">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Horizontal"/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Image Source="{Binding Path=., Mode=OneWay}"/>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                        <Border Name="Prod" BorderBrush="Gray" BorderThickness="1" Visibility="Collapsed">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <StackPanel>
-                            
+			</StackPanel>
+		</ScrollViewer>
+		<ScrollViewer Grid.Row="1" Grid.Column="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+			<StackPanel Orientation="Vertical">
+				<ListBox Name="WrapBuilds" Panel.ZIndex="1"
+					ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+					ItemsSource="{Binding SelectedTown.TownBuilds}">
+					<ListBox.ItemsPanel>
+						<ItemsPanelTemplate>
+							<WrapPanel/>
+						</ItemsPanelTemplate>
+					</ListBox.ItemsPanel>
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<Border BorderBrush="#FF5D5D5D" BorderThickness = "1"
+							>
+								<Grid Name="bsell">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="30"/>
+										<ColumnDefinition Width="50"/>
+										<ColumnDefinition Width="30"/>
+									</Grid.ColumnDefinitions>
+									<Grid.RowDefinitions>
+										<RowDefinition Height="auto"/>
+										<RowDefinition Height="auto"/>
+									</Grid.RowDefinitions>
+									<TextBox Grid.Column="0" Grid.Row="0" Panel.ZIndex="2" 
+									Text="{Binding Path=Level}"
+									VerticalAlignment="Center" HorizontalAlignment="Center"
+									/>
+									<Image Grid.Column="1" Grid.Row="0" Panel.ZIndex="2" 
+									Height="45" Width="46" Stretch="Uniform" Source="{Binding Path=Building, Converter={StaticResource BuildToImgConverter}}"
+									VerticalAlignment="Center" HorizontalAlignment="Center"
+									PreviewMouseLeftButtonUp="Button_OpenSlot"
+									PreviewMouseRightButtonUp="Button_MouseRightButtonUp"/>
+									<CheckBox Grid.Column="2" Grid.Row="0" Panel.ZIndex="2" 
+									IsChecked="{Binding Path=Available}" VerticalAlignment="Center">
+										<CheckBox.LayoutTransform>
+											<ScaleTransform ScaleX="1.55" ScaleY="1.55"/>
+										</CheckBox.LayoutTransform>
+									</CheckBox>
+									<TextBlock Grid.ColumnSpan="3" Grid.Row="1" Panel.ZIndex="3"                                    
+									Text="{Binding Path=Building, Converter={StaticResource EnumDescriptionConverter}, Mode=OneWay}" 
+									HorizontalAlignment="Stretch"  VerticalAlignment="Center" TextAlignment="Center"                                    
+									Background="White"
+									Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Text, Converter = {StaticResource StringToVisibilityConverter}}"
+									/>
+									<TextBlock Grid.ColumnSpan="3" Grid.Row="1"
+									Text="{Binding Path=Slot, Converter={StaticResource EnumDescriptionConverter}, Mode=OneWay}"
+									HorizontalAlignment="Stretch" VerticalAlignment="Center" TextAlignment="Center"/>
+								</Grid>
+							</Border>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+				<Grid Margin="5">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="auto"/>
+						<ColumnDefinition Width="auto"/>
+						<ColumnDefinition Width="auto"/>
+						<ColumnDefinition Width="auto"/>
+						<ColumnDefinition Width="auto"/>
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="auto"/>
+						<RowDefinition/>
+					</Grid.RowDefinitions>
+					<TextBlock Grid.Row="0" Grid.Column="0">Количество ВГ</TextBlock>
+					<TextBlock Grid.Row="0" Grid.Column="1">МУ бонусы</TextBlock>
+					<TextBlock Grid.Row="0" Grid.Column="2">Жрём</TextBlock>
+					<TextBlock Grid.Row="0" Grid.Column="3">Производ</TextBlock>
+					<TextBlock Grid.Row="0" Grid.Column="4">УМ</TextBlock>
+					<DataGrid Name="GSV" Grid.Row="1" Grid.Column="0" Margin="0,0,5,0" Panel.ZIndex="2"
+						ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+						AutoGenerateColumns="False"                        
+						ItemsSource="{Binding SelectedTown.GreatCitizens}"
+						HeadersVisibility="Row"
+						CanUserAddRows="False" CanUserReorderColumns="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False" CanUserDeleteRows="False" 
+						LoadingRow="GSV_LoadingRow" CellEditEnding="GSV_CellEditEnding"                                                 
+							  >
+						<DataGrid.Columns>
+							<DataGridTextColumn Binding="{Binding Path=., Mode=TwoWay}"/>
+						</DataGrid.Columns>
+					</DataGrid>
+					<DataGrid Name="LBV" Grid.Row="1" Grid.Column="1" Margin="0,0,5,0" Panel.ZIndex="2"
+						ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+						AutoGenerateColumns="False"                        
+						ItemsSource="{Binding SelectedTown.LuckyTown}"
+						HeadersVisibility="Row"
+						CanUserAddRows="False" CanUserReorderColumns="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False" CanUserDeleteRows="False" 
+						LoadingRow="LBV_LoadingRow" CellEditEnding="LBV_CellEditEnding"                                                 
+							  >
+						<DataGrid.Columns>
+							<DataGridTextColumn Binding="{Binding Path=., Mode=TwoWay}"/>
+						</DataGrid.Columns>
+					</DataGrid>
+					<Grid Name="RCV" Grid.Row="1" Grid.Column="2" Margin="0,0,5,0" Panel.ZIndex="2"                        
+						ScrollViewer.HorizontalScrollBarVisibility="Disabled"                        
+							  >
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition/>
+							<ColumnDefinition/>
+							<ColumnDefinition/>
+							<ColumnDefinition/>
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition/>
+							<RowDefinition/>
+							<RowDefinition/>
+							<RowDefinition/>
+							<RowDefinition/>
+							<RowDefinition/>
+						</Grid.RowDefinitions>
+						<Image Grid.Column="0" Grid.Row="0" Margin="3" Source="../DataSourses/Img/icons/res/res16.png"></Image>
+                        <CheckBox Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.ResConsumption[16]}" Click="CheckBox_Click"/>
+						<Image Grid.Column="0" Grid.Row="1" Margin="3" Source="../DataSourses/Img/icons/res/res11.png"></Image>
+                        <CheckBox Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.ResConsumption[11]}" Click="CheckBox_Click"/>
+						<Image Grid.Column="0" Grid.Row="2" Margin="3" Source="../DataSourses/Img/icons/res/res15.png"></Image>
+                        <CheckBox Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.ResConsumption[15]}" Click="CheckBox_Click"/>
+						<Image Grid.Column="0" Grid.Row="3" Margin="3" Source="../DataSourses/Img/icons/res/res12.png"></Image>
+                        <CheckBox Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.ResConsumption[12]}" Click="CheckBox_Click"/>
+						<Image Grid.Column="0" Grid.Row="4" Margin="3" Source="../DataSourses/Img/icons/res/res13.png"></Image>
+                        <CheckBox Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.ResConsumption[13]}" Click="CheckBox_Click"/>
+						<Image Grid.Column="0" Grid.Row="5" Margin="3" Source="../DataSourses/Img/icons/res/res14.png"></Image>
+                        <CheckBox Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.ResConsumption[14]}" Click="CheckBox_Click"/>
+						<Image Grid.Column="2" Grid.Row="0" Margin="3" Source="../DataSourses/Img/icons/res/res17.png"></Image>
+                        <CheckBox Grid.Column="3" Grid.Row="0" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.ResConsumption[17]}" Click="CheckBox_Click"/>
+						<Image Grid.Column="2" Grid.Row="1" Margin="3" Source="../DataSourses/Img/icons/res/res18.png"></Image>
+                        <CheckBox Grid.Column="3" Grid.Row="1" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.ResConsumption[18]}" Click="CheckBox_Click"/>
+						<Image Grid.Column="2" Grid.Row="2" Margin="3" Source="../DataSourses/Img/icons/res/res19.png"></Image>
+                        <CheckBox Grid.Column="3" Grid.Row="2" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.ResConsumption[19]}" Click="CheckBox_Click"/>
+						<Image Grid.Column="2" Grid.Row="3" Margin="3" Source="../DataSourses/Img/icons/res/res21.png"></Image>
+                        <CheckBox Grid.Column="3" Grid.Row="3" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.ResConsumption[21]}" Click="CheckBox_Click"/>
+						<Image Grid.Column="2" Grid.Row="5" Margin="3" Source="../DataSourses/Img/icons/res/res22.png"></Image>
+                        <CheckBox Grid.Column="3" Grid.Row="5" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.ResConsumption[22]}" Click="CheckBox_Click"/>
+						<Border Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="0" BorderBrush="Gray" BorderThickness="2,2,1,1"/>
+						<Border Grid.ColumnSpan="2" Grid.Row="1" Grid.Column="0" BorderBrush="Gray" BorderThickness="2,1,1,1"/>
+						<Border Grid.ColumnSpan="2" Grid.Row="2" Grid.Column="0" BorderBrush="Gray" BorderThickness="2,1,1,1"/>
+						<Border Grid.ColumnSpan="2" Grid.Row="3" Grid.Column="0" BorderBrush="Gray" BorderThickness="2,1,1,1"/>
+						<Border Grid.ColumnSpan="2" Grid.Row="4" Grid.Column="0" BorderBrush="Gray" BorderThickness="2,1,1,1"/>
+						<Border Grid.ColumnSpan="2" Grid.Row="5" Grid.Column="0" BorderBrush="Gray" BorderThickness="2,1,1,2"/>
+						<Border Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="2" BorderBrush="Gray" BorderThickness="1,2,2,1"/>
+						<Border Grid.ColumnSpan="2" Grid.Row="1" Grid.Column="2" BorderBrush="Gray" BorderThickness="1,1,2,1"/>
+						<Border Grid.ColumnSpan="2" Grid.Row="2" Grid.Column="2" BorderBrush="Gray" BorderThickness="1,1,2,1"/>
+						<Border Grid.ColumnSpan="2" Grid.Row="3" Grid.Column="2" BorderBrush="Gray" BorderThickness="1,1,2,1"/>
+						<Border Grid.ColumnSpan="2" Grid.Row="4" Grid.Column="2" BorderBrush="Gray" BorderThickness="1,1,0,1"/>
+						<Border Grid.ColumnSpan="2" Grid.Row="5" Grid.Column="2" BorderBrush="Gray" BorderThickness="1,1,2,2"/>
+					</Grid>
+					<StackPanel Grid.Row="1" Grid.Column="3" Margin="0,0,5,0"
+						Orientation="Vertical">
+						<Button Name="ProdDisplay" Click="ProdDisplay_MouseDown" MinHeight="20">
+							<ItemsControl 
+								ItemsSource="{Binding SelectedTown.Product, Converter={StaticResource ResProdConverter}}">
+								<ItemsControl.ItemsPanel>
+									<ItemsPanelTemplate>
+										<StackPanel Orientation="Horizontal"/>
+									</ItemsPanelTemplate>
+								</ItemsControl.ItemsPanel>
+								<ItemsControl.ItemTemplate>
+									<DataTemplate>
+										<Image Source="{Binding Path=., Mode=OneWay}"/>
+									</DataTemplate>
+								</ItemsControl.ItemTemplate>
+							</ItemsControl>
+						</Button>
+						<Border Name="Prod" BorderBrush="Gray" BorderThickness="1" Visibility="Collapsed">
+							<Grid>
+								<Grid.RowDefinitions>
+									<RowDefinition/>
+									<RowDefinition/>
+									<RowDefinition/>
+									<RowDefinition/>
+									<RowDefinition/>
+								</Grid.RowDefinitions>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition/>
+									<ColumnDefinition/>
+									<ColumnDefinition/>
+									<ColumnDefinition/>
+									<ColumnDefinition/>
+									<ColumnDefinition/>
+									<ColumnDefinition/>
+									<ColumnDefinition/>
+								</Grid.ColumnDefinitions>
+								<StackPanel>
+							
+								</StackPanel>
+								<Image Grid.Row="0" Grid.Column="0" Margin="3" Source="../DataSourses/Img/icons/res/res0.png"/>
+								<Image Grid.Row="1" Grid.Column="0" Margin="3" Source="../DataSourses/Img/icons/res/res1.png"/>
+								<Image Grid.Row="2" Grid.Column="0" Margin="3" Source="../DataSourses/Img/icons/res/res3.png"/>
+								<Image Grid.Row="3" Grid.Column="0" Margin="3" Source="../DataSourses/Img/icons/res/res4.png"/>
+								<Image Grid.Row="4" Grid.Column="0" Margin="3" Source="../DataSourses/Img/icons/res/res6.png"/>
+								<CheckBox Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[0]}" Click="CheckBox_Click" />
+								<CheckBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[1]}" Click="CheckBox_Click" />
+								<CheckBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[3]}" Click="CheckBox_Click" />
+								<CheckBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[4]}" Click="CheckBox_Click" />
+								<CheckBox Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[6]}" Click="CheckBox_Click" />
+								<Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
+								<Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
+								<Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
+								<Border Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
+								<Border Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
+
+								<Image Grid.Row="0" Grid.Column="2" Margin="3" Source="../DataSourses/Img/icons/res/res7.png"/>
+								<Image Grid.Row="1" Grid.Column="2" Margin="3" Source="../DataSourses/Img/icons/res/res5.png"/>
+								<Image Grid.Row="2" Grid.Column="2" Margin="3" Source="../DataSourses/Img/icons/res/res8.png"/>
+								<Image Grid.Row="3" Grid.Column="2" Margin="3" Source="../DataSourses/Img/icons/res/res10.png"/>
+								<Image Grid.Row="4" Grid.Column="2" Margin="3" Source="../DataSourses/Img/icons/res/res16.png"/>
+								<CheckBox Grid.Row="0" Grid.Column="3" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[7]}" Click="CheckBox_Click" />
+								<CheckBox Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[5]}" Click="CheckBox_Click" />
+								<CheckBox Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[8]}" Click="CheckBox_Click" />
+								<CheckBox Grid.Row="3" Grid.Column="3" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[10]}" Click="CheckBox_Click" />
+								<CheckBox Grid.Row="4" Grid.Column="3" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[16]}" Click="CheckBox_Click" />
+								<Border Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
+								<Border Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
+								<Border Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
+								<Border Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
+								<Border Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
+							
+								<Image Grid.Row="0" Grid.Column="4" Margin="3" Source="../DataSourses/Img/icons/res/res11.png"/>
+								<Image Grid.Row="1" Grid.Column="4" Margin="3" Source="../DataSourses/Img/icons/res/res15.png"/>
+								<Image Grid.Row="2" Grid.Column="4" Margin="3" Source="../DataSourses/Img/icons/res/res12.png"/>
+								<Image Grid.Row="3" Grid.Column="4" Margin="3" Source="../DataSourses/Img/icons/res/res13.png"/>
+								<Image Grid.Row="4" Grid.Column="4" Margin="3" Source="../DataSourses/Img/icons/res/res14.png"/>
+								<CheckBox Grid.Row="0" Grid.Column="5" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[11]}" Click="CheckBox_Click" />
+								<CheckBox Grid.Row="1" Grid.Column="5" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[15]}" Click="CheckBox_Click" />
+								<CheckBox Grid.Row="2" Grid.Column="5" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[12]}" Click="CheckBox_Click" />
+								<CheckBox Grid.Row="3" Grid.Column="5" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[13]}" Click="CheckBox_Click" />
+								<CheckBox Grid.Row="4" Grid.Column="5" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[14]}" Click="CheckBox_Click" />
+								<Border Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
+								<Border Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
+								<Border Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
+								<Border Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
+								<Border Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
+						
+								<Image Grid.Row="0" Grid.Column="6" Margin="3" Source="../DataSourses/Img/icons/res/res17.png"/>
+								<Image Grid.Row="1" Grid.Column="6" Margin="3" Source="../DataSourses/Img/icons/res/res18.png"/>
+								<Image Grid.Row="2" Grid.Column="6" Margin="3" Source="../DataSourses/Img/icons/res/res19.png"/>
+								<Image Grid.Row="3" Grid.Column="6" Margin="3" Source="../DataSourses/Img/icons/res/res21.png"/>
+								<Image Grid.Row="4" Grid.Column="6" Margin="3" Source="../DataSourses/Img/icons/res/res22.png"/>
+								<CheckBox Grid.Row="0" Grid.Column="7" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[17]}" Click="CheckBox_Click" />
+								<CheckBox Grid.Row="1" Grid.Column="7" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[18]}" Click="CheckBox_Click" />
+								<CheckBox Grid.Row="2" Grid.Column="7" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[19]}" Click="CheckBox_Click" />
+								<CheckBox Grid.Row="3" Grid.Column="7" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[21]}" Click="CheckBox_Click" />
+								<CheckBox Grid.Row="4" Grid.Column="7" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[22]}" Click="CheckBox_Click" />
+								<Border Grid.Row="0" Grid.Column="6" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
+								<Border Grid.Row="1" Grid.Column="6" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
+								<Border Grid.Row="2" Grid.Column="6" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
+								<Border Grid.Row="3" Grid.Column="6" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
+								<Border Grid.Row="4" Grid.Column="6" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
+							
+							</Grid>
+						</Border>
+					</StackPanel>
+                    <DataGrid Name="AreaImps" Grid.Row="1" Grid.Column="4" Margin="0,0,5,0" Panel.ZIndex="2"
+							  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+							  AutoGenerateColumns="False"
+							  ItemsSource="{Binding SelectedTown.AreaImprovements}"
+							  HeadersVisibility="Column"
+							  CanUserAddRows="True" CanUserDeleteRows="True" CanUserReorderColumns="False" CanUserSortColumns="False" CanUserResizeRows="False" CanUserResizeColumns="False">
+						<DataGrid.Columns>
+                            <DataGridComboBoxColumn Header="Название"
+													SelectedValueBinding="{Binding Path=AIName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                                                    
+													ItemsSource="{Binding Source={enumsup:EnumBindingSourse {x:Type sup:AreaImprovementName}}}"                                                    
+													SelectedValuePath="Key"
+													DisplayMemberPath="Value"
+													/>
+                            <DataGridTextColumn Header="Уровень"
+												Binding="{Binding Path=Level, Mode=TwoWay}"/>
+							<DataGridTextColumn Header="Пользователи"
+												Binding="{Binding Path=Users, Mode=TwoWay}"/>
+
+
+						</DataGrid.Columns>
+					</DataGrid>
+				</Grid>
+                <Button Command="{Binding UpdateCalcs}" Margin="5">Вычислить/Обновить</Button>
+                <Border Margin="5" BorderBrush="Gray" BorderThickness="1">
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <Border Margin="5" BorderBrush="Gray" BorderThickness="1">
+							<StackPanel Orientation="Vertical">
+								<Border BorderBrush="Gray" BorderThickness="1" Padding="2">
+									<StackPanel Orientation="Horizontal">
+										<TextBlock Text="Культура: "/>
+										<TextBlock Text="{Binding Culture, Mode=OneWay}"/>
+									</StackPanel>
+								</Border>
+								<Border BorderBrush="Gray" BorderThickness="1" Padding="2">
+									<StackPanel Orientation="Horizontal">
+										<TextBlock Text="Прирост: "/>
+										<TextBlock Text="{Binding Growth, Mode=OneWay, StringFormat=N2}"/>
+									</StackPanel>
+								</Border>
+                                <Border BorderBrush="Gray" BorderThickness="1" Padding="2">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Содержание: "/>
+                                        <TextBlock Text="{Binding Upkeep, Mode=OneWay,StringFormat=N2}"/>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </Border>
+                        <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="0" Grid.Column="1" Padding="2">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="Производство"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <ItemsControl                                                                                                          
+										ItemsSource="{Binding SelectedTown.Product, Converter={StaticResource ResProdConverter}}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Vertical"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Image Height="20" Source="{Binding Path=., Mode=OneWay}"/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                    <ItemsControl                                                                                                          
+										ItemsSource="{Binding Products}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Vertical"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Height="20" Text="{Binding Path=., Mode=OneWay, StringFormat=N2}" Visibility="{Binding Path=., Converter={StaticResource StringToVisibilityConverter} }"/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
                                 </StackPanel>
-                                <Image Grid.Row="0" Grid.Column="0" Margin="3" Source="../DataSourses/Img/icons/res/res0.png"/>
-                                <Image Grid.Row="1" Grid.Column="0" Margin="3" Source="../DataSourses/Img/icons/res/res1.png"/>
-                                <Image Grid.Row="2" Grid.Column="0" Margin="3" Source="../DataSourses/Img/icons/res/res3.png"/>
-                                <Image Grid.Row="3" Grid.Column="0" Margin="3" Source="../DataSourses/Img/icons/res/res4.png"/>
-                                <Image Grid.Row="4" Grid.Column="0" Margin="3" Source="../DataSourses/Img/icons/res/res6.png"/>
-                                <CheckBox Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[0]}" Click="CheckBox_Click" />
-                                <CheckBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[1]}" Click="CheckBox_Click" />
-                                <CheckBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[3]}" Click="CheckBox_Click" />
-                                <CheckBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[4]}" Click="CheckBox_Click" />
-                                <CheckBox Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[6]}" Click="CheckBox_Click" />
-                                <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
-                                <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
-                                <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
-                                <Border Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
-                                <Border Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
-
-                                <Image Grid.Row="0" Grid.Column="2" Margin="3" Source="../DataSourses/Img/icons/res/res7.png"/>
-                                <Image Grid.Row="1" Grid.Column="2" Margin="3" Source="../DataSourses/Img/icons/res/res5.png"/>
-                                <Image Grid.Row="2" Grid.Column="2" Margin="3" Source="../DataSourses/Img/icons/res/res8.png"/>
-                                <Image Grid.Row="3" Grid.Column="2" Margin="3" Source="../DataSourses/Img/icons/res/res10.png"/>
-                                <Image Grid.Row="4" Grid.Column="2" Margin="3" Source="../DataSourses/Img/icons/res/res16.png"/>
-                                <CheckBox Grid.Row="0" Grid.Column="3" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[7]}" Click="CheckBox_Click" />
-                                <CheckBox Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[5]}" Click="CheckBox_Click" />
-                                <CheckBox Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[8]}" Click="CheckBox_Click" />
-                                <CheckBox Grid.Row="3" Grid.Column="3" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[10]}" Click="CheckBox_Click" />
-                                <CheckBox Grid.Row="4" Grid.Column="3" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[16]}" Click="CheckBox_Click" />
-                                <Border Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
-                                <Border Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
-                                <Border Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
-                                <Border Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
-                                <Border Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
-                            
-                                <Image Grid.Row="0" Grid.Column="4" Margin="3" Source="../DataSourses/Img/icons/res/res11.png"/>
-                                <Image Grid.Row="1" Grid.Column="4" Margin="3" Source="../DataSourses/Img/icons/res/res15.png"/>
-                                <Image Grid.Row="2" Grid.Column="4" Margin="3" Source="../DataSourses/Img/icons/res/res12.png"/>
-                                <Image Grid.Row="3" Grid.Column="4" Margin="3" Source="../DataSourses/Img/icons/res/res13.png"/>
-                                <Image Grid.Row="4" Grid.Column="4" Margin="3" Source="../DataSourses/Img/icons/res/res14.png"/>
-                                <CheckBox Grid.Row="0" Grid.Column="5" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[11]}" Click="CheckBox_Click" />
-                                <CheckBox Grid.Row="1" Grid.Column="5" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[15]}" Click="CheckBox_Click" />
-                                <CheckBox Grid.Row="2" Grid.Column="5" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[12]}" Click="CheckBox_Click" />
-                                <CheckBox Grid.Row="3" Grid.Column="5" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[13]}" Click="CheckBox_Click" />
-                                <CheckBox Grid.Row="4" Grid.Column="5" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[14]}" Click="CheckBox_Click" />
-                                <Border Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
-                                <Border Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
-                                <Border Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
-                                <Border Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
-                                <Border Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
-                        
-                                <Image Grid.Row="0" Grid.Column="6" Margin="3" Source="../DataSourses/Img/icons/res/res17.png"/>
-                                <Image Grid.Row="1" Grid.Column="6" Margin="3" Source="../DataSourses/Img/icons/res/res18.png"/>
-                                <Image Grid.Row="2" Grid.Column="6" Margin="3" Source="../DataSourses/Img/icons/res/res19.png"/>
-                                <Image Grid.Row="3" Grid.Column="6" Margin="3" Source="../DataSourses/Img/icons/res/res21.png"/>
-                                <Image Grid.Row="4" Grid.Column="6" Margin="3" Source="../DataSourses/Img/icons/res/res22.png"/>
-                                <CheckBox Grid.Row="0" Grid.Column="7" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[17]}" Click="CheckBox_Click" />
-                                <CheckBox Grid.Row="1" Grid.Column="7" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[18]}" Click="CheckBox_Click" />
-                                <CheckBox Grid.Row="2" Grid.Column="7" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[19]}" Click="CheckBox_Click" />
-                                <CheckBox Grid.Row="3" Grid.Column="7" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[21]}" Click="CheckBox_Click" />
-                                <CheckBox Grid.Row="4" Grid.Column="7" VerticalAlignment="Center" Margin="3" IsChecked="{Binding SelectedTown.Product[22]}" Click="CheckBox_Click" />
-                                <Border Grid.Row="0" Grid.Column="6" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
-                                <Border Grid.Row="1" Grid.Column="6" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
-                                <Border Grid.Row="2" Grid.Column="6" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
-                                <Border Grid.Row="3" Grid.Column="6" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
-                                <Border Grid.Row="4" Grid.Column="6" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1"/>
-                            
-                            </Grid>
-                    </Border>
+                            </StackPanel>
+                        </Border>
+                        <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="0" Grid.Column="1" Padding="2">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="Потребление"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <ItemsControl                                                                                                          
+										ItemsSource="{Binding SelectedTown.ResConsumption, Converter={StaticResource ResProdConverter}}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Vertical"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Image Height="20" Source="{Binding Path=., Mode=OneWay}"/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                    <ItemsControl                                                                                                          
+										ItemsSource="{Binding Eat}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Vertical"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Height="20" Text="{Binding Path=., Mode=OneWay, StringFormat=N2}" Visibility="{Binding Path=., Converter={StaticResource StringToVisibilityConverter} }"/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
                     </StackPanel>
-                </Grid>
-                <Grid>
-                    
-                </Grid>
-            </StackPanel>
-        </ScrollViewer>
+                </Border>
+			</StackPanel>
+		</ScrollViewer>
 
-    </Grid>
+	</Grid>
 </Window>
-
