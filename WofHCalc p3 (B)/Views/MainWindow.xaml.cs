@@ -43,6 +43,8 @@ namespace WofHCalc
             }
             if (dc.ActiveAccount == null) { this.Close(); }
             InitializeComponent();
+            dc.clones.Add(null);
+            dc.clones.Add(null);
         }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)//пока просто сохранение без диалогового окна
         {
@@ -57,19 +59,19 @@ namespace WofHCalc
         {
             
             byte slot_id = (byte)WrapBuilds.SelectedIndex;
-            SlotBuildsList sbv = new(dc.SelectedTown!, slot_id, dc.ActiveAccount!.Race);
+            SlotBuildsList sbv = new(dc.VisibleTown!, slot_id, dc.ActiveAccount!.Race);
             if (sbv.ShowDialog() == true)
             {
-                dc.SelectedTown!.TownBuilds[slot_id].Building = (BuildName)sbv.selected_build!;
-                dc.SelectedTown.TownBuilds[slot_id].Level = 0;
+                dc.VisibleTown!.TownBuilds[slot_id].Building = (BuildName)sbv.selected_build!;
+                dc.VisibleTown.TownBuilds[slot_id].Level = 0;
             }
         }
         private void Button_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
             if (WrapBuilds.SelectedIndex < 0) return; //костыль, но помогает избежать вылета. Потом надо починить
             byte slot_id = (byte)WrapBuilds.SelectedIndex;
-            dc.SelectedTown!.TownBuilds[slot_id].Building = BuildName.none;
-            dc.SelectedTown!.TownBuilds[slot_id].Level = null;
+            dc.VisibleTown!.TownBuilds[slot_id].Building = BuildName.none;
+            dc.VisibleTown!.TownBuilds[slot_id].Level = null;
         }
 
         private void GSV_LoadingRow(object sender, DataGridRowEventArgs e) =>        
@@ -84,7 +86,7 @@ namespace WofHCalc
             string? new_value = (e.EditingElement as TextBox)!.Text;
             if (byte.TryParse(new_value, out v))
             {
-                dc.SelectedTown!.GreatCitizens[e.Row.GetIndex()] = v;                
+                dc.VisibleTown!.GreatCitizens[e.Row.GetIndex()] = v;                
             }
         }
 
@@ -94,13 +96,13 @@ namespace WofHCalc
             string? new_value = (e.EditingElement as TextBox)!.Text;
             if (byte.TryParse(new_value, out v))
             {
-                dc.SelectedTown!.LuckyTown[e.Row.GetIndex()] = v;
+                dc.VisibleTown!.LuckyTown[e.Row.GetIndex()] = v;
             }
         }
         private void CheckBox_Click(object sender, RoutedEventArgs e)
         {
             //а всё потому что при binding-е к элементу коллекции она умудряется обновляться через get, а не через set.
-            dc.OnPropertyChanged(nameof(dc.SelectedTown));
+            dc.OnPropertyChanged(nameof(dc.VisibleTown));
         }
 
         private void ProdDisplay_MouseDown(object sender, RoutedEventArgs e)
