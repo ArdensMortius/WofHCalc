@@ -4,8 +4,9 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WofHCalc.Supports;
 
-namespace WofHCalc.Supports.jsonTemplates
+namespace WofHCalc.Models.jsonTemplates
 {
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public class AreaImprovement
@@ -23,7 +24,7 @@ namespace WofHCalc.Supports.jsonTemplates
 
         public int[] GetCost()
         {
-            var ns = cost.Split('^',StringSplitOptions.RemoveEmptyEntries);
+            var ns = cost.Split('^', StringSplitOptions.RemoveEmptyEntries);
             var ans = new int[23];
             foreach (string ss in ns)
             {
@@ -40,13 +41,13 @@ namespace WofHCalc.Supports.jsonTemplates
                     case 'p': ans[(int)ResName.fish] = x; break;
                     default: break;
                 }
-            }                                    
+            }
             return ans;
         }
         private int convert(string s)
         {
-            string ts = s.Remove(0,1);
-            float tr = float.Parse(ts);            
+            string ts = s.Remove(0, 1);
+            float tr = float.Parse(ts);
             return (int)tr;
         }
     }

@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
+using WofHCalc.Supports;
 
-namespace WofHCalc.Supports.jsonTemplates
+namespace WofHCalc.Models.jsonTemplates
 {
     public class Resource
     {
