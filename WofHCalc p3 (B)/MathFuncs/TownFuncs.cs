@@ -9,6 +9,7 @@ using System.Runtime.InteropServices.Marshalling;
 using WofHCalc.Supports.jsonTemplates;
 using System.Windows.Documents;
 using Microsoft.Windows.Themes;
+using WofHCalc.Models;
 
 namespace WofHCalc.MathFuncs
 {
@@ -37,6 +38,21 @@ namespace WofHCalc.MathFuncs
                 if (builds[i] != BuildName.none)
                     ans +=FuncsBase.MainFunc(Data.BuildindsData[(int)builds[i]].Ungrown, (int)lvls[i]!);            
             return ans*24;
+        }
+
+        public static double TownGrowthWOUngrownAndResourses(Account acc, Town town) //перегрузка с более удобным вызовом
+        {
+            double ans = TownGrowthFromBuilds(town.TownBuilds.Select(x => x.Building).ToArray(), town.TownBuilds.Select(x => (int?)x.Level).ToArray()) + acc.PopulationGrowth;
+            ans *= Data.RaceEffect_PopulationGrowth(acc.Race);
+            ans *= FuncsBase.GreatCitizenBonus(town.GreatCitizens[(int)GreatCitizensNames.Doctor]);
+            if (town.Deposit != DepositName.none) ans *= 0.85f;
+            double aiinc = 1;            
+            for (int i = 0; i < town.AreaImprovements.Count(); i++)
+                if (town.AreaImprovements[i].AIName == AreaImprovementName.Suburb) 
+                    aiinc += FuncsBase.AreaImprovementBonus(AreaImprovementName.Suburb, town.AreaImprovements[i].Level, town.AreaImprovements[i].Users);
+            ans *= aiinc;
+            ans *= 1 + Data.LuckBonusesData[(int)LuckBonusNames.grown].effect[town.LuckyTown[(int)LuckBonusNames.grown]];
+            return ans;
         }
         public static double TownGrowthWOUngrownAndResourses(double basegrown,BuildName[] builds, int?[] lvls, Race race, bool deposit, byte numofdoctors, AreaImprovementName[] areaimps, byte[] ailvls, byte[] aiusers, byte luck_bonus_lvl)
         {            
