@@ -459,7 +459,7 @@ namespace WofHCalc.MathFuncs
             //вроде ничего не забыл
             return ans;
         }        
-        public static double Corruption(BuildName[] builds, int?[] lvls, int numoftowns)//+
+        private static double Corruption(BuildName[] builds, int?[] lvls, int numoftowns)//+
         {
             byte chl = 0;
             for (int i = 3; i < builds.Length; i++)

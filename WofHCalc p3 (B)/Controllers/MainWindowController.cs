@@ -149,27 +149,7 @@ namespace WofHCalc.Controllers
         {
             get
             {
-                return TownFuncs.Production(
-                    visible_town!.TownBuilds.Select(x => x.Building).ToArray(),
-                    visible_town.TownBuilds.Select(x => (int?)x.Level).ToArray(),
-                    visible_town.GreatCitizens.ToArray(),
-                    TownFuncs.Corruption(
-                        visible_town.TownBuilds.Select(x => x.Building).ToArray(),
-                        visible_town.TownBuilds.Select(x => (int?)x.Level).ToArray(),
-                        active_acc!.Towns.Count),
-                    visible_town.Product.ToArray(),
-                    visible_town.Deposit,
-                    visible_town.Climate,
-                    visible_town.OnHill,
-                    visible_town.WaterPlaces,
-                    active_acc.Science_Bonuses.ToArray(),
-                    visible_town.AreaImprovements.Select(a => a.AIName).ToArray(),
-                    visible_town.AreaImprovements.Select(a => a.Level).ToArray(),
-                    visible_town.AreaImprovements.Select(a => a.Users).ToArray(),
-                    visible_town.LuckyTown[(int)LuckBonusNames.science],
-                    visible_town.LuckyTown[(int)LuckBonusNames.production],
-                    visible_town.ResConsumption[(int)ResName.books]
-                    );
+                return TownFuncs.Production(ActiveAccount,SelectedTown);
             }
         }
         #endregion
