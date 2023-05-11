@@ -10,6 +10,7 @@ using WofHCalc.Supports.jsonTemplates;
 using System.Windows.Documents;
 using Microsoft.Windows.Themes;
 using WofHCalc.Models;
+using System.Diagnostics;
 
 namespace WofHCalc.MathFuncs
 {
@@ -65,6 +66,29 @@ namespace WofHCalc.MathFuncs
                 if (areaimps[i] == AreaImprovementName.Suburb) aiinc += FuncsBase.AreaImprovementBonus(areaimps[i], ailvls[i], aiusers[i]);
             ans *= aiinc;
             ans *= 1+Data.LuckBonusesData[(int)LuckBonusNames.grown].effect[luck_bonus_lvl];            
+            return ans;
+        }
+        public static double TownGrowth(Account acc, Town town)
+        {
+            double ans = TownGrowthFromBuilds(town.TownBuilds.Select(x => x.Building).ToArray(), town.TownBuilds.Select(x => (int?)x.Level).ToArray()) + acc.PopulationGrowth;
+            ans *= Data.RaceEffect_PopulationGrowth(acc.Race);
+            ans *= FuncsBase.GreatCitizenBonus(town.GreatCitizens[(int)GreatCitizensNames.Doctor]);
+            if (town.Deposit != DepositName.none) ans *= 0.85f;
+            double aiinc = 1;
+            double aidec = 0;
+            for (int i = 0; i < town.AreaImprovements.Count(); i++)
+            {
+                if (town.AreaImprovements[i].AIName == AreaImprovementName.Suburb) aiinc += FuncsBase.AreaImprovementBonus(town.AreaImprovements[i].AIName, town.AreaImprovements[i].Level, town.AreaImprovements[i].Users);
+                else if (town.AreaImprovements[i].AIName == AreaImprovementName.SkiResort) aidec += FuncsBase.AreaImprovementBonus(town.AreaImprovements[i].AIName, town.AreaImprovements[i].Level, town.AreaImprovements[i].Users) * 0.027d;
+            }
+            ans *= aiinc;
+            ans *= 1 + Data.LuckBonusesData[(int)LuckBonusNames.grown].effect[town.LuckyTown[(int)LuckBonusNames.grown]];
+            double resbonus = 1;
+            for (int i = (int)ResName.fruit; i <= (int)ResName.meat; i++)
+                if (town.ResConsumption[i]) resbonus += Data.ResData[i].effect;
+            ans *= resbonus;
+            ans -= aidec;
+            ans -= TownUngrownFromBuilds(town.TownBuilds.Select(x => x.Building).ToArray(), town.TownBuilds.Select(x => (int?)x.Level).ToArray()); 
             return ans;
         }
         public static double TownGrowth(double basegrown, BuildName[] builds, int?[] lvls, Race race, bool havedeposit, bool[] resconsumption, byte numofdoctors, AreaImprovementName[] areaimps, byte[] ailvls, byte[] aiusers, byte luck_bonus_lvl)
