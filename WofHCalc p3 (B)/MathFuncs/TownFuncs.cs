@@ -168,6 +168,15 @@ namespace WofHCalc.MathFuncs
             ans *= 1 + Data.LuckBonusesData[(int)LuckBonusNames.culture].effect[luck_bonus_lvl];                                                                            
             return ans;
         }
+        public static int TownCulture(Account acc, Town town)
+        {
+            double ans = TownCultureWOResourses(acc, town);
+            double resbonus = 1;
+            for (int i = (int)ResName.wine; i <= (int)ResName.films; i++)
+                if (town.ResConsumption[i]) resbonus += Data.ResData[i].effect;
+            ans *= resbonus;
+            return (int)ans;
+        }
         public static int TownCulture(int baseculture, BuildName[] builds, int?[] lvls, Race race, byte numofcreators, bool[] resconsumption, AreaImprovementName[] areaimps, byte[] ailvls, byte[] aiusers, byte luck_bonus_lvl)
         {
             double ans = TownCultureWOResourses(baseculture, builds, lvls, race, numofcreators, areaimps, ailvls, aiusers, luck_bonus_lvl);
