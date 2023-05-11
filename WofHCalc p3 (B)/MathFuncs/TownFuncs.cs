@@ -11,6 +11,7 @@ using System.Windows.Documents;
 using Microsoft.Windows.Themes;
 using WofHCalc.Models;
 using System.Diagnostics;
+using WofHCalc.Models.jsonTemplates;
 
 namespace WofHCalc.MathFuncs
 {
@@ -271,6 +272,101 @@ namespace WofHCalc.MathFuncs
             ans[(int)ResProdType.finance] = FuncsBase.GreatCitizenBonus(gs[(int)GreatCitizensNames.Financier]);
             ans[(int)ResProdType.agriculture] = FuncsBase.GreatCitizenBonus(gs[(int)GreatCitizensNames.Agronomist]);
             ans[(int)ResProdType.industry] = FuncsBase.GreatCitizenBonus(gs[(int)GreatCitizensNames.Engineer]);
+            return ans;
+        }
+        public static double[] Production(Account acc, Town town)
+        {
+            double[] ans = new double[23];
+            var builds = town.TownBuilds.Select(x=>x.Building).ToArray();
+            var lvls = town.TownBuilds.Select(x=>(int?)x.Level).ToArray();
+            var areaimps = town.AreaImprovements.Select(x=>x.AIName).ToArray();
+            var ailvls = town.AreaImprovements.Select(x=>x.Level).ToArray();
+            var aiusers = town.AreaImprovements.Select(x=>x.Users).ToArray();
+            double workplacesmod = Workplacesmod(builds, lvls);
+            double workplacesmodSciense = WorkplacesmodScience(areaimps, ailvls, aiusers);
+            int total_wp = 0;
+            //считаем все рабочие места
+            //и рабочие места по ресам с учётом эффективности строения
+            int[] workplaces = new int[23];
+            double[] workplaces_efbuildmod = new double[23];
+            for (int i = 3; i < builds.Length; i++)
+            {
+                if (builds[i] == BuildName.none) continue;
+                if (Data.BuildindsData[(int)builds[i]].Type == BuildType.production)
+                {
+                    double wp = BuildFuncs.BuildEffect(builds[i], (int)lvls[i]!);
+                    int nwp = 0;
+                    foreach (var r in Data.BuildindsData[(int)builds[i]].Productres)
+                    {
+                        if (r.Res == ResName.science)
+                            nwp = (int)(wp * workplacesmodSciense);
+                        else
+                            nwp = (int)(wp * workplacesmod);
+                        workplaces[(int)r.Res] += nwp;
+                        workplaces_efbuildmod[(int)r.Res] += nwp * Data.BuildindsData[(int)builds[i]].Efficiency;
+                    }
+                    total_wp += nwp;
+                }
+            }
+            //ээфективность труда города
+            double townefficiency = FuncsBase.LaborEfficiency(total_wp);
+            //базовое производство с учётом МР
+            double[] baseprod = BaseProd(town.Deposit, town.OnHill, town.WaterPlaces);
+            /////////////
+            //модификаторы от ум
+            double[] aibonuses = AIBonuses(areaimps, ailvls, aiusers, town.Deposit);//-
+            //отдельно бонус от горнолыжек
+            double skyresortbonus = 0;
+            for (int i = 0; i < areaimps.Length; i++)
+                if (areaimps[i] == AreaImprovementName.SkiResort)
+                    skyresortbonus += FuncsBase.AreaImprovementBonus(AreaImprovementName.SkiResort, ailvls[i], aiusers[i]);
+            //великие граждание по типу производства
+            var gsb = GreatSitizensProdBonus(town.GreatCitizens.ToArray());
+            //теперь всё посчитать!
+            double corruption = Corruption(builds, lvls, acc.Towns.Count);
+            for (int i = 0; i < 23; i++)
+            {
+                if (town.Product[i]) ans[i] = workplaces_efbuildmod[i];
+                else { ans[i] = 0; continue; }
+                int type = (int)Data.ResData[i].prodtype;
+                ans[i] *= townefficiency;
+                ans[i] *= 1 - corruption / 100;
+                ans[i] *= Data.ClimateEffect(town.Climate, (ResProdType)type);
+                ans[i] *= (double)acc.Science_Bonuses[type] / 100d;
+                ans[i] *= baseprod[i];
+                ans[i] *= gsb[type];
+                ans[i] *= aibonuses[i];
+            }
+            var LevelLuckBonusProd = town.LuckyTown[(int)LuckBonusNames.production];
+            var LevelLuckBonusSciense = town.LuckyTown[(int)LuckBonusNames.science];
+            for (int i = 1; i < 23; i++)
+                ans[i] *= 1 + Data.LuckBonusesData[(int)LuckBonusNames.production].effect[LevelLuckBonusProd]; //кроме науки
+            ans[(int)ResName.science] *= 1 + Data.LuckBonusesData[(int)LuckBonusNames.science].effect[LevelLuckBonusSciense];
+            //+горнолыжки
+            double srb = 0;
+            for (int i = 1; i < areaimps.Length; i++)
+                if (areaimps[i] == AreaImprovementName.SkiResort)
+                    srb += FuncsBase.AreaImprovementBonus(AreaImprovementName.SkiResort, ailvls[i], aiusers[i]);
+            srb *= 1 + Data.LuckBonusesData[(int)LuckBonusNames.production].effect[LevelLuckBonusProd];
+            ans[(int)ResName.money] += srb;
+            //+чудеса с фиксированным бонусом
+            switch (builds[0])
+            {
+                case BuildName.Geoglyph:
+                case BuildName.The_Great_Library:
+                case BuildName.Helioconcentrator:
+                    ans[(int)ResName.science] += Data.WounderEffects[builds[0]];
+                    break;
+                case BuildName.Earthen_dam:
+                    ans[(int)ResName.fish] += Data.WounderEffects[builds[0]];
+                    break;
+                case BuildName.The_Colossus:
+                    ans[(int)ResName.money] += Data.WounderEffects[builds[0]];
+                    break;
+                default: break;
+            }
+            if (town.ResConsumption[(int)ResName.books]) ans[(int)ResName.science] *= 1 + Data.ResData[(int)ResName.books].effect;
+            //вроде ничего не забыл
             return ans;
         }
         public static double[] Production(BuildName[] builds, int?[] lvls, byte[] greatsitizens, double corruption, bool[] product, DepositName deposit, Climate climate, bool on_hill, byte waterplaces, int[] Science_Bonuses, AreaImprovementName[] areaimps, byte[] ailvls, byte[] aiusers, byte LevelLuckBonusSciense = 0, byte LevelLuckBonusProd = 0, bool eatbooks = false)//+
