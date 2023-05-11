@@ -68,7 +68,7 @@ namespace WofHCalc.MathFuncs
             ans *= 1+Data.LuckBonusesData[(int)LuckBonusNames.grown].effect[luck_bonus_lvl];            
             return ans;
         }
-        public static double TownGrowth(Account acc, Town town)
+        public static double TownGrowth(Account acc, Town town) //удобный вызов
         {
             double ans = TownGrowthFromBuilds(town.TownBuilds.Select(x => x.Building).ToArray(), town.TownBuilds.Select(x => (int?)x.Level).ToArray()) + acc.PopulationGrowth;
             ans *= Data.RaceEffect_PopulationGrowth(acc.Race);
@@ -88,7 +88,7 @@ namespace WofHCalc.MathFuncs
                 if (town.ResConsumption[i]) resbonus += Data.ResData[i].effect;
             ans *= resbonus;
             ans -= aidec;
-            ans -= TownUngrownFromBuilds(town.TownBuilds.Select(x => x.Building).ToArray(), town.TownBuilds.Select(x => (int?)x.Level).ToArray()); 
+            ans -= TownUngrownFromBuilds(town.TownBuilds.Select(x => x.Building).ToArray(), town.TownBuilds.Select(x => (int?)x.Level).ToArray());
             return ans;
         }
         public static double TownGrowth(double basegrown, BuildName[] builds, int?[] lvls, Race race, bool havedeposit, bool[] resconsumption, byte numofdoctors, AreaImprovementName[] areaimps, byte[] ailvls, byte[] aiusers, byte luck_bonus_lvl)
@@ -136,6 +136,23 @@ namespace WofHCalc.MathFuncs
                 else if (Data.BuildindsData[(int)builds[2]].Type == BuildType.administration)
                     ans += (int)BuildFuncs.AdminCulture(builds[2], (int)lvls[2]!);
             }
+            return ans;
+        }
+        public static double TownCultureWOResourses(Account acc, Town town)
+        {
+            //строения и база
+            double ans = acc.Culture + TownCultureFromBuilds(town.TownBuilds.Select(x => x.Building).ToArray(), town.TownBuilds.Select(x => (int?)x.Level).ToArray());
+            ans *= Data.RaceEffect_Culture(acc.Race);
+            //ВГ
+            ans *= FuncsBase.GreatCitizenBonus(town.GreatCitizens[(int)GreatCitizensNames.Creator]);
+            //УМ
+            double aiinc = 0;
+            var ai = town.AreaImprovements.ToArray();
+            for (int i = 0; i < ai.Length; i++)
+                if (ai[i].AIName == AreaImprovementName.Reservation) aiinc += FuncsBase.AreaImprovementBonus(ai[i].AIName, ai[i].Level, ai[i].Users);
+            ans *= 1 + aiinc;
+            //Удача
+            ans *= 1 + Data.LuckBonusesData[(int)LuckBonusNames.culture].effect[town.LuckyTown[(int)LuckBonusNames.culture]];
             return ans;
         }
         public static double TownCultureWOResourses(int baseculture, BuildName[] builds, int?[] lvls, Race race, byte numofcreators, AreaImprovementName[] areaimps, byte[] ailvls, byte[] aiusers, byte luck_bonus_lvl)
