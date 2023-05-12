@@ -22,10 +22,11 @@ namespace WofHCalc.Models
         public float HeadTax { get; set; } //per 100
         public ObservableCollection<int> DepositsTaxes { get; set; }
         //public byte TradeTax { get; set; } //%
+        //нафиг пошлины идут
 
         public FinancialPolicy() 
         {
-            List<int> list = new();
+            List<int> list = new(); //просто штука с нужным количеством ноликов, чтоб потом было проще привязки делать
             for (int i = 0; i<23; i++) { list.Add(0); }
             Prices = new ObservableCollection<int>(list);
             Taxes= new ObservableCollection<int>(list);
