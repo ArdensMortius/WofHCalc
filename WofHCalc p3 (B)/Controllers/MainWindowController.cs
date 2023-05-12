@@ -211,8 +211,9 @@ namespace WofHCalc.Controllers
                 {
                     try
                     {
-                        ActiveAccount!.Towns.Remove(SelectedTown!);
-                        SelectedTown = ActiveAccount.Towns.FirstOrDefault();
+                        Town d = SelectedTown!;
+                        SelectedTown = ActiveAccount!.Towns.FirstOrDefault();
+                        ActiveAccount!.Towns.Remove(d);
                     }
                     catch
                     {
