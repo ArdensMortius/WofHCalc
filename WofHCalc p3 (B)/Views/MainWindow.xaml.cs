@@ -138,8 +138,9 @@ namespace WofHCalc
         private void OpenDTE(object sender, RoutedEventArgs e)
         {
             DepositTaxes DTE = new DepositTaxes(dc.ActiveAccount!);
-            if (DTE.ShowDialog() == true)
+            if (DTE.ShowDialog()==true)
             {
+                dc.ActiveAccount!.Financial.DepositsTaxes = DTE.t;
             }
         }
     }

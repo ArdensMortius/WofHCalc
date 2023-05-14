@@ -47,7 +47,7 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
                 <DataGrid Name="DepositTaxEdit"
-                        ItemsSource="{Binding Financial.DepositsTaxes}"
+                        ItemsSource="{Binding}"
                         AutoGenerateColumns="False"
                         HeadersVisibility="None"
                         MinColumnWidth="50"
