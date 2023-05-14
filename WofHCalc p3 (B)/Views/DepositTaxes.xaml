@@ -1,4 +1,4 @@
-﻿<Window x:Class="WofHCalc.Views.Finance"
+﻿<Window x:Class="WofHCalc.Views.DepositTaxes"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -8,27 +8,29 @@
         xmlns:sup="clr-namespace:WofHCalc.Supports"
         xmlns:conv="clr-namespace:WofHCalc.Supports.Converters"
         mc:Ignorable="d"
-        FontSize="15"
-		MinWidth="450"
-		MinHeight="450"
-        Title="Finance" Height="auto" Width="auto">
+        FontSize="15"		
+        Title="Finance" Height="auto" Width="350" Closing="Window_Closing">
     <Window.Resources>
         <conv:BuildToImgConverter x:Key="BuildToImgConverter"/>
         <conv:EnumDescriptionConverter x:Key="EnumDescriptionConverter"/>
         <conv:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
         <conv:ResProdConverter x:Key="ResProdConverter"/>
         <conv:ResToImgConverter x:Key="ResToImgConverter"/>
+        <Style TargetType="{x:Type DataGridCell}">
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="{x:Type DataGrid}">
+            <Setter Property="GridLinesVisibility" Value="None"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+        </Style>
     </Window.Resources>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-
-        <ScrollViewer Grid.Row="1" Grid.Column="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
             <StackPanel Orientation="Horizontal" Margin="5,0,0,5">
-                <ItemsControl ItemsSource="{Binding Source={enumsup:EnumBindingSourse {x:Type sup:ResName}}}">
+                <ItemsControl ItemsSource="{Binding Source={enumsup:EnumBindingSourse {x:Type sup:DepositName}}}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Vertical"/>
@@ -38,31 +40,22 @@
                         <DataTemplate>
                             <Border BorderBrush="Gray" BorderThickness="1">
                                 <StackPanel Orientation="Horizontal" Height="20" >
-                                    <Image Source="{Binding Path=Key, Converter={StaticResource ResToImgConverter}}"/>
                                     <TextBlock Text="{Binding Path=Value}"/>
                                 </StackPanel>
                             </Border>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-                <DataGrid Name="PricesEdit"
-                        ItemsSource="{Binding ActiveAccount.Financial.Prices}"
+                <DataGrid Name="DepositTaxEdit"
+                        ItemsSource="{Binding Financial.DepositsTaxes}"
                         AutoGenerateColumns="False"
                         HeadersVisibility="None"
+                        MinColumnWidth="50"
+                        MaxColumnWidth="150"
+                        CellEditEnding="DepositTaxEdit_CellEditEnding"
                         >
-                        <!--CellEditEnding="PricesEdit_CellEditEnding"-->
                     <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding}"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-                <DataGrid Name="TaxesEdit"
-                        ItemsSource="{Binding ActiveAccount.Financial.Taxes}"
-                        AutoGenerateColumns="False"
-                        HeadersVisibility="None"
-                        >
-                        <!--CellEditEnding="TaxesEdit_CellEditEnding"-->
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding}"/>
+                        <DataGridTextColumn Binding="{Binding Mode=OneTime}"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </StackPanel>

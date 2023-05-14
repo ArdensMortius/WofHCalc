@@ -135,5 +135,12 @@ namespace WofHCalc
                 dc.ActiveAccount.Financial.Taxes[e.Row.GetIndex()] = v;
             }
         }
+        private void OpenDTE(object sender, RoutedEventArgs e)
+        {
+            DepositTaxes DTE = new DepositTaxes(dc.ActiveAccount!);
+            if (DTE.ShowDialog() == true)
+            {
+            }
+        }
     }
 }
