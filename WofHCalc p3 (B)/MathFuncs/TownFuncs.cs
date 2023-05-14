@@ -277,6 +277,7 @@ namespace WofHCalc.MathFuncs
         public static double[] Production(Account acc, Town town)
         {
             double[] ans = new double[23];
+            if (acc is null || town is null) return ans;
             var builds = town.TownBuilds.Select(x=>x.Building).ToArray();
             var lvls = town.TownBuilds.Select(x=>(int?)x.Level).ToArray();
             var areaimps = town.AreaImprovements.Select(x=>x.AIName).ToArray();

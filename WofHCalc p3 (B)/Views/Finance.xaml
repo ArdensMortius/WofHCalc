@@ -3,10 +3,69 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WofHCalc.Views"
+        xmlns:local="clr-namespace:WofHCalc.Views" 
+        xmlns:enumsup="clr-namespace:WofHCalc.Supports.ForEnumBinds"
+        xmlns:sup="clr-namespace:WofHCalc.Supports"
+        xmlns:conv="clr-namespace:WofHCalc.Supports.Converters"
         mc:Ignorable="d"
+        FontSize="15"
+		MinWidth="450"
+		MinHeight="450"
         Title="Finance" Height="auto" Width="auto">
+    <Window.Resources>
+        <conv:BuildToImgConverter x:Key="BuildToImgConverter"/>
+        <conv:EnumDescriptionConverter x:Key="EnumDescriptionConverter"/>
+        <conv:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
+        <conv:ResProdConverter x:Key="ResProdConverter"/>
+        <conv:ResToImgConverter x:Key="ResToImgConverter"/>
+    </Window.Resources>
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <ScrollViewer Grid.Row="1" Grid.Column="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <StackPanel Orientation="Horizontal" Margin="5,0,0,5">
+                <ItemsControl ItemsSource="{Binding Source={enumsup:EnumBindingSourse {x:Type sup:ResName}}}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="Gray" BorderThickness="1">
+                                <StackPanel Orientation="Horizontal" Height="20" >
+                                    <Image Source="{Binding Path=Key, Converter={StaticResource ResToImgConverter}}"/>
+                                    <TextBlock Text="{Binding Path=Value}"/>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <DataGrid Name="PricesEdit"
+                        ItemsSource="{Binding ActiveAccount.Financial.Prices}"
+                        AutoGenerateColumns="False"
+                        HeadersVisibility="None"
+                        >
+                        <!--CellEditEnding="PricesEdit_CellEditEnding"-->
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <DataGrid Name="TaxesEdit"
+                        ItemsSource="{Binding ActiveAccount.Financial.Taxes}"
+                        AutoGenerateColumns="False"
+                        HeadersVisibility="None"
+                        >
+                        <!--CellEditEnding="TaxesEdit_CellEditEnding"-->
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Window>

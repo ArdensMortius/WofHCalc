@@ -177,7 +177,7 @@
                         AutoGenerateColumns="False"
                         HeadersVisibility="None" CellEditEnding="PricesEdit_CellEditEnding">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding}"/>
+                            <DataGridTextColumn Binding="{Binding Mode=OneTime}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                     <DataGrid Name="TaxesEdit"
@@ -185,7 +185,7 @@
                         AutoGenerateColumns="False"
                         HeadersVisibility="None" CellEditEnding="TaxesEdit_CellEditEnding">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding}"/>
+                            <DataGridTextColumn Binding="{Binding Mode=OneTime}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
