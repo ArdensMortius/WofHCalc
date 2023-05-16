@@ -32,8 +32,7 @@ namespace WofHCalc.MathFuncs
             return ((numtowns - 1) * 20/MainFunc(DataSourses.Data.BuildindsData[(int)BuildName.courthouse].Effect, courthouse_level));
         }
         public static double GreatCitizenBonus(int n) =>//конкретные числа должны быть в datasourses где-нибудь, а не тут
-            MainFunc(0, 1, 0.04d, 0.75d, n);                
-        
+            MainFunc(0, 1, 0.04d, 0.75d, n);                        
         public static double LuckBonusPrice(LuckBonusNames name, int numtowns, int lvl)
         {
             double baseprice = (double)Data.LuckBonusesData[(int)name].cost[lvl];

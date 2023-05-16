@@ -49,7 +49,7 @@ namespace WofHCalc.MathFuncs
             ans *= FuncsBase.GreatCitizenBonus(town.GreatCitizens[(int)GreatCitizensNames.Doctor]);
             if (town.Deposit != DepositName.none) ans *= 0.85f;
             double aiinc = 1;            
-            for (int i = 0; i < town.AreaImprovements.Count(); i++)
+            for (int i = 0; i < town.AreaImprovements.Count; i++)
                 if (town.AreaImprovements[i].AIName == AreaImprovementName.Suburb) 
                     aiinc += FuncsBase.AreaImprovementBonus(AreaImprovementName.Suburb, town.AreaImprovements[i].Level, town.AreaImprovements[i].Users);
             ans *= aiinc;
@@ -77,7 +77,7 @@ namespace WofHCalc.MathFuncs
             if (town.Deposit != DepositName.none) ans *= 0.85f;
             double aiinc = 1;
             double aidec = 0;
-            for (int i = 0; i < town.AreaImprovements.Count(); i++)
+            for (int i = 0; i < town.AreaImprovements.Count; i++)
             {
                 if (town.AreaImprovements[i].AIName == AreaImprovementName.Suburb) aiinc += FuncsBase.AreaImprovementBonus(town.AreaImprovements[i].AIName, town.AreaImprovements[i].Level, town.AreaImprovements[i].Users);
                 else if (town.AreaImprovements[i].AIName == AreaImprovementName.SkiResort) aidec += FuncsBase.AreaImprovementBonus(town.AreaImprovements[i].AIName, town.AreaImprovements[i].Level, town.AreaImprovements[i].Users) * 0.027d;
@@ -484,6 +484,22 @@ namespace WofHCalc.MathFuncs
             if (res < ResName.fruit || res > ResName.meat) return 0;
             else return Data.ResData[(int)res].consumption * growthWOres * Data.ResData[(int)res].effect;
         }
+        public static double[] GetResConsumption(Account acc, Town town)
+        {
+            double[] ans = new double[23];
+            double growthWOres = TownGrowthWOUngrownAndResourses(acc,town);
+            double cultWOres = TownCultureWOResourses(acc,town);
+            double scienseWObooks = Production(acc,town)[0];
+            for (int i = 0; i < 23; i++)
+            {
+                if (!town.ResConsumption[i]) continue;
+                int t = Data.ResData[i].type;
+                if (t == 1) ans[i] = GrowthCons(growthWOres, (ResName)i); //food
+                if (t == 2) ans[i] = CultCons(cultWOres, (ResName)i); //cult
+                if (t == 3) ans[i] = Data.ResData[i].effect * scienseWObooks * Data.ResData[i].consumption;//books
+            }
+            return ans;
+        }
         public static double[] GetResConsumption(bool[] eat, double growthWOres, double cultWOres, double scienseWObooks = 0)
         {
             double[] ans = new double[23];
@@ -509,6 +525,50 @@ namespace WofHCalc.MathFuncs
                 }
             }
             ans *= Data.RaceEffect_Upkeep(race);
+            double w_economy = 1;
+            if (builds[2] != BuildName.none && Data.BuildindsData[(int)builds[2]].Type == BuildType.administration)
+                w_economy -= BuildFuncs.AdminEconimy(builds[2], (int)lvls[2]!);
+            ans *= w_economy;
+            return ans;
+        }
+        public static double BuildsUpkeepGrowth(Town town, Account acc)
+        {
+            //содержание демографических строений
+            {
+                var builds = town.TownBuilds.Select(x => x.Building).ToList();
+                var lvls = town.TownBuilds.Select(x=>x.Level).ToList();
+                double ans = 0;
+                for (int i = 0; i < 19; i++)
+                {
+                    int id = (int)builds[i];
+                    if (builds[i] != BuildName.none && Data.BuildindsData[id].Type==BuildType.grown && Data.BuildindsData[id].Pay is not null)
+                    {
+                        ans += BuildFuncs.Pay(builds[i], (int)lvls[i]!);
+                    }
+                }
+                ans *= Data.RaceEffect_Upkeep(acc.Race);
+                double w_economy = 1;
+                if (builds[2] != BuildName.none && Data.BuildindsData[(int)builds[2]].Type == BuildType.administration)
+                    w_economy -= BuildFuncs.AdminEconimy(builds[2], (int)lvls[2]!);
+                ans *= w_economy;
+                return ans;
+            }
+        }
+        public static double BuildsUpkeepCulture(Town town, Account acc)
+        {
+            var builds = town.TownBuilds.Select(x => x.Building).ToList();
+            var lvls = town.TownBuilds.Select(x => x.Level).ToList();
+            double ans = 0;
+            for (int i = 2; i < 19; i++)
+            {
+                int id = (int)builds[i];
+                if (builds[i] != BuildName.none && Data.BuildindsData[id].Type == BuildType.culture && Data.BuildindsData[id].Pay is not null)
+                {
+                    ans += BuildFuncs.Pay(builds[i], (int)lvls[i]!);
+                }
+            }
+            if (builds[2] != BuildName.none && Data.BuildindsData[(int)builds[2]].Pay is not null) ans += BuildFuncs.Pay(builds[2], (int)lvls[2]!);
+            ans *= Data.RaceEffect_Upkeep(acc.Race);
             double w_economy = 1;
             if (builds[2] != BuildName.none && Data.BuildindsData[(int)builds[2]].Type == BuildType.administration)
                 w_economy -= BuildFuncs.AdminEconimy(builds[2], (int)lvls[2]!);
