@@ -575,5 +575,6 @@ namespace WofHCalc.MathFuncs
             ans *= w_economy;
             return ans;
         }
+
     }
 }

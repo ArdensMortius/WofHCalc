@@ -16,6 +16,7 @@ namespace WofHCalc.Models
         public byte World { get;}
         public Race Race { get; set; }
         public ObservableCollection<Town> Towns { get; set; }
+        public ObservableCollection<Town>? TargetTowns { get; set; }
         public float PopulationGrowth { get; set; }
         public float Culture { get; set; }
         public float Traiders { get; set; }
