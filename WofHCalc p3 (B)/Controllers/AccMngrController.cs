@@ -11,6 +11,7 @@ using System.Windows;
 using WofHCal.Supports;
 using WofHCalc.FileManagers;
 using WofHCalc.Models;
+using WofHCalc.Views;
 
 namespace WofHCalc.Controllers
 {
@@ -50,13 +51,17 @@ namespace WofHCalc.Controllers
                 return delete_command ??= new RelayCommand(
                     o1 =>
                     {
-                        string path = $"{saves_path}/{Selected_acc!.World}_{Selected_acc!.Name}";
-                        if (FileManager.DeleteAccFile(path))
+                        ConfirmAction c = new ConfirmAction($"Вы точно хотите удалить данные об аккаунте {Selected_acc!.Name} мира {Selected_acc!.World}?");
+                        if (c.ShowDialog() == true) 
                         {
-                            Accounts.Remove(Selected_acc);
-                            OnPropertyChanged(nameof(Accounts));
-                        }
-                        else throw new FileNotFoundException();
+                            string path = $"{saves_path}/{Selected_acc!.World}_{Selected_acc!.Name}";
+                            if (FileManager.DeleteAccFile(path))
+                            {
+                                Accounts.Remove(Selected_acc);
+                                OnPropertyChanged(nameof(Accounts));
+                            }
+                            else throw new FileNotFoundException();
+                        }                        
                     },
                     o2 => { return (Selected_acc != null); });
             }

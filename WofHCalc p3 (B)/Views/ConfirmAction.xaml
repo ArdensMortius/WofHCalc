@@ -1,4 +1,4 @@
-﻿<Window x:Class="WofHCalc.Views.confirm_action"
+﻿<Window x:Class="WofHCalc.Views.ConfirmAction"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -8,7 +8,7 @@
         FontSize="15"
 		MinWidth="200"
 		MinHeight="100"
-        Title="confirm_action" Height="100" Width="200">
+        Title="confirm_action" Height="250" Width="250">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -16,15 +16,15 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <Label Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="0" Name="Message"></Label>
-        <Button Name="BYes" IsDefault="True" Grid.Column="0" Grid.Row="1">
+        <TextBlock Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="0" Name="Message" TextWrapping="Wrap"></TextBlock>
+        <Button Name="BYes" IsDefault="True" Grid.Column="0" Grid.Row="1" Click="BYes_Click">
             <StackPanel Orientation="Horizontal">
                 <Label>Да</Label>
                 <Label Name="Timer"/>
             </StackPanel>
         </Button>
-        <Button Name="BNo" IsCancel="True" Grid.Column="1" Grid.Row="1">Нет</Button>
+        <Button Name="BNo" IsCancel="True" Grid.Column="1" Grid.Row="1" Click="BNo_Click">Нет</Button>
     </Grid>
 </Window>

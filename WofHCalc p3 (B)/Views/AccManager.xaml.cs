@@ -25,7 +25,7 @@ namespace WofHCalc.Views
         AccMngrController ds;
         public AccManager()
         {
-            InitializeComponent();
+            InitializeComponent();            
             ds = new AccMngrController();
             DataContext = ds;
         }

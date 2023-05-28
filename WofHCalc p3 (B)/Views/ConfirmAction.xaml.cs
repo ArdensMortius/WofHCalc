@@ -18,15 +18,15 @@ namespace WofHCalc.Views
     /// <summary>
     /// Interaction logic for confirm_action.xaml
     /// </summary>
-    public partial class confirm_action : Window
+    public partial class ConfirmAction : Window
     {
         DispatcherTimer timer;
         DispatcherTimer timerHelp;
         int left_to_wait;
-        public confirm_action(string msg, int t=0)
+        public ConfirmAction(string msg, int t=0)
         {
             InitializeComponent();
-            Message.Content = msg;
+            Message.Text = msg;
             Timer.Visibility= Visibility.Collapsed;
             if (t > 0)
             {
@@ -56,6 +56,16 @@ namespace WofHCalc.Views
             timer.Stop();
             BYes.IsEnabled = true;
             Timer.Visibility = Visibility.Collapsed;
+        }
+
+        private void BNo_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = false;
+        }
+
+        private void BYes_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = true;
         }
     }
 }
