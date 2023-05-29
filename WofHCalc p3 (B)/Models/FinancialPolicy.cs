@@ -12,6 +12,7 @@ namespace WofHCalc.Models
     {
         //выплаты
         public ObservableCollection<int> Prices { get; set; }
+        public float LuckCoinPrice { get; set; }
         public float ForKnowledgeInvestment { get; set; }
         public float ForStrategicBuildings { get; set; }
         public float ForMillitaryBuildings { get; set; }
