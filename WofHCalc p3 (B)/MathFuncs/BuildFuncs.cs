@@ -131,5 +131,12 @@ namespace WofHCalc.MathFuncs
             Data.AdministrationCulture[0] + Data.AdministrationCulture[1]*BuildEffect(name,lvl);
         public static double AdminEconimy(BuildName name, int lvl) => //экономия в долях
             1 - 1 / (1 + BuildEffect(name, lvl));
+        public static double BuildStrength(BuildName name, int lvl)
+        {
+            int[] resourses = BuildTotalResCost(name, lvl);
+            int sum = 0;
+            foreach (int r in resourses) sum += r;
+            return sum;
+        }
     }
 }
