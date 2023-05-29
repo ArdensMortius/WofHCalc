@@ -67,6 +67,7 @@ namespace WofHCalc.Controllers
         {
             get
             {
+                if (ActiveAccount == null) return 0;
                 return TownFuncs.TownCulture(
                     (int)active_acc!.Culture,
                     visible_town!.TownBuilds.Select(x=>x.Building).ToArray(),
@@ -84,6 +85,7 @@ namespace WofHCalc.Controllers
         {
             get
             {
+                if (ActiveAccount == null) return 0;
                 return TownFuncs.TownGrowth(
                     active_acc!.PopulationGrowth,
                     visible_town!.TownBuilds.Select(x => x.Building).ToArray(),
@@ -103,6 +105,7 @@ namespace WofHCalc.Controllers
         {
             get
             {
+                if (ActiveAccount == null) return 0;
                 return TownFuncs.BuildsUpkeep(
                     visible_town!.TownBuilds.Select(x => x.Building).ToArray(),
                     visible_town.TownBuilds.Select(x => (int?)x.Level).ToArray(),
@@ -113,6 +116,7 @@ namespace WofHCalc.Controllers
         {
             get
             {
+                if (ActiveAccount == null) return null;
                 double swob = 0;
                 if (VisibleTown!.ResConsumption[(int)ResName.books] && VisibleTown.Product[(int)ResName.science])                
                     swob = Products[(int)ResName.science] / (1 + Data.ResData[(int)ResName.books].effect);
@@ -149,7 +153,8 @@ namespace WofHCalc.Controllers
         {
             get
             {
-                return TownFuncs.Production(ActiveAccount,SelectedTown);
+                if (ActiveAccount == null) return null;
+                return TownFuncs.Production(ActiveAccount!,SelectedTown);
             }
         }
         #endregion

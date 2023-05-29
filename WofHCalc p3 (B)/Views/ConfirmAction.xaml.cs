@@ -31,8 +31,8 @@ namespace WofHCalc.Views
             if (t > 0)
             {
                 BYes.IsEnabled = false;
-                Timer.Content = $" ({t})";
-                int left_to_wait = t;
+                left_to_wait = t;
+                Timer.Content = $" ({left_to_wait})";
                 Timer.Visibility = Visibility.Visible;
                 timer = new DispatcherTimer();
                 timerHelp = new DispatcherTimer();

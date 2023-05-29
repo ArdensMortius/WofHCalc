@@ -51,7 +51,7 @@ namespace WofHCalc.Controllers
                 return delete_command ??= new RelayCommand(
                     o1 =>
                     {
-                        ConfirmAction c = new ConfirmAction($"Вы точно хотите удалить данные об аккаунте {Selected_acc!.Name} мира {Selected_acc!.World}?");
+                        ConfirmAction c = new ConfirmAction($"Вы точно хотите удалить данные об аккаунте {Selected_acc!.Name} мира {Selected_acc!.World}?", 5);
                         if (c.ShowDialog() == true) 
                         {
                             string path = $"{saves_path}/{Selected_acc!.World}_{Selected_acc!.Name}";

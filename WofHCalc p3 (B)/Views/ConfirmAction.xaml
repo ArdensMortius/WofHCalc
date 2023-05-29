@@ -15,7 +15,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <TextBlock Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="0" Name="Message" TextWrapping="Wrap"></TextBlock>

@@ -41,10 +41,10 @@ namespace WofHCalc
                 }
                 else this.Close();
             }
-            if (dc.ActiveAccount == null) { this.Close(); }
-            InitializeComponent();
-            dc.clones.Add(null);
-            dc.clones.Add(null);
+            if (dc.ActiveAccount != null) InitializeComponent();
+            else this.Close();            
+            //dc.clones.Add(null);
+            //dc.clones.Add(null);
         }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)//пока просто сохранение без диалогового окна
         {
