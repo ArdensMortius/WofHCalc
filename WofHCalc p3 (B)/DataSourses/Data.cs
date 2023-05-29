@@ -78,7 +78,6 @@ namespace WofHCalc.DataSourses
                     if (on_hill) return 0.2f; else return 0;
                 default: return 0;
             }
-
         }
         public static float RebuildReturn { get => 0.35f; }
         public static int SwitchCost { get => 60; }

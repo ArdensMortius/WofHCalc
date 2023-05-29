@@ -49,5 +49,7 @@ namespace WofHCalc.MathFuncs
             if (lvl == 0) return 0;
             return 0 + (Data.AreaImprovementsData[(int)name].levels[lvl - 1].effect)*AreaImprovementEfficiencyPerUser(users); 
         }        
+        public static int ColonyDestroy(int numtowns) =>
+            (int)(Math.Pow(numtowns, Data.ColonyDestroy[1]) * Data.ColonyDestroy[0]);        
     }
 }
