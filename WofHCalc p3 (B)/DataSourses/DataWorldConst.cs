@@ -6,12 +6,21 @@ using System.Threading.Tasks;
 using WofHCalc.Models.jsonTemplates;
 using WofHCalc.Supports.jsonTemplates;
 using WofHCalc.Supports;
-using System.Text.Json.Serialization;
+using System.IO;
+using System.Linq.Expressions;
+using System.Text.Json;
+using WofHCalc.DataSourses.DataLoader;
+using System.Runtime.InteropServices.JavaScript;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace WofHCalc.DataSourses
 {
-    internal class DataWorldConst
+    public sealed class DataWorldConst
     {
+        [JsonIgnore]
+        private static DataWorldConst instance; //синглтон, а ещё поможет избавиться от асинхронного кода
+
         //данные из отдельных файлов
         [JsonIgnore]
         public Resource[] ResData { get; } //из файла
@@ -89,52 +98,134 @@ namespace WofHCalc.DataSourses
         //отдельные числа просто кучей в свой файл
         [JsonIgnore]
         private float rebuild_return;
-        [JsonInclude]
         public float RebuildReturn
         {
-            get => rebuild_return; 
-            set => rebuild_return = value;
+            get => rebuild_return;             
         } //из файла
         [JsonIgnore]
         private int switch_cost;
-        [JsonInclude]
         public int SwitchCost 
         {
-            get => switch_cost;
-            set => switch_cost = value;
+            get => switch_cost;            
         }   //из файла
         [JsonIgnore]
         private double[] colony_destroy;
-        [JsonInclude]
         public double[] ColonyDestroy 
         { 
             get => colony_destroy;
-            set => colony_destroy = value;
         }    //из файла
         [JsonIgnore]
         private double[] admin_culture;
-        [JsonInclude]
         public double[] AdministrationCulture 
         {
-            get => admin_culture;//new double[] { 500.0001f, 400 }; 
-            set => admin_culture = value;
+            get => admin_culture;//new double[] { 500.0001f, 400 };         
         } //из файла
         //по чудесам света в источнике очень неприятная каша, так что пока руками перепишу нужное.
         //Потом можно будет сделать частичную привязку к серверу.        
         [JsonIgnore]
-        public Dictionary<BuildName, double> WounderEffects { get; } //не трогать, но надо из файла
+        public Dictionary<BuildName, double>? WounderEffects { get; } //не трогать, но надо из файла
 
-        //Не вызывать из кода! Конструктор без параметров используется только для создания объекта из JSON файлов. 
-        DataWorldConst()
+        //
+        public static DataWorldConst getInstance(int world)
         {
-
+            if (instance is null)
+            {
+                Init(world);                
+            }
+            return instance!;
         }
-        DataWorldConst(int world)
+        private static void Init(int world)
         {
-            //проверка наличия файлов
-            //попытка загрузки из файлов
-            //если файлов нет или загрузка провалена, запрос данных с сервера
-            //сохранение в файл ассинхронное
+            string path = $"DataSourses/JSON/{world}/";
+            //попытка загрузки из файлов. Нет смысла каждый отдельно проверять, тут проще будет запросить новые данные с серва и перезаписать файлы
+            try
+            {
+                ////отдельная куча
+                //string data = File.ReadAllText($"{path}data.json");                
+                //var tmp = System.Text.Json.JsonSerializer.Deserialize<DataWorldConst>(data);
+                //RebuildReturn = tmp!.RebuildReturn;
+                //SwitchCost = tmp!.SwitchCost;
+                //ColonyDestroy = tmp!.ColonyDestroy;
+                //AdministrationCulture = tmp!.AdministrationCulture;
+                ////по отдельным файлам
+                //ResData = new Resource[23];
+                //data = File.ReadAllText($"{path}resourses.json");
+                //ResData = System.Text.Json.JsonSerializer.Deserialize<Resource[]>(data)!;
+                //DepositsData = new Deposit[53];
+                //data = File.ReadAllText($"{path}deposits.json");
+                //DepositsData = System.Text.Json.JsonSerializer.Deserialize<Deposit[]>(data)!;
+                //BuildindsData = new Build[120];
+                //data = File.ReadAllText($"{path}builds.json");
+                //BuildindsData = Build.FromJson(data)!;
+                //LuckBonusesData = new LuckBonus[14];
+                //data = File.ReadAllText($"{path}luckytown.json");
+                //LuckBonusesData = System.Text.Json.JsonSerializer.Deserialize<LuckBonus[]>(data)!;
+                //AreaImprovementsData = new AreaImprovement[12];
+                //data = File.ReadAllText($"{path}AreaImprovements.json");
+                //AreaImprovementsData = System.Text.Json.JsonSerializer.Deserialize<AreaImprovement[]>(data)!;
+                
+                
+
+                ////Переделать!
+                //WounderEffects = new()
+                //{
+                //    { BuildName.Pagan_temple, 10 }, //капище, даёт прирост
+                //    { BuildName.The_Hanging_Gardens, 20 }, //прирост. Число не правильное
+                //    { BuildName.Earth_Mother, 100 }, //культура
+                //    { BuildName.Coliseum, 200 }, //культура, ВБ тут не учтён
+                //    { BuildName.The_Pyramids, 1000 },//культура
+                //    { BuildName.Stonehenge, 15 }, //торгаши
+                //    { BuildName.Earthen_dam, 160 }, //рыба
+                //    { BuildName.The_Colossus, 200 }, //монеты
+                //    { BuildName.Geoglyph, 30 }, //колбы
+                //    { BuildName.The_Great_Library, 100 },//колбы
+                //    { BuildName.Helioconcentrator, 200 }, //колбы
+                //};
+
+            }
+            catch
+            {
+                string constjson = GetData.GetConstjson(world);
+                FromConstJSON(constjson);
+            }
+            //если файлов нет или загрузка провалена, запрос данных с сервера            
+        }
+        //конструктор для заполнения штук
+        private DataWorldConst(
+            Resource[] res_data,
+            Deposit[] deposits_data,
+            Build[] bulds_data,
+            LuckBonus[] luck_bonuses_data,
+            AreaImprovement[] area_improvements_data,
+            float rebuild_ret,
+            int switch_c,
+            double[] colony_destr,
+            double[] admin_cult)
+        { 
+            this.ResData = res_data;
+            this.DepositsData = deposits_data;
+            this.BuildindsData = bulds_data;
+            this.LuckBonusesData= luck_bonuses_data;
+            this.AreaImprovementsData= area_improvements_data;
+            this.rebuild_return = rebuild_ret;
+            this.switch_cost = switch_c;
+            this.colony_destroy = colony_destr;
+            this.admin_culture = admin_cult;
+        }
+        private static void FromConstJSON (string constjson) //void
+        {
+            //DataWorldConst res;
+            JObject jdata = JObject.Parse(constjson);
+            Resource[] res_data = jdata["resource"]["data"].Children().Select(x => x.ToObject<Resource>()).ToArray();//+
+            Deposit[] deposits_data = jdata["map"]["deposit"].Children().Select(x => x.ToObject<Deposit>()).ToArray();
+            Build[] builds_data = jdata["builds"].Children().Select(x => x.ToObject<Build>()).ToArray();
+
+
+            //заполнить инстанс через конструктор со всем коплектом
+        }
+        private static void FromLocalFiles()
+        {
+
         }
     }
 }

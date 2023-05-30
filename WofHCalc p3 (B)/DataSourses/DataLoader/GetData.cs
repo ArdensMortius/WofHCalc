@@ -8,14 +8,16 @@ using System.Threading.Tasks;
 
 namespace WofHCalc.DataSourses.DataLoader
 {
-    internal static class GetData
+    public static class GetData
     {
-        public static async Task<string> GetConstjs(int world)
+        public static string GetConstjson(int world)
         {
-            string url = world > 0 ? $"https://ru{world}.waysofhistory.com/gen/js/ru/const.js" : $"https://int{-world}.waysofhistory.com/gen/js/ru/const.js";
-            return await GetHtmlPageAsync(url);
+            string url = world > 0 ? $"https://ru{world}.waysofhistory.com/gen/js/ru/const.js" : $"https://int{-world}.waysofhistory.com/gen/js/ru/const.js";            
+            string constjson = Task.Run(()=> GetHtmlPageAsync(url)).GetAwaiter().GetResult();
+            constjson = constjson.Substring(10, constjson.Length - 11); //надо откусить начало и конец, чтоб оно парсилось. Вряд ли формат файла данных изменится, так что сойдёт
+            return constjson;
         }
-        private static async Task<string> GetHtmlPageAsync(string url) //получаел колбасу const.js
+        private static async Task<string> GetHtmlPageAsync(string url) //получаем колбасу const.js
         {
             try
             {
@@ -25,7 +27,9 @@ namespace WofHCalc.DataSourses.DataLoader
                 string content = await reader.ReadToEndAsync();     // считываем поток в строку
                 return content;
             }
+#pragma warning disable CS8603 // Possible null reference return.
             catch { return null; }
+#pragma warning restore CS8603 // Possible null reference return.
         }
     }
 }
