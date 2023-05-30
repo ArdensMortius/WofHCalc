@@ -13,32 +13,29 @@ namespace WofHCalc.DataSourses
     //Через это класс можно удобно получить нужные константы из *.json файлов и некоторые другие.
     public static class Data
     {
-        public static Resource[] ResData { get; }
-        public static Deposit[] DepositsData { get; }
-        public static Build[] BuildindsData { get; }
-        public static LuckBonus[] LuckBonusesData { get; }
-        public static AreaImprovement[] AreaImprovementsData {get;}
-        public static float RaceEffect_Consumption(Race race)
-        {
-            if (race == Race.indians) return 0.85f;
-            else return 1;
-        }
+        public static Resource[] ResData { get; } //из файла
+        public static Deposit[] DepositsData { get; } //из файла
+        public static Build[] BuildindsData { get; } //из файла
+        public static LuckBonus[] LuckBonusesData { get; } //из файла
+        public static AreaImprovement[] AreaImprovementsData {get; } //из файла
+        public static float RaceEffect_Consumption(Race race) =>        //пока можно оставить //из файла
+            race == Race.indians ? 0.85f : 1;        
         public static float RaceEffect_Culture(Race race)
         {
             if (race == Race.europeans) return 1.05f;
             else return 1;
-        }
+        } //пока можно оставить
         public static float RaceEffect_PopulationGrowth(Race race)
         {
             if (race == Race.asians) return 1.1f;
             else return 1;
-        }
+        } //пока можно оставить
         public static float RaceEffect_Upkeep(Race race)
         {
             if (race == Race.africans) return 0.9f;
             else return 1;
-        }
-        public static float RaceEffect_ProdMod(Race race, ResName res)
+        } //пока можно оставить
+        public static float RaceEffect_ProdMod(Race race, ResName res) //пока оставить
         {
             if ((int)res < 11 || (int)res > 14) return 1;
             if (race == Race.asians && res == ResName.rice) return 1.3f;
@@ -46,8 +43,8 @@ namespace WofHCalc.DataSourses
             if (race == Race.indians && res == ResName.corn) return 1.3f;
             if (race == Race.africans && res == ResName.fruit) return 1.08f;
             return 0;
-        }
-        public static float ClimateEffect(Climate climate, ResProdType rpt)
+        } 
+        public static float ClimateEffect(Climate climate, ResProdType rpt) //пока оставить
         {
             //                наука деньги  с/х     пром
             float[,] ans = {{ 0,    0,      0,      0 },
@@ -57,7 +54,7 @@ namespace WofHCalc.DataSourses
                             { 1,    0.9f,   0.85f,  1.3f} };
             return ans[(int)climate - 1, (int)rpt];
         }
-        public static float BaseProduction(ResName res, bool on_hill, byte water_places)
+        public static float BaseProduction(ResName res, bool on_hill, byte water_places) //точно оставить
         {
             switch (res)
             {
@@ -79,13 +76,13 @@ namespace WofHCalc.DataSourses
                 default: return 0;
             }
         }
-        public static float RebuildReturn { get => 0.35f; }
-        public static int SwitchCost { get => 60; }
-        public static double[] ColonyDestroy { get => new double[] { 3000, 1.5d }; }
-        public static double[] AdministrationCulture { get => new double[] { 500.0001f, 400 }; }
+        public static float RebuildReturn { get => 0.35f; } //из файла
+        public static int SwitchCost { get => 60; }   //из файла
+        public static double[] ColonyDestroy { get => new double[] { 3000, 1.5d }; }    //из файла
+        public static double[] AdministrationCulture { get => new double[] { 500.0001f, 400 }; } //из файла
         //по чудесам света в источнике очень неприятная каша, так что пока руками перепишу нужное.
         //Потом можно будет сделать частичную привязку к серверу.        
-        public static Dictionary<BuildName,double> WounderEffects{ get; }
+        public static Dictionary<BuildName,double> WounderEffects{ get; } //не трогать
 
         static Data()
         {

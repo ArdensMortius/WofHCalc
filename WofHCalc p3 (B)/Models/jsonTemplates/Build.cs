@@ -19,7 +19,7 @@ namespace WofHCalc.Supports.jsonTemplates
     public class Build
     {
         [JsonPropertyName("buildtime")]
-        public double[] Buildtime { get; set; }
+        public double[] BuildTime { get; set; }
 
         [JsonPropertyName("cost")]
         public Cost[] Cost { get; set; }

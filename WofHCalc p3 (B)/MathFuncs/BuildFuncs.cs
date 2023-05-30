@@ -138,5 +138,10 @@ namespace WofHCalc.MathFuncs
             foreach (int r in resourses) sum += r;
             return sum;
         }
+        public static double BuildTimeFromTo(BuildName name, int current_lvl, int target_lvl)
+        {
+
+            return 0;
+        }
     }
 }
