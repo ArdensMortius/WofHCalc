@@ -361,3 +361,4 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/WofHCalc p3 (B)/Models/jsonTemplates/BuildObsolete.cs
