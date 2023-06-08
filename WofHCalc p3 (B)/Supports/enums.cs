@@ -518,22 +518,22 @@ namespace WofHCalc.Supports
         [Description("Космодром")]
         Spaceport = 77,
     }
-    public enum LuckBonusNames //++значения в этом перечислении отличаются от оригинальных! Оригинальные оставил в комментарии
+    public enum LuckBonusNames //++значения в этом перечислении отличаются от оригинальных! Оригинальные оставил в комментарии //а почему я так сделал я забыл(((
     {
         [Description("Прирост")]
         grown = 0,
         [Description("Наука")]
         science = 1,
         [Description("Производ")]
-        production = 2,//3,
+        production = 3,//3,
         [Description("ВБ")]
-        war = 3,//4,
+        war = 4,//4,
         [Description("Культура")]
-        culture = 4,//5,
+        culture = 5,//5,
         //sciencePack= 6,//наука СРАЗУ
         //productionPack= 7,//производство СРАЗУ
         [Description("Торговцы")]
-        traders =5, //9,              
+        traders =9, //9,              
     }
     public enum GreatCitizensNames//++
     {

@@ -15,7 +15,7 @@ namespace WofHCalc.DataSourses
     {
         public static Resource[] ResData { get; } //из файла
         public static Deposit[] DepositsData { get; } //из файла
-        public static Build[] BuildindsData { get; } //из файла
+        public static BuildObsolete[] BuildindsData { get; } //из файла
         public static LuckBonus[] LuckBonusesData { get; } //из файла
         public static AreaImprovement[] AreaImprovementsData {get; } //из файла
         public static float RaceEffect_Consumption(Race race) =>        //пока можно оставить //из файла
@@ -96,9 +96,9 @@ namespace WofHCalc.DataSourses
             data = File.ReadAllText($"{path}deposits.json");
             DepositsData = System.Text.Json.JsonSerializer.Deserialize<Deposit[]>(data)!;
             //+
-            BuildindsData = new Build[120];
+            BuildindsData = new BuildObsolete[120];
             data = File.ReadAllText($"{path}builds.json");
-            BuildindsData = Build.FromJson(data)!;
+            BuildindsData = BuildObsolete.FromJson(data)!;
             //?
             LuckBonusesData = new LuckBonus[14];
             data = File.ReadAllText($"{path}luckytown.json");
