@@ -19,7 +19,7 @@ namespace WofHCalc.Models
         public ObservableCollection<Town>? TargetTowns { get; set; }
         public float PopulationGrowth { get; set; }
         public float Culture { get; set; }
-        public float Traiders { get; set; }
+        public int Traiders { get; set; }
         public ObservableCollection<int> Science_Bonuses { get; set; } //бонус к производствам в процентах. Индекс по ResProdType.
         public FinancialPolicy Financial { get; set; }
         public Account(string name="unknown", byte world=0)

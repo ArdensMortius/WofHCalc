@@ -7,7 +7,6 @@ using WofHCalc.Models.jsonTemplates;
 using WofHCalc.Supports;
 using System.IO;
 using System.Linq.Expressions;
-using System.Text.Json;
 using WofHCalc.DataSourses.DataLoader;
 using System.Runtime.InteropServices.JavaScript;
 using Newtonsoft.Json;
@@ -123,8 +122,8 @@ namespace WofHCalc.DataSourses
         } //из файла
         //по чудесам света в источнике очень неприятная каша, так что пока руками перепишу нужное.
         //Потом можно будет сделать частичную привязку к серверу.                
-        //private Dictionary<BuildName, double>? wounders_effect;
-        //public Dictionary<BuildName, double>? WounderEffects { get => wounders_effect; } //пока не трогать, но надо из файла
+        private Dictionary<BuildName, double> wounders_effect;
+        public Dictionary<BuildName, double> WounderEffects { get => wounders_effect; } //пока не трогать, но надо из файла
 
         //получалка синглтона
         [JsonIgnore]
@@ -146,8 +145,8 @@ namespace WofHCalc.DataSourses
             //попытка загрузки из файлов. Нет смысла каждый отдельно проверять, тут проще будет запросить новые данные с серва и перезаписать файлы
             try
             {
-                return FromLocalFiles(path);
-                //throw new NotImplementedException();
+                //return FromLocalFiles(path);
+                throw new NotImplementedException();
             }
             catch
             {
@@ -165,7 +164,8 @@ namespace WofHCalc.DataSourses
             float rebuild_ret,
             int switch_c,
             double[] colony_destr,
-            double[] admin_cult)
+            double[] admin_cult,
+            Dictionary<BuildName, double> we)
         { 
             this.ResData = res_data;
             this.DepositsData = deposits_data;
@@ -176,11 +176,26 @@ namespace WofHCalc.DataSourses
             this.switch_cost = switch_c;
             this.colony_destroy = colony_destr;
             this.admin_culture = admin_cult;
+            this.wounders_effect = we;
         }
         private static DataWorldConst FromConstJSON (string constjson) 
         {
-            //DataWorldConst res;
             JObject jdata = JObject.Parse(constjson);
+            Dictionary<BuildName, double> we = new()
+            {
+                { BuildName.Pagan_temple, jdata["wonder"]["83"]["effect"].Value<double>() }, //капище, даёт прирост                
+                { BuildName.The_Hanging_Gardens, jdata["wonder"]["92"]["local"].Value<double>() }, //висячие сады, прирост локальный
+                { BuildName.Earth_Mother,  jdata["wonder"]["43"]["effect"].Value<double>()}, //культура
+                { BuildName.Coliseum, jdata["wonder"]["58"]["culture"].Value<double>() }, //культура, ВБ тут не учтён
+                { BuildName.The_Pyramids, jdata["wonder"]["73"]["local"].Value<double>() },//культура
+                { BuildName.Stonehenge, jdata["wonder"]["94"]["traders"].Value<double>() }, //торгаши
+                { BuildName.Earthen_dam, jdata["wonder"]["76"]["effect"].Value<double>() }, //рыба
+                { BuildName.The_Colossus, jdata["wonder"]["75"]["local"].Value<double>() }, //монеты, пристань не учтена никак
+                { BuildName.Geoglyph, jdata["wonder"]["56"]["effect"].Value<double>() }, //колбы
+                { BuildName.The_Great_Library, jdata["wonder"]["60"]["effect"].Value<double>() },//колбы
+                { BuildName.Helioconcentrator, jdata["wonder"]["91"]["effect"].Value<double>() }//колбы
+            };            
+
             return new DataWorldConst(
                 jdata["resource"]!["data"]!.Children().Select(x => x.ToObject<Resource>()).ToArray()!,
                 jdata["map"]!["deposit"]!.Children().Select(x => x.ToObject<Deposit>()).ToArray()!,
@@ -190,51 +205,52 @@ namespace WofHCalc.DataSourses
                 jdata["build"]!["rebuildreturn"]!.ToObject<float>(),
                 jdata["build"]!["switchcost"]!.ToObject<int>(),
                 jdata["war"]!["colonydestroy"]!.Children().Select(x => x.ToObject<double>()).ToArray()!,
-                jdata["build"]!["administrationculture"]!.Children().Select(x => x.ToObject<double>()).ToArray()!
+                jdata["build"]!["administrationculture"]!.Children().Select(x => x.ToObject<double>()).ToArray()!,
+                we
                 );            
             //заполнить инстанс через конструктор со всем коплектом
         }
-        private static DataWorldConst FromLocalFiles(string path) //потом будет один файл
-        {
-            //отдельная куча
-            DataWorldConst d = new();
-            string data = File.ReadAllText($"{path}data.json");
-            d = JsonConvert.DeserializeObject<DataWorldConst>(data)!; //одиночные штуки из основного файла //может ломаться            
-            //по отдельным файлам
-            data = File.ReadAllText($"{path}resourses.json");
-            var res_data = System.Text.Json.JsonSerializer.Deserialize<Resource[]>(data)!;            
-            data = File.ReadAllText($"{path}deposits.json");
-            var deposits_data = System.Text.Json.JsonSerializer.Deserialize<Deposit[]>(data)!;            
-            data = File.ReadAllText($"{path}builds.json");
-            var buildinds_data = Build.FromJsonToArray(data)!;
-            data = File.ReadAllText($"{path}luckytown.json");
-            var luck_bonuses_data = System.Text.Json.JsonSerializer.Deserialize<LuckBonus[]>(data)!;
-            data = File.ReadAllText($"{path}AreaImprovements.json");                        
-            var area_improvements_data = System.Text.Json.JsonSerializer.Deserialize<AreaImprovement[]>(data)!;
-            ////Переделать!
+        //private static DataWorldConst FromLocalFiles(string path) //потом будет один файл
+        //{
+        //    //отдельная куча
+        //    DataWorldConst d = new();
+        //    string data = File.ReadAllText($"{path}data.json");
+        //    d = JsonConvert.DeserializeObject<DataWorldConst>(data)!; //одиночные штуки из основного файла //может ломаться            
+        //    //по отдельным файлам
+        //    data = File.ReadAllText($"{path}resourses.json");
+        //    var res_data = System.Text.Json.JsonSerializer.Deserialize<Resource[]>(data)!;            
+        //    data = File.ReadAllText($"{path}deposits.json");
+        //    var deposits_data = System.Text.Json.JsonSerializer.Deserialize<Deposit[]>(data)!;            
+        //    data = File.ReadAllText($"{path}builds.json");
+        //    var buildinds_data = Build.FromJsonToArray(data)!;
+        //    data = File.ReadAllText($"{path}luckytown.json");
+        //    var luck_bonuses_data = System.Text.Json.JsonSerializer.Deserialize<LuckBonus[]>(data)!;
+        //    data = File.ReadAllText($"{path}AreaImprovements.json");                        
+        //    var area_improvements_data = System.Text.Json.JsonSerializer.Deserialize<AreaImprovement[]>(data)!;
+        //    ////Переделать!
             
-            //WounderEffects = new()
-            //{
-            //    { BuildName.Pagan_temple, 10 }, //капище, даёт прирост
-            //    { BuildName.The_Hanging_Gardens, 20 }, //прирост. Число не правильное
-            //    { BuildName.Earth_Mother, 100 }, //культура
-            //    { BuildName.Coliseum, 200 }, //культура, ВБ тут не учтён
-            //    { BuildName.The_Pyramids, 1000 },//культура
-            //    { BuildName.Stonehenge, 15 }, //торгаши
-            //    { BuildName.Earthen_dam, 160 }, //рыба
-            //    { BuildName.The_Colossus, 200 }, //монеты
-            //    { BuildName.Geoglyph, 30 }, //колбы
-            //    { BuildName.The_Great_Library, 100 },//колбы
-            //    { BuildName.Helioconcentrator, 200 }, //колбы
-            return new DataWorldConst(res_data,
-                                      deposits_data,
-                                      buildinds_data,
-                                      luck_bonuses_data,
-                                      area_improvements_data,
-                                      d.RebuildReturn,
-                                      d.switch_cost,
-                                      d.colony_destroy,
-                                      d.admin_culture);            
-        }
+        //    //WounderEffects = new()
+        //    //{
+        //    //    { BuildName.Pagan_temple, 10 }, //капище, даёт прирост
+        //    //    { BuildName.The_Hanging_Gardens, 20 }, //прирост. Число не правильное
+        //    //    { BuildName.Earth_Mother, 100 }, //культура
+        //    //    { BuildName.Coliseum, 200 }, //культура, ВБ тут не учтён
+        //    //    { BuildName.The_Pyramids, 1000 },//культура
+        //    //    { BuildName.Stonehenge, 15 }, //торгаши
+        //    //    { BuildName.Earthen_dam, 160 }, //рыба
+        //    //    { BuildName.The_Colossus, 200 }, //монеты
+        //    //    { BuildName.Geoglyph, 30 }, //колбы
+        //    //    { BuildName.The_Great_Library, 100 },//колбы
+        //    //    { BuildName.Helioconcentrator, 200 }, //колбы
+        //    return new DataWorldConst(res_data,
+        //                              deposits_data,
+        //                              buildinds_data,
+        //                              luck_bonuses_data,
+        //                              area_improvements_data,
+        //                              d.RebuildReturn,
+        //                              d.switch_cost,
+        //                              d.colony_destroy,
+        //                              d.admin_culture);            
+        //}
     }
 }

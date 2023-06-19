@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.InteropServices.Marshalling;
 using System.Text;
 using System.Threading.Tasks;
 using WofHCalc.DataSourses;
@@ -47,6 +49,14 @@ namespace WofHCalc.MathFuncs
             double costk = data.LuckBonusesData[(int)name].costk;
             return Math.Ceiling(baseprice / numtowns * (1 + (costk * (numtowns - 1))));
         }
+        private float BaseOneHumanPrice(FinancialPolicy f)
+        {
+            float ans = 0;
+            int x = (int)ResName.corn;
+            int y = (int)ResName.rice;
+            int growth_food_price = f.Prices.Where((item, index) => index >= x && index <= y).Max();            
+            return data.ResData[x].consumption * growth_food_price *0.024f;
+        }
         //Эффективность УМ (кол-во пользователи)
         private double AreaImprovementEfficiencyPerUser(byte users)
         {
@@ -59,6 +69,8 @@ namespace WofHCalc.MathFuncs
             if (lvl == 0) return 0;
             return 0 + (data.AreaImprovementsData[(int)name].levels[lvl - 1].effect) * AreaImprovementEfficiencyPerUser(users);
         }
+        //Затраты ресов на улучшение местности (УМ, уровень) (как учитывать рабочих-то?)
+        //public int[] AreaImprovementResCost()
         //Прочность МР (число городов)
         public int ColonyDestroy(int numtowns) =>
             (int)(Math.Pow(numtowns, data.ColonyDestroy[1]) * data.ColonyDestroy[0]);
@@ -201,18 +213,39 @@ namespace WofHCalc.MathFuncs
         public double AdminEconimy(BuildName name, int lvl) => 
             1 - 1 / (1 + BuildEffect(name, lvl));
         //прочность домика
-        public double BuildStrength(BuildName name, int lvl)
+        public int BuildStrength(BuildName name, int lvl)
         {
             int[] resourses = BuildTotalResCost(name, lvl);
             int sum = 0;
             foreach (int r in resourses) sum += r;
             return sum;
         }
-        public double BuildTimeFromTo(BuildName name, int current_lvl, int target_lvl)
+        //время стройки уровня домика
+        private double BuildUpTime(BuildName name, int under_construction_lvl)
+            //в часах            
+            => MainFunc(data.BuildindsData[(int)name].Buildtime, under_construction_lvl);
+        //время апа домика с текущего уровня до нового
+        public double BuildUpTimeFromTo(BuildName name, int current_lvl, int target_lvl)
         {
-
-            return 0;
+            //в часах
+            double ans = 0;
+            for (int i = current_lvl + 1; i <= target_lvl; i++)            
+                ans += BuildUpTime(name, i);            
+            return ans;
         }
+        //время сноса
+        public double BuildDestroyTime(BuildName name, int current_lvl)
+        => BuildUpTime(name, current_lvl);
+        //время перестройки
+        public double RebuildTime(BuildName current_build, int cur_lvl, BuildName new_build)
+        {
+            double ans = BuildUpTime(new_build,1);
+            if (data.BuildindsData[(int)current_build].Next[0] != new_build)
+                ans += BuildDestroyTime(current_build, cur_lvl);
+            return ans;
+        }
+
+
         #endregion
         #region функции города
         //прирост в городе от всех домиков на прирост (застройка и уровни)
@@ -722,7 +755,7 @@ namespace WofHCalc.MathFuncs
             }
             return ans;
         }
-        //потребление ДЕНЕГ городом
+        //потребление ДЕНЕГ домиками города
         public double BuildsUpkeep(BuildName[] builds, int?[] lvls, Race race)
         {
             double ans = 0;
@@ -764,7 +797,7 @@ namespace WofHCalc.MathFuncs
                 return ans;
             }
         }
-        //содержание культурных строений без учёта административного домика
+        //содержание культурных строений
         public double BuildsUpkeepCulture(Town town, Account acc)
         {
             var builds = town.TownBuilds.Select(x => x.Building).ToList();
@@ -786,7 +819,103 @@ namespace WofHCalc.MathFuncs
             ans *= w_economy;
             return ans;
         }
+        //содержание торговых домиков
+        public double BuildsUpkeepTraiding(Town town, Account acc) 
+        {
+            double ans = 0;
+            var builds = town.TownBuilds.Select(x => x.Building).ToList();
+            var lvls = town.TownBuilds.Select(x => x.Level).ToList();
+            for (int i = 3; i < 19; i++)
+            {
+                int id = (int)builds[i];
+                if (builds[i] != BuildName.none &&
+                    (data.BuildindsData[id].Type == BuildType.trade
+                    || data.BuildindsData[id].Type == BuildType.tradespeed
+                    || data.BuildindsData[id].Type == BuildType.watertradespeed)
+                    && data.BuildindsData[id].Pay is not null
+                    && lvls[i] is not null
+                    && lvls[i] > 0)
+                { ans += Pay(builds[i], (int)lvls[i]!); }
+            }
+            ans *= data.RaceEffect_Upkeep(acc.Race);
+            double w_economy = 1;
+            if (builds[2] != BuildName.none && data.BuildindsData[(int)builds[2]].Type == BuildType.administration)
+                w_economy -= AdminEconimy(builds[2], (int)lvls[2]!);
+            ans *= w_economy;
+            return ans;
+        }
+        //количество торгашей в городе
+        public int Traiders(Town town, Account acc)
+        {
+            //торгаши от наук
+            int ans = acc.Traiders;
+            //+торгаши от домиков с торгашами
+            var builds = town.TownBuilds.Select(x=>x.Building).ToArray();
+            var lvls = town.TownBuilds.Select(x=>x.Level).ToArray();            
+            for (int i = 3; i < builds.Length; i++) 
+            {
+                if (builds[i] == BuildName.none || lvls[i] is null || lvls[i]==0) continue;
+                if (data.BuildindsData[(int)builds[i]].Type != BuildType.trade) continue;
+                ans += (int)Math.Truncate(BuildEffect(builds[i], (int)lvls[i]!));
+            }
+            //+стоунхендж
+            if (builds[0] == BuildName.Stonehenge) ans += (int)data.WounderEffects[BuildName.Stonehenge];
+            //+торгаши за МУ (мб не совем верно, надо проверять)
+            ans += (int)Math.Round(data.LuckBonusesData[(int)LuckBonusNames.traders].effect[town.LuckyTown[(int)LuckBonusNames.traders]]); 
+            return ans;
+        }
+        //цена за 1 торгаша с учётом ускорительных домиков всяких
+        public double TraiderPrice(Town town, Account acc)
+        {
+            double ans = BuildsUpkeepTraiding(town, acc);
+            ans += LuckBonusPrice(LuckBonusNames.traders, acc.Towns.Count, town.LuckyTown[(int)LuckBonusNames.traders])*acc.Financial.LuckCoinPrice/7d/24d; //затраты му в неделю, а расходы в час
+            ans /= Traiders(town, acc);
+            return ans;
+        }
+        //Прочность города полная
+        public int TownStrength(Town town, Account acc)
+        {
+            int ans = 0;
+            if (town.Deposit != DepositName.none) ans += ColonyDestroy(acc.Towns.Count);//+прочность мр
+            //+прочность домиков, кроме чуда и ямы
+            BuildName b;
+            byte? l;
+            for (int i = 2; i < town.TownBuilds.Count; i++)
+            {
+                b = town.TownBuilds[i].Building;
+                l = town.TownBuilds[i].Level;
+                if (b != BuildName.none && l is not null && l > 0)
+                    ans += BuildStrength(b, (int)l!);
+            }
+            //+фортификация            
+            b = town.TownBuilds[1].Building;
+            l = town.TownBuilds[1].Level;
+            if (b != BuildName.none && b!= BuildName.moat && l is not null && l > 0)
+                ans += BuildStrength(b, (int)l!);
+            return ans;
+        }
+        //Полные затраты ресов на постройку города
+        public long[] TownTotalResCost(Town town, Account acc) 
+        {
+            long[] ans = new long[23];
+            //строения
+            BuildName b;
+            int l;
+            int[][] btrc = new int[19][];
+            for (int i = 0; i < town.TownBuilds.Count; i++)
+            {
+                b = town.TownBuilds[i].Building;
+                l = town.TownBuilds[i].Level is null ? 0 : (int)town.TownBuilds[i].Level!;
+                btrc[i] = BuildTotalResCost(b, l);                
+            }
+            for (int i = 0; i < 19; i++) //по домикам            
+                for (int j = 0; j < 23; j++) //по ресам                
+                    ans[j] += btrc[i][j];
+            //улучшения местности
 
+
+            return ans;
+        }
         #endregion
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WofHCalc.DataSourses;
 using WofHCalc.Supports;
 
 namespace WofHCalc.Models
@@ -24,7 +25,7 @@ namespace WofHCalc.Models
         public ObservableCollection<int> DepositsTaxes { get; set; }
         //public byte TradeTax { get; set; } //%
         //нафиг пошлины идут
-
+        
         public FinancialPolicy() 
         {
             List<int> list = new(); //просто штука с нужным количеством ноликов, чтоб потом было проще привязки делать

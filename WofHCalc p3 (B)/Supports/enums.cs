@@ -518,7 +518,7 @@ namespace WofHCalc.Supports
         [Description("Космодром")]
         Spaceport = 77,
     }
-    public enum LuckBonusNames //++значения в этом перечислении отличаются от оригинальных! Оригинальные оставил в комментарии //а почему я так сделал я забыл(((
+    public enum LuckBonusNames //++значения в этом перечислении отличались от оригинальных! А почему я так сделал я забыл(((
     {
         [Description("Прирост")]
         grown = 0,
