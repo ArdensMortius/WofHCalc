@@ -58,14 +58,24 @@ namespace WofHCalc.MathFuncs
             int growth_food_price = f.Prices.Where((item, index) => index >= x && index <= y).Max();//самая дорогая растишка
             return data.ResData[x].consumption * growth_food_price * 0.024f; //домножается, чтоб из расхода в час получить цену за 1 человечка
         }
+        //цена юнита рассчётная (от фактической отличается, т.к. цена прироста зависит от города
+        public float BaseUnitPrice(int unit_id, FinancialPolicy f)
+        {
+            float ans =0;
+            int[] res = data.Units[unit_id].ResCost;
+            for (int i = 0; i < res.Length; i++)             
+                ans += res[i] * f.Prices[i] * 0.001f;
+            ans += data.Units[unit_id].PopCost * BaseOneHumanPrice(f);
+            return ans;
+        }
         //Цена улучшения местности
-        public double AIPrice(AreaImprovementName ArImp, byte lvl, FinancialPolicy financial)
+        public double AIPrice(AreaImprovementName ArImp, byte lvl, FinancialPolicy f)
         {
             double ans = 0;
             int[] rc = data.AreaImprovementsData[(int)ArImp].levels[lvl].GetResCost();
             for (int i = 0; i < rc.Length; i++)            
-                ans += rc[i] * financial.Prices[i];
-            double workers_price = data.AreaImprovementsData[(int)ArImp].levels[lvl].workers;
+                ans += rc[i] * f.Prices[i];
+            ans += data.AreaImprovementsData[(int)ArImp].levels[lvl].workers * BaseUnitPrice(56,f);
             return ans;
         }
         //Эффективность УМ (кол-во пользователи)
