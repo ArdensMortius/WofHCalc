@@ -49,13 +49,24 @@ namespace WofHCalc.MathFuncs
             double costk = data.LuckBonusesData[(int)name].costk;
             return Math.Ceiling(baseprice / numtowns * (1 + (costk * (numtowns - 1))));
         }
+        //базовая цена за единицу населения для рассчётов цены за УМ 
         private float BaseOneHumanPrice(FinancialPolicy f)
         {
             float ans = 0;
             int x = (int)ResName.corn;
             int y = (int)ResName.rice;
-            int growth_food_price = f.Prices.Where((item, index) => index >= x && index <= y).Max();            
-            return data.ResData[x].consumption * growth_food_price *0.024f;
+            int growth_food_price = f.Prices.Where((item, index) => index >= x && index <= y).Max();//самая дорогая растишка
+            return data.ResData[x].consumption * growth_food_price * 0.024f; //домножается, чтоб из расхода в час получить цену за 1 человечка
+        }
+        //Цена улучшения местности
+        public double AIPrice(AreaImprovementName ArImp, byte lvl, FinancialPolicy financial)
+        {
+            double ans = 0;
+            int[] rc = data.AreaImprovementsData[(int)ArImp].levels[lvl].GetResCost();
+            for (int i = 0; i < rc.Length; i++)            
+                ans += rc[i] * financial.Prices[i];
+            double workers_price = data.AreaImprovementsData[(int)ArImp].levels[lvl].workers;
+            return ans;
         }
         //Эффективность УМ (кол-во пользователи)
         private double AreaImprovementEfficiencyPerUser(byte users)

@@ -10,10 +10,10 @@ namespace WofHCalc.Models.jsonTemplates
     public class Unit
     {                
         //[J("capacity")] public long Capacity { get; set; }
-        [J("cost")] public int[] Cost { get; set; }                        
-        [J("popcost")] public long Popcost { get; set; }                
+        [J("cost")] public int[] ResCost { get; set; }                        
+        [J("popcost")] public long PopCost { get; set; }                
         //[J("tags")] public long Tags { get; set; }
-        //[J("traintime")] public long Traintime { get; set; }                
+        [J("traintime")] public long TrainTime { get; set; }                
         public static Unit[] FromJson(string json) => JsonConvert.DeserializeObject<Unit[]>(json, Converter.Settings);
     }    
 }

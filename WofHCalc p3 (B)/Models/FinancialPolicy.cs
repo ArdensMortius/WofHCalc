@@ -24,7 +24,7 @@ namespace WofHCalc.Models
         public float HeadTax { get; set; } //per 100
         public ObservableCollection<int> DepositsTaxes { get; set; }
         //public byte TradeTax { get; set; } //%
-        //нафиг пошлины идут
+        //нафиг пошлины идут, их тут не учесть адекватно и не нужно
         
         public FinancialPolicy() 
         {

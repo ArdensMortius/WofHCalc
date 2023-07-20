@@ -32,7 +32,7 @@ namespace WofHCalc.DataSourses
         public LuckBonus[] LuckBonusesData { get; } //из файла
         [JsonIgnore]
         public AreaImprovement[] AreaImprovementsData { get; } //из файла        
-
+        public Unit[] Units { get; } //инфа по юнитам. Пока только для рабочих нужна
         //методы
         public float RaceEffect_Consumption(Race race) //пока можно оставить //из файла
         {            
@@ -161,6 +161,7 @@ namespace WofHCalc.DataSourses
             Build[] bulds_data,
             LuckBonus[] luck_bonuses_data,
             AreaImprovement[] area_improvements_data,
+            Unit[] units_data,
             float rebuild_ret,
             int switch_c,
             double[] colony_destr,
@@ -197,15 +198,16 @@ namespace WofHCalc.DataSourses
             };            
 
             return new DataWorldConst(
-                jdata["resource"]!["data"]!.Children().Select(x => x.ToObject<Resource>()).ToArray()!,
-                jdata["map"]!["deposit"]!.Children().Select(x => x.ToObject<Deposit>()).ToArray()!,
-                jdata["builds"]!.Children().Select(x => x.ToObject<Build>()).ToArray()!,
-                jdata["luckbonus"]!["town"]!.Children().Select(x => x.ToObject<LuckBonus>()).ToArray()!,
-                jdata["map"]!["environment"]!.Children().Select(x => x.ToObject<AreaImprovement>()).ToArray()!,
-                jdata["build"]!["rebuildreturn"]!.ToObject<float>(),
-                jdata["build"]!["switchcost"]!.ToObject<int>(),
-                jdata["war"]!["colonydestroy"]!.Children().Select(x => x.ToObject<double>()).ToArray()!,
-                jdata["build"]!["administrationculture"]!.Children().Select(x => x.ToObject<double>()).ToArray()!,
+                jdata["resource"]!["data"]!.Children().Select(x => x.ToObject<Resource>()).ToArray()!, //res
+                jdata["map"]!["deposit"]!.Children().Select(x => x.ToObject<Deposit>()).ToArray()!, //deposits
+                jdata["builds"]!.Children().Select(x => x.ToObject<Build>()).ToArray()!, //builds
+                jdata["luckbonus"]!["town"]!.Children().Select(x => x.ToObject<LuckBonus>()).ToArray()!,//luck
+                jdata["map"]!["environment"]!.Children().Select(x => x.ToObject<AreaImprovement>()).ToArray()!,//aid
+                jdata["units"]!["list"]!.Children().Select(x=>x.ToObject<Unit>()).ToArray()!,//units
+                jdata["build"]!["rebuildreturn"]!.ToObject<float>(),//rbr
+                jdata["build"]!["switchcost"]!.ToObject<int>(),//sc
+                jdata["war"]!["colonydestroy"]!.Children().Select(x => x.ToObject<double>()).ToArray()!,//col_destr
+                jdata["build"]!["administrationculture"]!.Children().Select(x => x.ToObject<double>()).ToArray()!,//admcult
                 we
                 );            
             //заполнить инстанс через конструктор со всем коплектом

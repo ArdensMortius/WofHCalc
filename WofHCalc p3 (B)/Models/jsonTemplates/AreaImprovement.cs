@@ -22,7 +22,7 @@ namespace WofHCalc.Models.jsonTemplates
         public int science { get; set; }
         public int workers { get; set; }
 
-        public int[] GetCost()
+        public int[] GetResCost()
         {
             var ns = cost.Split('^', StringSplitOptions.RemoveEmptyEntries);
             var ans = new int[23];
