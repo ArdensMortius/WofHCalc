@@ -15,6 +15,12 @@ namespace WofHCalc.Models
 
     public class Town : INotifyPropertyChanged, ICloneable
     {
+        private double? science_ef;
+        public double? science_efficiency 
+        {
+            get => science_ef;
+            set => science_ef = value;
+        }
         private string name;
         public string Name 
         {
