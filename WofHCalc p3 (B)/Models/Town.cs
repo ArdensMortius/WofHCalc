@@ -15,7 +15,7 @@ namespace WofHCalc.Models
 
     public class Town : INotifyPropertyChanged, ICloneable
     {
-        private double? science_ef;
+        private double? science_ef; //процент влива колб, потом надо будет переделать на нормальное вычисление по табличке
         public double? science_efficiency 
         {
             get => science_ef;
