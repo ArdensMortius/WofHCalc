@@ -542,7 +542,7 @@ namespace WofHCalc.MathFuncs
             return ans;
         }
         //Большая жуткая штука, которая считает промку города полную.
-        public double[] Production(Account acc, Town town)
+        public double[] TownProduction(Account acc, Town town)
         {
             double[] ans = new double[23];
             if (acc is null || town is null) return ans;
@@ -638,7 +638,7 @@ namespace WofHCalc.MathFuncs
             //вроде ничего не забыл
             return ans;
         }
-        public double[] Production(BuildName[] builds, int?[] lvls, byte[] greatsitizens, double corruption, bool[] product, DepositName deposit, Climate climate, bool on_hill, byte waterplaces, int[] Science_Bonuses, AreaImprovementName[] areaimps, byte[] ailvls, byte[] aiusers, byte LevelLuckBonusSciense = 0, byte LevelLuckBonusProd = 0, bool eatbooks = false)//+
+        public double[] TownProduction(BuildName[] builds, int?[] lvls, byte[] greatsitizens, double corruption, bool[] product, DepositName deposit, Climate climate, bool on_hill, byte waterplaces, int[] Science_Bonuses, AreaImprovementName[] areaimps, byte[] ailvls, byte[] aiusers, byte LevelLuckBonusSciense = 0, byte LevelLuckBonusProd = 0, bool eatbooks = false)//+
         {
             double[] ans = new double[23];
             double workplacesmod = Workplacesmod(builds, lvls);
@@ -753,13 +753,14 @@ namespace WofHCalc.MathFuncs
             if (res < ResName.fruit || res > ResName.meat) return 0;
             else return data.ResData[(int)res].consumption * growthWOres * data.ResData[(int)res].effect;
         }
+        //экономика города
         //массив потребления ресов
         public double[] GetResConsumption(Account acc, Town town)
         {
             double[] ans = new double[23];
             double growthWOres = TownGrowthWOUngrownAndResourses(acc, town);
             double cultWOres = TownCultureWOResourses(acc, town);
-            double scienseWObooks = Production(acc, town)[0];
+            double scienseWObooks = TownProduction(acc, town)[0];
             for (int i = 0; i < 23; i++)
             {
                 if (!town.ResConsumption[i]) continue;
@@ -825,6 +826,36 @@ namespace WofHCalc.MathFuncs
                 return ans;
             }
         }
+        //содержание посольки и ПВО
+
+        //содержание военных строений
+
+        //содержание научных строений
+        public double BuildsUpkeepScience(Town town, Account acc)
+        {
+            var builds = town.TownBuilds.Select(x => x.Building).ToList();
+            var lvls = town.TownBuilds.Select(x => x.Level).ToList();
+            double ans = 0;
+            for (int i = 2; i < 19; i++)
+            {
+                int id = (int)builds[i];
+                if (builds[i] != BuildName.none && data.BuildindsData[id].Type == BuildType.production
+                    && data.BuildindsData[id].Productres[0].Res = ResName.science 
+                    && data.BuildindsData[id].Pay is not null)
+                {
+                    ans += Pay(builds[i], (int)lvls[i]!);
+                }
+            }
+            if (builds[2] != BuildName.none && data.BuildindsData[(int)builds[2]].Pay is not null) ans += Pay(builds[2], (int)lvls[2]!);
+            ans *= data.RaceEffect_Upkeep(acc.Race);
+            double w_economy = 1;
+            if (builds[2] != BuildName.none && data.BuildindsData[(int)builds[2]].Type == BuildType.administration)
+                w_economy -= AdminEconimy(builds[2], (int)lvls[2]!);
+            ans *= w_economy;
+            return ans;
+        }
+        //содержание фортификации
+
         //содержание культурных строений
         public double BuildsUpkeepCulture(Town town, Account acc)
         {
@@ -974,6 +1005,26 @@ namespace WofHCalc.MathFuncs
                 ans += acc.Financial.Prices[i] * ttrc[i] * 0.001f;            
             return (long)ans;
         }
+        //Дотация городу из казны в час
+        private double TownDotation(Town town, Account acc)
+        {
+            double ans = 0;
+            double[] tprod = TownProduction(acc,town);
+            //за влив колб
+            if (tprod[(int)ResName.science] > 0 && town.science_efficiency is not null && acc.Financial.ForKnowledgeInvestment > 0)            
+                ans += acc.Financial.ForKnowledgeInvestment * tprod[(int)ResName.science] * (double)town.science_efficiency!;      
+            //за посольки и ПВО
+            if (acc.Financial.ForStrategicBuildings > 0)
+            {
+                //for 
+            }
+            //ForMillitaryBuildings
+            //ForScientificBuildings
+            //ForFortificationBuildings
+            //Дота городу, пока не реализовано
+            return ans;
+        }
+
         #endregion
     }
 }
