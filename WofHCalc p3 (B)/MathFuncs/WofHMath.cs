@@ -69,14 +69,21 @@ namespace WofHCalc.MathFuncs
             return ans;
         }
         //Цена улучшения местности
-        public double AIPrice(AreaImprovementName ArImp, byte lvl, FinancialPolicy f)
+        public double AreaImprovementPrice(AreaImprovementName ArImp, byte lvl, FinancialPolicy f)
         {
-            double ans = 0;
-            int[] rc = data.AreaImprovementsData[(int)ArImp].levels[lvl].GetResCost();
-            for (int i = 0; i < rc.Length; i++)            
-                ans += rc[i] * f.Prices[i];
-            ans += data.AreaImprovementsData[(int)ArImp].levels[lvl].workers * BaseUnitPrice(56,f);
-            return ans;
+            try
+            {
+                double ans = 0;
+                int[] rc = data.AreaImprovementsData[(int)ArImp].levels[lvl-1].GetResCost();
+                for (int i = 0; i < rc.Length; i++)
+                    ans += rc[i] * f.Prices[i];
+                ans += data.AreaImprovementsData[(int)ArImp].levels[lvl-1].workers * BaseUnitPrice(56, f);
+                return ans;
+            }
+            catch
+            {
+                return 0;
+            }
         }
         //Эффективность УМ (кол-во пользователи)
         private double AreaImprovementEfficiencyPerUser(byte users)
@@ -916,7 +923,7 @@ namespace WofHCalc.MathFuncs
             return ans;
         }
         //Полные затраты ресов на постройку города
-        public long[] TownTotalResCost(Town town, Account acc) 
+        public long[] TownTotalResCost(Town town, Account acc, bool aimultiuser = false) 
         {
             long[] ans = new long[23];
             //строения
@@ -932,9 +939,30 @@ namespace WofHCalc.MathFuncs
             for (int i = 0; i < 19; i++) //по домикам            
                 for (int j = 0; j < 23; j++) //по ресам                
                     ans[j] += btrc[i][j];
-            //улучшения местности
-
-
+            //улучшения местности учитываются в виде денег. По другому их учесть затруднительно.
+            for (int i = 0; i < town.AreaImprovements.Count; i++)
+            {
+                double aic = AreaImprovementPrice(town.AreaImprovements[i].AIName, town.AreaImprovements[i].Level, acc.Financial);
+                if (aimultiuser)
+                {
+                    ans[(int)ResName.money] += (int)(aic / town.AreaImprovements[i].Users);
+                }
+                else ans[(int)ResName.money] += (int)aic;
+            }
+            //слоты под постройки
+            //Может некорректно работать, если пользователь отметит некупленными клетки, который не могут быть таковыми.
+            //Это очень странный сценарий использования и маловероятный, так что пока можно не чинить.
+            int number_of_slots_not_yet_purchased = town.TownBuilds.Count;
+            for (int i = 0; i < town.TownBuilds.Count; i++)
+                if (town.TownBuilds[i].Available) number_of_slots_not_yet_purchased--;
+            switch (number_of_slots_not_yet_purchased)
+            {                
+                case 3: ans[(int)ResName.money] += 5000; break;
+                case 2: ans[(int)ResName.money] += 55000; break;
+                case 1: ans[(int)ResName.money] += 555000; break;
+                case 0: ans[(int)ResName.money] += 5555000; break;
+                default: break;
+            }
             return ans;
         }
         #endregion
