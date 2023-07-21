@@ -965,6 +965,15 @@ namespace WofHCalc.MathFuncs
             }
             return ans;
         }
+        //Цена города
+        public long TownPrice(Town town, Account acc, bool aimultiuser = false)
+        {
+            double ans = 0;
+            long[] ttrc = TownTotalResCost(town, acc, aimultiuser);
+            for (int i = 0; i < ttrc.Length; i++)            
+                ans += acc.Financial.Prices[i] * ttrc[i] * 0.001f;            
+            return (long)ans;
+        }
         #endregion
     }
 }
