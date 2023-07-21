@@ -755,10 +755,14 @@ namespace WofHCalc.MathFuncs
         }
         //экономика города
         //экономия от городского центра
-        private double TownAdminEconomy(Town town)
+        private double TownAdminEconomyMultiplier(Town town)
         {
-            double ans = 0;
-
+            double ans = 1;
+            var b = town.TownBuilds[2].Building;
+            var l = town.TownBuilds[2].Level;
+            if (b != BuildName.none
+                && data.BuildindsData[(int)b].Type == BuildType.administration)
+                ans -= AdminEconimy(b, (int)l!);            
             return ans;
         }
         //массив потребления ресов
@@ -791,10 +795,12 @@ namespace WofHCalc.MathFuncs
             }
             return ans;
         }
-        //потребление ДЕНЕГ домиками города
-        public double BuildsUpkeep(BuildName[] builds, int?[] lvls, Race race)
-        {
+        //потребление ДЕНЕГ всеми домиками города
+        public double BuildsUpkeep(Town town, Account acc)
+        {            
             double ans = 0;
+            var builds = town.TownBuilds.Select(x => x.Building).ToList();
+            var lvls = town.TownBuilds.Select(x => x.Level).ToList();
             for (int i = 0; i < 19; i++)
             {
                 if (builds[i] != BuildName.none && data.BuildindsData[(int)builds[i]].Pay is not null)
@@ -802,11 +808,8 @@ namespace WofHCalc.MathFuncs
                     ans += Pay(builds[i], (int)lvls[i]!);
                 }
             }
-            ans *= data.RaceEffect_Upkeep(race);
-            double w_economy = 1;
-            if (builds[2] != BuildName.none && data.BuildindsData[(int)builds[2]].Type == BuildType.administration)
-                w_economy -= AdminEconimy(builds[2], (int)lvls[2]!);
-            ans *= w_economy;
+            ans *= data.RaceEffect_Upkeep(acc.Race);     
+            ans *= TownAdminEconomyMultiplier(town);
             return ans;
         }
         //содержание демографических строений
@@ -826,10 +829,7 @@ namespace WofHCalc.MathFuncs
                     }
                 }
                 ans *= data.RaceEffect_Upkeep(acc.Race);
-                double w_economy = 1;
-                if (builds[2] != BuildName.none && data.BuildindsData[(int)builds[2]].Type == BuildType.administration)
-                    w_economy -= AdminEconimy(builds[2], (int)lvls[2]!);
-                ans *= w_economy;
+                ans *= TownAdminEconomyMultiplier(town);
                 return ans;
             }
         }
@@ -838,30 +838,27 @@ namespace WofHCalc.MathFuncs
         //содержание военных строений
 
         //содержание научных строений
-        //public double BuildsUpkeepScience(Town town, Account acc)
-        //{
-        //    var builds = town.TownBuilds.Select(x => x.Building).ToList();
-        //    var lvls = town.TownBuilds.Select(x => x.Level).ToList();
-        //    double ans = 0;
-        //    for (int i = 2; i < 19; i++)
-        //    {
-        //        int id = (int)builds[i];
-        //        if (builds[i] != BuildName.none 
-        //            && data.BuildindsData[id].Type == BuildType.production
-        //            && data.BuildindsData[id].Productres[0].Res == ResName.science 
-        //            && data.BuildindsData[id].Pay is not null)
-        //        {
-        //            ans += Pay(builds[i], (int)lvls[i]!);
-        //        }
-        //    }
-        //    if (builds[2] != BuildName.none && data.BuildindsData[(int)builds[2]].Pay is not null) ans += Pay(builds[2], (int)lvls[2]!);
-        //    ans *= data.RaceEffect_Upkeep(acc.Race);
-        //    double w_economy = 1;
-        //    if (builds[2] != BuildName.none && data.BuildindsData[(int)builds[2]].Type == BuildType.administration)
-        //        w_economy -= AdminEconimy(builds[2], (int)lvls[2]!);
-        //    ans *= w_economy;
-        //    return ans;
-        //}
+        public double BuildsUpkeepScience(Town town, Account acc)
+        {
+            var builds = town.TownBuilds.Select(x => x.Building).ToList();
+            var lvls = town.TownBuilds.Select(x => x.Level).ToList();
+            double ans = 0;
+            for (int i = 2; i < 19; i++)
+            {
+                int id = (int)builds[i];
+                if (builds[i] != BuildName.none
+                    && data.BuildindsData[id].Type == BuildType.production
+                    && data.BuildindsData[id].Productres[0].Res == ResName.science
+                    && data.BuildindsData[id].Pay is not null)
+                {
+                    ans += Pay(builds[i], (int)lvls[i]!);
+                }
+            }
+            if (builds[2] != BuildName.none && data.BuildindsData[(int)builds[2]].Pay is not null) ans += Pay(builds[2], (int)lvls[2]!);
+            ans *= data.RaceEffect_Upkeep(acc.Race);
+            ans *= TownAdminEconomyMultiplier(town);
+            return ans;
+        }
         //содержание фортификации
         public double BuildsUpkeepFort(Town town, Account acc)
         {
@@ -873,10 +870,7 @@ namespace WofHCalc.MathFuncs
                 ans += Pay(builds[1], (int)lvls[1]!);                            
             if (builds[2] != BuildName.none && data.BuildindsData[(int)builds[2]].Pay is not null) ans += Pay(builds[2], (int)lvls[2]!);
             ans *= data.RaceEffect_Upkeep(acc.Race);
-            double w_economy = 1;
-            if (builds[2] != BuildName.none && data.BuildindsData[(int)builds[2]].Type == BuildType.administration)
-                w_economy -= AdminEconimy(builds[2], (int)lvls[2]!);
-            ans *= w_economy;
+            ans *= TownAdminEconomyMultiplier(town);
             return ans;
         }
         //содержание культурных строений
@@ -895,10 +889,7 @@ namespace WofHCalc.MathFuncs
             }
             if (builds[2] != BuildName.none && data.BuildindsData[(int)builds[2]].Pay is not null) ans += Pay(builds[2], (int)lvls[2]!);
             ans *= data.RaceEffect_Upkeep(acc.Race);
-            double w_economy = 1;
-            if (builds[2] != BuildName.none && data.BuildindsData[(int)builds[2]].Type == BuildType.administration)
-                w_economy -= AdminEconimy(builds[2], (int)lvls[2]!);
-            ans *= w_economy;
+            ans *= TownAdminEconomyMultiplier(town);
             return ans;
         }
         //содержание торговых домиков
@@ -920,10 +911,7 @@ namespace WofHCalc.MathFuncs
                 { ans += Pay(builds[i], (int)lvls[i]!); }
             }
             ans *= data.RaceEffect_Upkeep(acc.Race);
-            double w_economy = 1;
-            if (builds[2] != BuildName.none && data.BuildindsData[(int)builds[2]].Type == BuildType.administration)
-                w_economy -= AdminEconimy(builds[2], (int)lvls[2]!);
-            ans *= w_economy;
+            ans *= TownAdminEconomyMultiplier(town);
             return ans;
         }
         //количество торгашей в городе
