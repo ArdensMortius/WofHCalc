@@ -754,6 +754,13 @@ namespace WofHCalc.MathFuncs
             else return data.ResData[(int)res].consumption * growthWOres * data.ResData[(int)res].effect;
         }
         //экономика города
+        //экономия от городского центра
+        private double TownAdminEconomy(Town town)
+        {
+            double ans = 0;
+
+            return ans;
+        }
         //массив потребления ресов
         public double[] GetResConsumption(Account acc, Town town)
         {
@@ -831,21 +838,39 @@ namespace WofHCalc.MathFuncs
         //содержание военных строений
 
         //содержание научных строений
-        public double BuildsUpkeepScience(Town town, Account acc)
+        //public double BuildsUpkeepScience(Town town, Account acc)
+        //{
+        //    var builds = town.TownBuilds.Select(x => x.Building).ToList();
+        //    var lvls = town.TownBuilds.Select(x => x.Level).ToList();
+        //    double ans = 0;
+        //    for (int i = 2; i < 19; i++)
+        //    {
+        //        int id = (int)builds[i];
+        //        if (builds[i] != BuildName.none 
+        //            && data.BuildindsData[id].Type == BuildType.production
+        //            && data.BuildindsData[id].Productres[0].Res == ResName.science 
+        //            && data.BuildindsData[id].Pay is not null)
+        //        {
+        //            ans += Pay(builds[i], (int)lvls[i]!);
+        //        }
+        //    }
+        //    if (builds[2] != BuildName.none && data.BuildindsData[(int)builds[2]].Pay is not null) ans += Pay(builds[2], (int)lvls[2]!);
+        //    ans *= data.RaceEffect_Upkeep(acc.Race);
+        //    double w_economy = 1;
+        //    if (builds[2] != BuildName.none && data.BuildindsData[(int)builds[2]].Type == BuildType.administration)
+        //        w_economy -= AdminEconimy(builds[2], (int)lvls[2]!);
+        //    ans *= w_economy;
+        //    return ans;
+        //}
+        //содержание фортификации
+        public double BuildsUpkeepFort(Town town, Account acc)
         {
             var builds = town.TownBuilds.Select(x => x.Building).ToList();
             var lvls = town.TownBuilds.Select(x => x.Level).ToList();
             double ans = 0;
-            for (int i = 2; i < 19; i++)
-            {
-                int id = (int)builds[i];
-                if (builds[i] != BuildName.none && data.BuildindsData[id].Type == BuildType.production
-                    && data.BuildindsData[id].Productres[0].Res = ResName.science 
-                    && data.BuildindsData[id].Pay is not null)
-                {
-                    ans += Pay(builds[i], (int)lvls[i]!);
-                }
-            }
+            int id = (int)builds[1];
+            if (builds[1] != BuildName.none && data.BuildindsData[id].Pay is not null)                
+                ans += Pay(builds[1], (int)lvls[1]!);                            
             if (builds[2] != BuildName.none && data.BuildindsData[(int)builds[2]].Pay is not null) ans += Pay(builds[2], (int)lvls[2]!);
             ans *= data.RaceEffect_Upkeep(acc.Race);
             double w_economy = 1;
@@ -854,8 +879,6 @@ namespace WofHCalc.MathFuncs
             ans *= w_economy;
             return ans;
         }
-        //содержание фортификации
-
         //содержание культурных строений
         public double BuildsUpkeepCulture(Town town, Account acc)
         {
@@ -1006,24 +1029,24 @@ namespace WofHCalc.MathFuncs
             return (long)ans;
         }
         //Дотация городу из казны в час
-        private double TownDotation(Town town, Account acc)
-        {
-            double ans = 0;
-            double[] tprod = TownProduction(acc,town);
-            //за влив колб
-            if (tprod[(int)ResName.science] > 0 && town.science_efficiency is not null && acc.Financial.ForKnowledgeInvestment > 0)            
-                ans += acc.Financial.ForKnowledgeInvestment * tprod[(int)ResName.science] * (double)town.science_efficiency!;      
-            //за посольки и ПВО
-            if (acc.Financial.ForStrategicBuildings > 0)
-            {
-                //for 
-            }
-            //ForMillitaryBuildings
-            //ForScientificBuildings
-            //ForFortificationBuildings
-            //Дота городу, пока не реализовано
-            return ans;
-        }
+        //private double TownDotation(Town town, Account acc)
+        //{
+        //    double ans = 0;
+        //    double[] tprod = TownProduction(acc,town);
+        //    //за влив колб
+        //    if (tprod[(int)ResName.science] > 0 && town.science_efficiency is not null && acc.Financial.ForKnowledgeInvestment > 0)            
+        //        ans += acc.Financial.ForKnowledgeInvestment * tprod[(int)ResName.science] * (double)town.science_efficiency!;      
+        //    //за посольки и ПВО
+        //    if (acc.Financial.ForStrategicBuildings > 0)
+        //    {
+        //        //for 
+        //    }
+        //    //ForMillitaryBuildings
+        //    //ForScientificBuildings
+        //    //ForFortificationBuildings
+        //    //Дота городу, пока не реализовано
+        //    return ans;
+        //}
 
         #endregion
     }
