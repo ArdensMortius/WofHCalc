@@ -22,7 +22,7 @@ namespace WofHCalc.Models
         public float ForFortificationBuildings { get; set; }
         //налоги
         public ObservableCollection<int> Taxes { get; set; }
-        public float HeadTax { get; set; } //per 100
+        //public float HeadTax { get; set; } //per 100
         public ObservableCollection<int> DepositsTaxes { get; set; }
         //public byte TradeTax { get; set; } //%
         //нафиг пошлины идут, их тут не учесть адекватно и не нужно

@@ -1056,10 +1056,13 @@ namespace WofHCalc.MathFuncs
             return (long)ans;
         }
         //Дотация городу из казны в час
-        private double TownDotation(Town town, Account acc)
+        public double TownDotation(Town town, Account acc)
         {
             double ans = 0;
             double[] tprod = TownProduction(acc, town);
+            //за промку
+            for (int i = 0; i < 23; i++)            
+                ans += (acc.Financial.Taxes[i] < 0 ? -acc.Financial.Taxes[i] : 0) * tprod[i];            
             //за влив колб
             if (tprod[(int)ResName.science] > 0 && town.science_efficiency is not null && acc.Financial.ForKnowledgeInvestment > 0)
                 ans += acc.Financial.ForKnowledgeInvestment * tprod[(int)ResName.science] * (double)town.science_efficiency!;
@@ -1081,7 +1084,17 @@ namespace WofHCalc.MathFuncs
             //Дота городу, пока не реализовано
             return ans;
         }
-
+        //Налог с города
+        public double TownTax(Town town, Account acc)
+        {
+            double ans = 0;
+            double[] tprod = TownProduction(acc, town);
+            for (int i = 0; i < 23; i++)
+                ans += (acc.Financial.Taxes[i] > 0 ? acc.Financial.Taxes[i] : 0) * tprod[i];
+            if (town.Deposit != DepositName.none)
+                ans += acc.Financial.DepositsTaxes[(int)town.Deposit];
+            return ans;
+        }
         #endregion
     }
 }
