@@ -836,7 +836,28 @@ namespace WofHCalc.MathFuncs
         //содержание посольки и ПВО
 
         //содержание военных строений
+        public double BuildsUpkeepWarBuilds(Town town, Account acc)
+        {
 
+            var builds = town.TownBuilds.Select(x => x.Building).ToList();
+            var lvls = town.TownBuilds.Select(x => x.Level).ToList();
+            double ans = 0;
+            for (int i = 2; i < 19; i++)
+            {
+                int id = (int)builds[i];
+                if (builds[i] != BuildName.none
+                    && (data.BuildindsData[id].Type == BuildType.train ||
+                        data.BuildindsData[id].Type == BuildType.waterarmyspeed ||
+                        data.BuildindsData[id].Type == BuildType.airarmyspeed)
+                    && data.BuildindsData[id].Pay is not null)
+                {
+                    ans += Pay(builds[i], (int)lvls[i]!);
+                }
+            }            
+            ans *= data.RaceEffect_Upkeep(acc.Race);
+            ans *= TownAdminEconomyMultiplier(town);
+            return ans;
+        }
         //содержание научных строений
         public double BuildsUpkeepScience(Town town, Account acc)
         {
@@ -853,8 +874,7 @@ namespace WofHCalc.MathFuncs
                 {
                     ans += Pay(builds[i], (int)lvls[i]!);
                 }
-            }
-            if (builds[2] != BuildName.none && data.BuildindsData[(int)builds[2]].Pay is not null) ans += Pay(builds[2], (int)lvls[2]!);
+            }            
             ans *= data.RaceEffect_Upkeep(acc.Race);
             ans *= TownAdminEconomyMultiplier(town);
             return ans;
@@ -867,8 +887,7 @@ namespace WofHCalc.MathFuncs
             double ans = 0;
             int id = (int)builds[1];
             if (builds[1] != BuildName.none && data.BuildindsData[id].Pay is not null)                
-                ans += Pay(builds[1], (int)lvls[1]!);                            
-            if (builds[2] != BuildName.none && data.BuildindsData[(int)builds[2]].Pay is not null) ans += Pay(builds[2], (int)lvls[2]!);
+                ans += Pay(builds[1], (int)lvls[1]!);                                        
             ans *= data.RaceEffect_Upkeep(acc.Race);
             ans *= TownAdminEconomyMultiplier(town);
             return ans;
