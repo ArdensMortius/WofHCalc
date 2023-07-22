@@ -1056,24 +1056,31 @@ namespace WofHCalc.MathFuncs
             return (long)ans;
         }
         //Дотация городу из казны в час
-        //private double TownDotation(Town town, Account acc)
-        //{
-        //    double ans = 0;
-        //    double[] tprod = TownProduction(acc,town);
-        //    //за влив колб
-        //    if (tprod[(int)ResName.science] > 0 && town.science_efficiency is not null && acc.Financial.ForKnowledgeInvestment > 0)            
-        //        ans += acc.Financial.ForKnowledgeInvestment * tprod[(int)ResName.science] * (double)town.science_efficiency!;      
-        //    //за посольки и ПВО
-        //    if (acc.Financial.ForStrategicBuildings > 0)
-        //    {
-        //        //for 
-        //    }
-        //    //ForMillitaryBuildings
-        //    //ForScientificBuildings
-        //    //ForFortificationBuildings
-        //    //Дота городу, пока не реализовано
-        //    return ans;
-        //}
+        private double TownDotation(Town town, Account acc)
+        {
+            double ans = 0;
+            double[] tprod = TownProduction(acc, town);
+            //за влив колб
+            if (tprod[(int)ResName.science] > 0 && town.science_efficiency is not null && acc.Financial.ForKnowledgeInvestment > 0)
+                ans += acc.Financial.ForKnowledgeInvestment * tprod[(int)ResName.science] * (double)town.science_efficiency!;
+            //за посольки и ПВО
+            if (acc.Financial.ForStrategicBuildings > 0)
+                ans += BuildsUpkeepStrategic(town, acc) * acc.Financial.ForStrategicBuildings;
+            //ForMillitaryBuildings
+            if (acc.Financial.ForMillitaryBuildings > 0)
+                ans += BuildsUpkeepWarBuilds(town, acc) * acc.Financial.ForMillitaryBuildings;
+            //ForScientificBuildings
+            if (acc.Financial.ForScientificBuildings > 0)
+                ans += BuildsUpkeepScience(town, acc) * acc.Financial.ForScientificBuildings;
+            //ForFortificationBuildings
+            if (acc.Financial.ForFortificationBuildings > 0
+                && town.TownBuilds[1].Building != BuildName.none
+                && town.TownBuilds[1].Level is not null
+                && data.BuildindsData[(int)town.TownBuilds[1].Building].Pay is not null)
+                ans += Pay(town.TownBuilds[1].Building, (int)town.TownBuilds[1].Level!) * acc.Financial.ForFortificationBuildings;
+            //Дота городу, пока не реализовано
+            return ans;
+        }
 
         #endregion
     }
