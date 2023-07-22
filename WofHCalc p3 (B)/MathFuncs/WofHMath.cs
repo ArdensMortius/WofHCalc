@@ -834,7 +834,27 @@ namespace WofHCalc.MathFuncs
             }
         }
         //содержание посольки и ПВО
+        public double BuildsUpkeepStrategic(Town town, Account acc)
+        {
 
+            var builds = town.TownBuilds.Select(x => x.Building).ToList();
+            var lvls = town.TownBuilds.Select(x => x.Level).ToList();
+            double ans = 0;
+            for (int i = 2; i < 19; i++)
+            {
+                int id = (int)builds[i];
+                if (builds[i] != BuildName.none
+                    && (data.BuildindsData[id].Type == BuildType.embassy ||
+                        data.BuildindsData[id].Type == BuildType.airdef)
+                    && data.BuildindsData[id].Pay is not null)
+                {
+                    ans += Pay(builds[i], (int)lvls[i]!);
+                }
+            }
+            ans *= data.RaceEffect_Upkeep(acc.Race);
+            ans *= TownAdminEconomyMultiplier(town);
+            return ans;
+        }
         //содержание военных строений
         public double BuildsUpkeepWarBuilds(Town town, Account acc)
         {
