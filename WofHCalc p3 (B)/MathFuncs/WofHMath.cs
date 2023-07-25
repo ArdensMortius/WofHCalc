@@ -741,6 +741,17 @@ namespace WofHCalc.MathFuncs
             //вроде ничего не забыл
             return ans;
         }
+        //Количество реса на одного торга
+        public double ResPerTraider(Account acc, Town town)
+        {
+            var r = TownProduction(acc, town);
+            double export = 0;
+            for (int i = 3; i < 23; i++)
+            {
+                export += r[i];
+            }
+            return export / (double)Traiders(town, acc);
+        }
         //денежный эквивалент промки
         public double TownProductionValue(Account acc, Town town)
             => ResToMoney<double>(TownProduction(acc, town), acc.Financial.Prices);

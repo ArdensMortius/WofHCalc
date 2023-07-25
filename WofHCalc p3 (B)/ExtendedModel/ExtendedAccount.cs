@@ -17,8 +17,8 @@ namespace WofHCalc.ExtendedModel
         public ObservableCollection<ExtendedTown> VariantsET1 { get; set; }
         public ObservableCollection<ExtendedTown> VariantsET2 { get; set; }
         //public ObservableCollection<ExtendedTown>? TargetETowns { get; set; }
-        DataWorldConst data;
-        WofHMath WofHFuncs;
+        private DataWorldConst data;
+        public WofHMath WofHFuncs;
         public ExtendedAccount(Account acc)
         {
             data = DataWorldConst.GetInstance(acc.World);

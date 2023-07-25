@@ -12,65 +12,63 @@ namespace WofHCalc.ExtendedModel
 {
     internal class ExtendedTown: Town
     {
-        private ExtendedAccount acc;
-        //double Growth //прирост
+        private readonly ExtendedAccount acc;
+
+        public ExtendedTown(ExtendedAccount acc, Town town) : base() //вообще не уверен, что это будет работать
+        {
+            this.acc = acc;            
+        }
+        public double Growth //прирост
+        {
+            get => acc.WofHFuncs.TownGrowth(acc, this);
+        }
+        //double GrowthPriceTotal
         //{
-        //    //get => 
+        //    get => 0
         //}
-        double GrowthPriceTotal;
         //double GrowthPricePerOne //цена на +1 челика в день
         //{
         //    get => GrowthPriceTotal / Growth;
         //}
 
-        //int Culture //культура
-        //{
-        //    //get => TownCulture(acc, (Town)this);
-        //}
-        double CulturePriceTotal; 
+        int Culture //культура
+        {
+            get => acc.WofHFuncs.TownCulture(acc, this);
+        }
+        //double CulturePriceTotal; 
         //double CulturePricePerHundred //цена за сотку культуры
         //{
         //    get => CulturePriceTotal / Culture * 100d;
         //}
 
-        //double[] Products //полный объем производства
-        //{
-        //    //get => TownFuncs.Production(acc, this);
-        //}
-        //double[] ProductsValuation //деньги, которые можно получить за произведённое //колба не правильно учтена
-        //{
-        //    get
-        //    {
-        //        double[] ans = new double[23];
-        //        double[] prod = Products;
-        //        for (int i = 0; i < 23; i++)
-        //            ans[i] = prod[i] * (acc.Financial.Prices[i]);
-        //        return ans;
-        //    }
-        //}
-        //double TotalProdPrice //суммарный производ города в деньгах
-        //{
-        //    get
-        //    {
-        //        double ans = 0;
-        //        double[] pv = ProductsValuation;
-        //        for (int i=0;i<23;i++)
-        //            ans += pv[i];
-        //        return ans;
-        //    }
-        //}
-
-        //double TransportVolume //объем ресов, которые потенциально надо вывозить
-        int Traiders;
-        double TraiderPrice;
-        double ResPerTraider;
-        double TotalUpkeep
+        double[] Products //полный объем производства
         {
-            get => 0;
+            get => acc.WofHFuncs.TownProduction(acc, this);
         }
-        //double[] ResoursesConsumption 
-        //{
-        //    get => 
-        //}
+        double ProductsValuation //деньги, которые можно получить за произведённое 
+        {
+            get => acc.WofHFuncs.TownProductionValue(acc, this);
+        }
+        //double TransportVolume //объем ресов, которые потенциально надо вывозить
+        int Traiders
+        {
+            get => acc.WofHFuncs.Traiders(this, acc);
+        }
+        double TraiderPrice
+        {
+            get => acc.WofHFuncs.TraiderPrice(this, acc);
+        }
+        double ResPerTraider //текущее соотношение промки и торгов города. Помогает спрогнозировать, на сколько надо апать рынок при апе промки
+        {
+            get => acc.WofHFuncs.ResPerTraider(acc, this);
+        } 
+        double TotalUpkeep //Собственные расходы города
+        {
+            get => acc.WofHFuncs.TownUpkeep(this, acc);
+        }
+        double[] ResoursesConsumption
+        {
+            get => acc.WofHFuncs.GetResConsumption(acc, this);
+        }
     }
 }
