@@ -134,10 +134,10 @@ namespace WofHCalc.MathFuncs
             return ans;
         }
         //Полные затраты ресов на домик (домик, уровень)
-        public int[] BuildTotalResCost(BuildName name, int current_lvl)
+        public int[] BuildTotalResCost(BuildName name, int? current_lvl)
         {
             int[] ans = new int[23];
-            if (current_lvl == 0 || name == BuildName.none) return ans;
+            if (current_lvl is null || current_lvl == 0 || name == BuildName.none) return ans;
             for (int i = 1; i <= current_lvl; i++)
             {
                 int[] lvlcost = BuildUpResCost(name, i);
@@ -159,8 +159,11 @@ namespace WofHCalc.MathFuncs
             return ans;
         }
         //Затраты на перестройку из одного домика в другой(домик в наличии, уровень домика, на что меняем)
-        public int[] RebuildResCost(BuildName current_build, int cur_lvl, BuildName new_build)
+        public int[] RebuildResCost(BuildName current_build, int? cur_lvl, BuildName new_build)
         {
+            //Перестраиваем или строим или сносим?
+            if (current_build == BuildName.none) return BuildUpResCost(new_build, 1);
+            if (new_build == BuildName.none) return new int[23];
             //Проверка доступности перестройки            
             if (data.BuildindsData[(int)current_build].Next[0] == new_build)
             {
@@ -739,8 +742,6 @@ namespace WofHCalc.MathFuncs
         //денежный эквивалент промки
         public double TownProductionValue(Account acc, Town town)
             => ResToMoney<double>(TownProduction(acc, town), acc.Financial.Prices);
-
-
         //коррупция города
         private double Corruption(BuildName[] builds, int?[] lvls, int numoftowns)//+
         {
@@ -1124,16 +1125,44 @@ namespace WofHCalc.MathFuncs
         public double TownProfitForCountry(Town town, Account acc)
             => TownProductionValue(acc, town) - TownUpkeep(town, acc) + TownTax(town, acc) - TownDotation(town, acc);
         //стоимость перестройки/апа города
-        public double Town1to2RebuildCost(Town town1, Town town2, Account acc, bool aimultiuser = false)
-        {
-            double ans = 0;
+        public double TownRebuildCost(Town town_old, Town town_new, Account acc, bool aimultiuser = false)
+        {            
             //постройки
+            var b1 = town_old.TownBuilds;
+            var b2 = town_new.TownBuilds;
+            int[] rc = new int[23];
             for (int i = 0; i < 19; i++)
             {
-                //ans += RebuildResCost()
+                int[] t = new int[23];
+                bool f = false;
+                if (b2[i].Building == BuildName.none || b2[i].Level is null || b2[i].Level == 0) continue; //если в новом городе клетка пустая, то скипаем дальше
+                //перестройка
+                if (b1[i].Building != b2[i].Building)
+                {
+                    t = RebuildResCost(b1[i].Building, b1[i].Level, b2[i].Building);
+                    f = true;
+                }
+                //ап уровня
+                else if (b1[i].Level < b2[i].Level)
+                {
+                    t = BuildUpFromToResCost(b1[i].Building, (int)b1[i].Level!, (int)b2[i].Level!);
+                    f = true;
+                }
+                if (f) for (int j = 0; j < 23; j++) rc[j] += t[j];
             }
             //ум
-            return ans;
+            //хз как считать правильно, потому что могут быть замены и сносы ум
+            //первый вариант будет считать из предположения что УМ только добавляются и апаются и идут в одинаковом порядке
+            //потом надо бы переделать
+            var ai1 = town_old.AreaImprovements;
+            var ai2 = town_new.AreaImprovements;
+            for (int i = 0; i<ai2.Count ; i++)
+            {
+                rc[(int)ResName.money] += (int)AreaImprovementPrice(ai2[i].AIName, ai2[i].Level, acc.Financial);
+                if (i < ai1.Count)
+                    rc[(int)ResName.money] -= (int)AreaImprovementPrice(ai1[i].AIName, ai1[i].Level, acc.Financial);                                                
+            }
+            return ResToMoney<int>(rc, acc.Financial.Prices);
         }
 
         #endregion
