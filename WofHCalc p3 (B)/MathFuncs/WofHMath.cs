@@ -795,8 +795,17 @@ namespace WofHCalc.MathFuncs
             }
             return ans;
         }
+        //расходы на содержание города (денежные + закуп растишек и культишек
+        public double TownUpkeep(Town town, Account acc)
+        {
+            double ans = TownBuildsUpkeep(town, acc);
+            var rc = GetResConsumption(acc, town);
+            for (int i = 0; i < 23; i++)            
+                ans += rc[i] * acc.Financial.Prices[i];            
+            return ans;
+        }
         //потребление ДЕНЕГ всеми домиками города
-        public double BuildsUpkeep(Town town, Account acc)
+        public double TownBuildsUpkeep(Town town, Account acc)
         {            
             double ans = 0;
             var builds = town.TownBuilds.Select(x => x.Building).ToList();
