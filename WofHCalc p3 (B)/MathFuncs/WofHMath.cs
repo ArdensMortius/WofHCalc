@@ -16,7 +16,9 @@ namespace WofHCalc.MathFuncs
     {
         public DataWorldConst data;
         public WofHMath (DataWorldConst data) { this.data = data; }
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         private WofHMath() { } //скрыт, потому что не должен использоваться никогда
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         //основная функция, по которой считается почти всё в двух вариантах её вызова
         internal static double MainFunc(double A, double B, double C, double D, int n)
         {

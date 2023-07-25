@@ -138,7 +138,9 @@ namespace WofHCalc.DataSourses
         }
         //конструкторы
         //закрытый, возможно не стоит ему быть пустым
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         private DataWorldConst() { }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         private static DataWorldConst Init(int world)
         {
             string path = $"DataSourses/JSON/{world}/";
@@ -178,24 +180,27 @@ namespace WofHCalc.DataSourses
             this.colony_destroy = colony_destr;
             this.admin_culture = admin_cult;
             this.wounders_effect = we;
+            this.Units= units_data;
         }
         private static DataWorldConst FromConstJSON (string constjson) 
         {
+#pragma warning disable CS8604 // Possible null reference argument.
             JObject jdata = JObject.Parse(constjson);
             Dictionary<BuildName, double> we = new()
             {
-                { BuildName.Pagan_temple, jdata["wonder"]["83"]["effect"].Value<double>() }, //капище, даёт прирост                
-                { BuildName.The_Hanging_Gardens, jdata["wonder"]["92"]["local"].Value<double>() }, //висячие сады, прирост локальный
-                { BuildName.Earth_Mother,  jdata["wonder"]["43"]["effect"].Value<double>()}, //культура
-                { BuildName.Coliseum, jdata["wonder"]["58"]["culture"].Value<double>() }, //культура, ВБ тут не учтён
-                { BuildName.The_Pyramids, jdata["wonder"]["73"]["local"].Value<double>() },//культура
-                { BuildName.Stonehenge, jdata["wonder"]["94"]["traders"].Value<double>() }, //торгаши
-                { BuildName.Earthen_dam, jdata["wonder"]["76"]["effect"].Value<double>() }, //рыба
-                { BuildName.The_Colossus, jdata["wonder"]["75"]["local"].Value<double>() }, //монеты, пристань не учтена никак
-                { BuildName.Geoglyph, jdata["wonder"]["56"]["effect"].Value<double>() }, //колбы
-                { BuildName.The_Great_Library, jdata["wonder"]["60"]["effect"].Value<double>() },//колбы
-                { BuildName.Helioconcentrator, jdata["wonder"]["91"]["effect"].Value<double>() }//колбы
+                { BuildName.Pagan_temple, jdata["wonder"]!["83"]!["effect"].Value<double>() }, //капище, даёт прирост                
+                { BuildName.The_Hanging_Gardens, jdata["wonder"]!["92"]!["local"].Value<double>() }, //висячие сады, прирост локальный
+                { BuildName.Earth_Mother,  jdata["wonder"] !["43"] !["effect"].Value<double>()}, //культура
+                { BuildName.Coliseum, jdata["wonder"] !["58"] !["culture"].Value<double>() }, //культура, ВБ тут не учтён
+                { BuildName.The_Pyramids, jdata["wonder"] !["73"] !["local"].Value<double>() },//культура
+                { BuildName.Stonehenge, jdata["wonder"] !["94"] !["traders"].Value<double>() }, //торгаши
+                { BuildName.Earthen_dam, jdata["wonder"] !["76"] !["effect"].Value<double>() }, //рыба
+                { BuildName.The_Colossus, jdata["wonder"] !["75"] !["local"].Value<double>() }, //монеты, пристань не учтена никак
+                { BuildName.Geoglyph, jdata["wonder"] !["56"] !["effect"].Value<double>() }, //колбы
+                { BuildName.The_Great_Library, jdata["wonder"] !["60"] !["effect"].Value<double>() },//колбы
+                { BuildName.Helioconcentrator, jdata["wonder"] !["91"] !["effect"].Value<double>() }//колбы
             };            
+#pragma warning restore CS8604 // Possible null reference argument.
 
             return new DataWorldConst(
                 jdata["resource"]!["data"]!.Children().Select(x => x.ToObject<Resource>()).ToArray()!, //res
