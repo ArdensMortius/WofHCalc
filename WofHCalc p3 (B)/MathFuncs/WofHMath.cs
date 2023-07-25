@@ -1115,9 +1115,10 @@ namespace WofHCalc.MathFuncs
         }
         //доход игрока (как вырасти быстрее всех?)
         public double TownProfitForOwner(Town town, Account acc)        
-            => TownProductionValue(acc, town) - TownUpkeep(town, acc) - TownTax(town, acc) + TownDotation(town, acc);            
-        
+            => TownProductionValue(acc, town) - TownUpkeep(town, acc) - TownTax(town, acc) + TownDotation(town, acc);                    
         //доход страны (эта цифра нужна для выбора целей воеводами) 
+        public double TownProfitForCountry(Town town, Account acc)
+            => TownProductionValue(acc, town) - TownUpkeep(town, acc) + TownTax(town, acc) - TownDotation(town, acc);
         #endregion
     }
 }
