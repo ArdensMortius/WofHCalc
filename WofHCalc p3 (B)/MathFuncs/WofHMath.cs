@@ -728,6 +728,15 @@ namespace WofHCalc.MathFuncs
             //вроде ничего не забыл
             return ans;
         }
+        //денежный эквивалент промки
+        public double TownProductionValue(Account acc, Town town)
+        {
+            double ans = 0;
+            var p = TownProduction(acc, town);
+            for (int i = 0; i < 23; i++)
+                ans += p[i] * acc.Financial.Prices[i];
+            return ans;
+        }
         //коррупция города
         private double Corruption(BuildName[] builds, int?[] lvls, int numoftowns)//+
         {
@@ -1104,6 +1113,14 @@ namespace WofHCalc.MathFuncs
                 ans += acc.Financial.DepositsTaxes[(int)town.Deposit];
             return ans;
         }
+        //доход игрока (как вырасти быстрее всех?)
+        public double TownProfitForOwner(Town town, Account acc)
+        {
+            double ans = 0;
+
+            return ans;
+        }
+        //доход страны (эта цифра нужна для выбора целей воеводами) 
         #endregion
     }
 }
