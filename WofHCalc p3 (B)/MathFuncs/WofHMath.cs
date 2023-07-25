@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Numerics;
 using System.Runtime.InteropServices.Marshalling;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,7 +53,6 @@ namespace WofHCalc.MathFuncs
         //базовая цена за единицу населения для рассчётов цены за УМ 
         private float BaseOneHumanPrice(FinancialPolicy f)
         {
-            float ans = 0;
             int x = (int)ResName.corn;
             int y = (int)ResName.rice;
             int growth_food_price = f.Prices.Where((item, index) => index >= x && index <= y).Max();//самая дорогая растишка
@@ -69,11 +69,11 @@ namespace WofHCalc.MathFuncs
             return ans;
         }
         //Стоимость ресов
-        private double ResToMoney(int[] res, int[] prices)
+        private double ResToMoney<T>(T[] res, IList<int> prices) where T: INumber<T>
         {
             double ans = 0;
             for (int i = 0; i < 23; i++)
-                ans += res[i] * prices[i] * 0.001f;
+                ans += (double)(object)res[i] * prices[i] * 0.001f;
             return ans;
         }
         //Прочность МР (число городов)
@@ -282,8 +282,6 @@ namespace WofHCalc.MathFuncs
                 ans += BuildDestroyTime(current_build, cur_lvl);
             return ans;
         }
-
-
         #endregion
         #region функции города
         //прирост в городе от всех домиков на прирост (застройка и уровни)
@@ -740,13 +738,9 @@ namespace WofHCalc.MathFuncs
         }
         //денежный эквивалент промки
         public double TownProductionValue(Account acc, Town town)
-        {
-            double ans = 0;
-            var p = TownProduction(acc, town);
-            for (int i = 0; i < 23; i++)
-                ans += p[i] * acc.Financial.Prices[i];
-            return ans;
-        }
+            => ResToMoney<double>(TownProduction(acc, town), acc.Financial.Prices);
+
+
         //коррупция города
         private double Corruption(BuildName[] builds, int?[] lvls, int numoftowns)//+
         {
@@ -1136,7 +1130,7 @@ namespace WofHCalc.MathFuncs
             //постройки
             for (int i = 0; i < 19; i++)
             {
-                ans += RebuildResCost()
+                //ans += RebuildResCost()
             }
             //ум
             return ans;
