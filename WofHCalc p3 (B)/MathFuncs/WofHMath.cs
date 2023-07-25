@@ -68,6 +68,33 @@ namespace WofHCalc.MathFuncs
             ans += data.Units[unit_id].PopCost * BaseOneHumanPrice(f);
             return ans;
         }
+        //Стоимость ресов
+        private double ResToMoney(int[] res, int[] prices)
+        {
+            double ans = 0;
+            for (int i = 0; i < 23; i++)
+                ans += res[i] * prices[i] * 0.001f;
+            return ans;
+        }
+        //Прочность МР (число городов)
+        public int ColonyDestroy(int numtowns) =>
+            (int)(Math.Pow(numtowns, data.ColonyDestroy[1]) * data.ColonyDestroy[0]);
+        #endregion
+        #region функции УМ
+        //Эффективность УМ (кол-во пользователи)
+        private double AreaImprovementEfficiencyPerUser(byte users)
+        {
+            double u = (double)users;
+            return (u + 1) / (2 * u);
+        }
+        //Величина бонуса от УМ (УМ, уровень, к-во пользователей)
+        public double AreaImprovementBonus(AreaImprovementName name, int lvl, byte users = 1)
+        {
+            if (lvl == 0) return 0;
+            return 0 + (data.AreaImprovementsData[(int)name].levels[lvl - 1].effect) * AreaImprovementEfficiencyPerUser(users);
+        }
+        //Затраты ресов на улучшение местности (УМ, уровень) (как учитывать рабочих-то?)
+        //public int[] AreaImprovementResCost()
         //Цена улучшения местности
         public double AreaImprovementPrice(AreaImprovementName ArImp, byte lvl, FinancialPolicy f)
         {
@@ -84,24 +111,7 @@ namespace WofHCalc.MathFuncs
             {
                 return 0;
             }
-        }
-        //Эффективность УМ (кол-во пользователи)
-        private double AreaImprovementEfficiencyPerUser(byte users)
-        {
-            double u = (double)users;
-            return (u + 1) / (2 * u);
-        }
-        //Величина бонуса от УМ (УМ, уровень, к-во пользователей)
-        public double AreaImprovementBonus(AreaImprovementName name, int lvl, byte users = 1)
-        {
-            if (lvl == 0) return 0;
-            return 0 + (data.AreaImprovementsData[(int)name].levels[lvl - 1].effect) * AreaImprovementEfficiencyPerUser(users);
-        }
-        //Затраты ресов на улучшение местности (УМ, уровень) (как учитывать рабочих-то?)
-        //public int[] AreaImprovementResCost()
-        //Прочность МР (число городов)
-        public int ColonyDestroy(int numtowns) =>
-            (int)(Math.Pow(numtowns, data.ColonyDestroy[1]) * data.ColonyDestroy[0]);
+        }        
         #endregion
         #region функции для построек
         //Затраты ресов на уровень (домик, строимый уровень)
@@ -1119,6 +1129,19 @@ namespace WofHCalc.MathFuncs
         //доход страны (эта цифра нужна для выбора целей воеводами) 
         public double TownProfitForCountry(Town town, Account acc)
             => TownProductionValue(acc, town) - TownUpkeep(town, acc) + TownTax(town, acc) - TownDotation(town, acc);
+        //стоимость перестройки/апа города
+        public double Town1to2RebuildCost(Town town1, Town town2, Account acc, bool aimultiuser = false)
+        {
+            double ans = 0;
+            //постройки
+            for (int i = 0; i < 19; i++)
+            {
+                ans += RebuildResCost()
+            }
+            //ум
+            return ans;
+        }
+
         #endregion
     }
 }
