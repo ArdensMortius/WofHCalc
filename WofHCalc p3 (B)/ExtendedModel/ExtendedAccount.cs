@@ -19,9 +19,19 @@ namespace WofHCalc.ExtendedModel
         //public ObservableCollection<ExtendedTown>? TargetETowns { get; set; }
         private DataWorldConst data;
         public WofHMath WofHFuncs;
-        public ExtendedAccount(Account acc)
+        public ExtendedAccount(Account acc) : base()
         {
             data = DataWorldConst.GetInstance(acc.World);
+            ExtendedTowns = new ObservableCollection<ExtendedTown>();
+            VariantsET1 = new ObservableCollection<ExtendedTown>();
+            VariantsET2 = new ObservableCollection<ExtendedTown>();
+            foreach (Town town in acc.Towns) 
+            {
+                var et = new ExtendedTown (this, town);
+                ExtendedTowns.Add(et);
+                VariantsET1.Add((ExtendedTown)et.Clone());
+                VariantsET2.Add((ExtendedTown)et.Clone());
+            }
             WofHFuncs = new WofHMath(data);
         }
         public double RebuildCost(int n, byte v)

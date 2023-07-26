@@ -10,7 +10,7 @@ using WofHCalc.DataSourses;
 
 namespace WofHCalc.ExtendedModel
 {
-    internal class ExtendedTown: Town
+    internal class ExtendedTown: Town, ICloneable
     {
         private readonly ExtendedAccount acc;
 
@@ -86,6 +86,8 @@ namespace WofHCalc.ExtendedModel
         {
             get => acc.WofHFuncs.TownProfitForCountry(this, acc);
         }
+        public override object Clone()        
+            => new ExtendedTown(acc, (Town)(this as Town).Clone());
         
     }
 }

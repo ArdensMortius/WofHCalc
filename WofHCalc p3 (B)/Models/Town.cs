@@ -155,7 +155,7 @@ namespace WofHCalc.Models
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public object Clone()
+        public virtual object Clone()
         {
             Town ans = new();
             ans.Name = this.Name;
