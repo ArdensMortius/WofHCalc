@@ -31,7 +31,7 @@ namespace WofHCalc.ExtendedModel
         //    get => GrowthPriceTotal / Growth;
         //}
 
-        int Culture //культура
+        public int Culture //культура
         {
             get => acc.WofHFuncs.TownCulture(acc, this);
         }
@@ -41,34 +41,50 @@ namespace WofHCalc.ExtendedModel
         //    get => CulturePriceTotal / Culture * 100d;
         //}
 
-        double[] Products //полный объем производства
+        public double[] Products //полный объем производства
         {
             get => acc.WofHFuncs.TownProduction(acc, this);
         }
-        double ProductsValuation //деньги, которые можно получить за произведённое 
+        public double ProductsValuation //деньги, которые можно получить за произведённое 
         {
             get => acc.WofHFuncs.TownProductionValue(acc, this);
         }
         //double TransportVolume //объем ресов, которые потенциально надо вывозить
-        int Traiders
+        public int Traiders
         {
             get => acc.WofHFuncs.Traiders(this, acc);
         }
-        double TraiderPrice
+        public double TraiderPrice
         {
             get => acc.WofHFuncs.TraiderPrice(this, acc);
         }
-        double ResPerTraider //текущее соотношение промки и торгов города. Помогает спрогнозировать, на сколько надо апать рынок при апе промки
+        public double ResPerTraider //текущее соотношение промки и торгов города. Помогает спрогнозировать, на сколько надо апать рынок при апе промки
         {
             get => acc.WofHFuncs.ResPerTraider(acc, this);
         } 
-        double TotalUpkeep //Собственные расходы города
+        public double TotalUpkeep //Собственные расходы города
         {
             get => acc.WofHFuncs.TownUpkeep(this, acc);
         }
-        double[] ResoursesConsumption
+        public double[] ResoursesConsumption //потребление ресов
         {
             get => acc.WofHFuncs.GetResConsumption(acc, this);
+        }
+        public long TownStrength//прочность города. Ну учтён баф европейцев да и фиг с ним
+        {
+            get => acc.WofHFuncs.TownStrength(this, acc);
+        }
+        public long TownPrice
+        {
+            get =>acc.WofHFuncs.TownPrice(this, acc);
+        }
+        public double TownProfitForOwner
+        {
+            get =>acc.WofHFuncs.TownProfitForOwner(this, acc);
+        }
+        public double TownProfitForCountry
+        {
+            get => acc.WofHFuncs.TownProfitForCountry(this, acc);
         }
     }
 }

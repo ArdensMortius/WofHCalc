@@ -23,8 +23,16 @@ namespace WofHCalc.ExtendedModel
         {
             data = DataWorldConst.GetInstance(acc.World);
             WofHFuncs = new WofHMath(data);
-            
-
         }
+        public double RebuildCost(int n, byte v)
+        {
+            switch (v)
+            {
+                case 1: return WofHFuncs.TownRebuildCost((Town)ExtendedTowns[n], (Town)VariantsET1[n], (Account)this);
+                case 2: return WofHFuncs.TownRebuildCost((Town)ExtendedTowns[n], (Town)VariantsET2[n], (Account)this);
+                default: return 0;
+            }            
+        }
+
     }
 }

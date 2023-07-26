@@ -314,7 +314,7 @@ namespace WofHCalc.MathFuncs
             return ans;
         }
         //прирост в городе без учета спада и ресурсов, но с учётом остального. Нужен для рассчёта потребления растишек
-        public double TownGrowthWOUngrownAndResourses(Account acc, Town town) //с более удобным вызовом
+        private double TownGrowthWOUngrownAndResourses(Account acc, Town town) //с более удобным вызовом
         {
             double ans = TownGrowthFromBuilds(town.TownBuilds.Select(x => x.Building).ToArray(), town.TownBuilds.Select(x => (int?)x.Level).ToArray()) + acc.PopulationGrowth;
             ans *= data.RaceEffect_PopulationGrowth(acc.Race);
@@ -328,7 +328,7 @@ namespace WofHCalc.MathFuncs
             ans *= 1 + data.LuckBonusesData[(int)LuckBonusNames.grown].effect[town.LuckyTown[(int)LuckBonusNames.grown]];
             return ans;
         }        
-        public double TownGrowthWOUngrownAndResourses(double basegrown, BuildName[] builds, int?[] lvls, Race race, bool deposit, byte numofdoctors, AreaImprovementName[] areaimps, byte[] ailvls, byte[] aiusers, byte luck_bonus_lvl)
+        private double TownGrowthWOUngrownAndResourses(double basegrown, BuildName[] builds, int?[] lvls, Race race, bool deposit, byte numofdoctors, AreaImprovementName[] areaimps, byte[] ailvls, byte[] aiusers, byte luck_bonus_lvl)
         {
             double ans = TownGrowthFromBuilds(builds, lvls) + basegrown;
             ans *= data.RaceEffect_PopulationGrowth(race);
@@ -774,11 +774,35 @@ namespace WofHCalc.MathFuncs
             if (res < ResName.wine || res > ResName.films) return 0;
             else return data.ResData[(int)res].consumption * (int)cultWOres * data.ResData[(int)res].effect;
         }
+        //цена поедаемой культуры
+        private double CultConsPrice(Town town, Account acc)
+        {
+            double ans = 0;
+            double cultWOres = TownCultureWOResourses(acc, town);
+            for (int i = (int)ResName.wine; i <= (int)ResName.films; i++)
+            {
+                if (!town.ResConsumption[i]) continue;
+                ans += CultCons(cultWOres, (ResName)i) * acc.Financial.Prices[i] * 0.001d;
+            }
+            return ans;
+        }
         //растишка
         private double GrowthCons(double growthWOres, ResName res)
         {
             if (res < ResName.fruit || res > ResName.meat) return 0;
             else return data.ResData[(int)res].consumption * growthWOres * data.ResData[(int)res].effect;
+        }
+        //цена поедаемых ростов
+        private double GrowthConsPrice(Town town, Account acc)
+        {
+            double ans = 0;
+            double growthWOres = TownGrowthWOUngrownAndResourses(acc, town);
+            for (int i = (int)ResName.fruit; i <= (int)ResName.meat; i++)
+            {
+                if (!town.ResConsumption[i]) continue;
+                ans += GrowthCons(growthWOres, (ResName)i) * acc.Financial.Prices[i] * 0.001d;
+            }
+            return ans;
         }
         //экономика города
         //экономия от городского центра
@@ -849,7 +873,7 @@ namespace WofHCalc.MathFuncs
             return ans;
         }
         //содержание демографических строений
-        public double BuildsUpkeepGrowth(Town town, Account acc)
+        private double BuildsUpkeepGrowth(Town town, Account acc)
         {
             //содержание демографических строений
             {
@@ -869,8 +893,12 @@ namespace WofHCalc.MathFuncs
                 return ans;
             }
         }
+        //полные затраты на прирост без му
+        public double GrowthFullUpkeep(Town town, Account acc)
+             => BuildsUpkeepGrowth(town, acc) + GrowthConsPrice(town, acc);
+        
         //содержание посольки и ПВО
-        public double BuildsUpkeepStrategic(Town town, Account acc)
+        private double BuildsUpkeepStrategic(Town town, Account acc)
         {
 
             var builds = town.TownBuilds.Select(x => x.Building).ToList();
@@ -892,7 +920,7 @@ namespace WofHCalc.MathFuncs
             return ans;
         }
         //содержание военных строений
-        public double BuildsUpkeepWarBuilds(Town town, Account acc)
+        private double BuildsUpkeepWarBuilds(Town town, Account acc)
         {
 
             var builds = town.TownBuilds.Select(x => x.Building).ToList();
@@ -915,7 +943,7 @@ namespace WofHCalc.MathFuncs
             return ans;
         }
         //содержание научных строений
-        public double BuildsUpkeepScience(Town town, Account acc)
+        private double BuildsUpkeepScience(Town town, Account acc)
         {
             var builds = town.TownBuilds.Select(x => x.Building).ToList();
             var lvls = town.TownBuilds.Select(x => x.Level).ToList();
@@ -936,7 +964,7 @@ namespace WofHCalc.MathFuncs
             return ans;
         }
         //содержание фортификации
-        public double BuildsUpkeepFort(Town town, Account acc)
+        private double BuildsUpkeepFort(Town town, Account acc)
         {
             var builds = town.TownBuilds.Select(x => x.Building).ToList();
             var lvls = town.TownBuilds.Select(x => x.Level).ToList();
@@ -949,7 +977,7 @@ namespace WofHCalc.MathFuncs
             return ans;
         }
         //содержание культурных строений
-        public double BuildsUpkeepCulture(Town town, Account acc)
+        private double BuildsUpkeepCulture(Town town, Account acc)
         {
             var builds = town.TownBuilds.Select(x => x.Building).ToList();
             var lvls = town.TownBuilds.Select(x => x.Level).ToList();
@@ -967,8 +995,11 @@ namespace WofHCalc.MathFuncs
             ans *= TownAdminEconomyMultiplier(town);
             return ans;
         }
+        //полные затраты на культуру без му
+        public double CultureFullUpkeep(Town town, Account acc)
+            => BuildsUpkeepCulture(town, acc) + CultConsPrice(town, acc);
         //содержание торговых домиков
-        public double BuildsUpkeepTraiding(Town town, Account acc) 
+        private double BuildsUpkeepTraiding(Town town, Account acc) 
         {
             double ans = 0;
             var builds = town.TownBuilds.Select(x => x.Building).ToList();
@@ -1018,7 +1049,7 @@ namespace WofHCalc.MathFuncs
             return ans;
         }
         //Прочность города полная
-        public int TownStrength(Town town, Account acc)
+        public long TownStrength(Town town, Account acc)
         {
             int ans = 0;
             if (town.Deposit != DepositName.none) ans += ColonyDestroy(acc.Towns.Count);//+прочность мр
