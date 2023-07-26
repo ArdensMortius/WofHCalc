@@ -22,25 +22,26 @@ namespace WofHCalc.ExtendedModel
         {
             get => acc.WofHFuncs.TownGrowth(acc, this);
         }
-        //double GrowthPriceTotal
-        //{
-        //    get => 0
-        //}
-        //double GrowthPricePerOne //цена на +1 челика в день
-        //{
-        //    get => GrowthPriceTotal / Growth;
-        //}
-
+        double GrowthPriceTotal
+        {
+            get => acc.WofHFuncs.GrowthFullUpkeep(this, acc);
+        }
+        double GrowthPricePerOne //цена на +1 челика в день
+        {
+            get => GrowthPriceTotal / Growth;
+        }
         public int Culture //культура
         {
             get => acc.WofHFuncs.TownCulture(acc, this);
         }
-        //double CulturePriceTotal; 
-        //double CulturePricePerHundred //цена за сотку культуры
-        //{
-        //    get => CulturePriceTotal / Culture * 100d;
-        //}
-
+        double CulturePriceTotal
+        {
+            get => acc.WofHFuncs.CultureFullUpkeep(this, acc);
+        }
+        double CulturePricePerHundred //цена за сотку культуры
+        {
+            get => CulturePriceTotal / Culture * 100d;
+        }
         public double[] Products //полный объем производства
         {
             get => acc.WofHFuncs.TownProduction(acc, this);
@@ -48,8 +49,7 @@ namespace WofHCalc.ExtendedModel
         public double ProductsValuation //деньги, которые можно получить за произведённое 
         {
             get => acc.WofHFuncs.TownProductionValue(acc, this);
-        }
-        //double TransportVolume //объем ресов, которые потенциально надо вывозить
+        }        
         public int Traiders
         {
             get => acc.WofHFuncs.Traiders(this, acc);
@@ -74,17 +74,18 @@ namespace WofHCalc.ExtendedModel
         {
             get => acc.WofHFuncs.TownStrength(this, acc);
         }
-        public long TownPrice
+        public long TownPrice //цена постройки города (только затраты ресов)
         {
             get =>acc.WofHFuncs.TownPrice(this, acc);
         }
-        public double TownProfitForOwner
+        public double TownProfitForOwner //доход от города владельцу города
         {
             get =>acc.WofHFuncs.TownProfitForOwner(this, acc);
         }
-        public double TownProfitForCountry
+        public double TownProfitForCountry //на сколько богаче становится страна от города (не казна!)
         {
             get => acc.WofHFuncs.TownProfitForCountry(this, acc);
         }
+        
     }
 }

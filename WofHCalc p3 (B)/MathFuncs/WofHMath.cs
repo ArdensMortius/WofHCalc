@@ -896,7 +896,6 @@ namespace WofHCalc.MathFuncs
         //полные затраты на прирост без му
         public double GrowthFullUpkeep(Town town, Account acc)
              => BuildsUpkeepGrowth(town, acc) + GrowthConsPrice(town, acc);
-        
         //содержание посольки и ПВО
         private double BuildsUpkeepStrategic(Town town, Account acc)
         {
@@ -1143,11 +1142,8 @@ namespace WofHCalc.MathFuncs
             if (acc.Financial.ForScientificBuildings > 0)
                 ans += BuildsUpkeepScience(town, acc) * acc.Financial.ForScientificBuildings;
             //ForFortificationBuildings
-            if (acc.Financial.ForFortificationBuildings > 0
-                && town.TownBuilds[1].Building != BuildName.none
-                && town.TownBuilds[1].Level is not null
-                && data.BuildindsData[(int)town.TownBuilds[1].Building].Pay is not null)
-                ans += Pay(town.TownBuilds[1].Building, (int)town.TownBuilds[1].Level!) * acc.Financial.ForFortificationBuildings;
+            if (acc.Financial.ForFortificationBuildings > 0)
+                ans += BuildsUpkeepFort(town, acc) * acc.Financial.ForFortificationBuildings;
             //Дота городу, пока не реализовано
             return ans;
         }
