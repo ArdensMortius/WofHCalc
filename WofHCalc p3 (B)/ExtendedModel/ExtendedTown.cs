@@ -22,11 +22,11 @@ namespace WofHCalc.ExtendedModel
         {
             get => acc.WofHFuncs.TownGrowth(acc, this);
         }
-        double GrowthPriceTotal
+        public double GrowthPriceTotal
         {
             get => acc.WofHFuncs.GrowthFullUpkeep(this, acc);
         }
-        double GrowthPricePerOne //цена на +1 челика в день
+        public double GrowthPricePerOne //цена на +1 челика в день
         {
             get => GrowthPriceTotal / Growth;
         }
@@ -34,11 +34,11 @@ namespace WofHCalc.ExtendedModel
         {
             get => acc.WofHFuncs.TownCulture(acc, this);
         }
-        double CulturePriceTotal
+        public double CulturePriceTotal
         {
             get => acc.WofHFuncs.CultureFullUpkeep(this, acc);
         }
-        double CulturePricePerHundred //цена за сотку культуры
+        public double CulturePricePerHundred //цена за сотку культуры
         {
             get => CulturePriceTotal / Culture * 100d;
         }
