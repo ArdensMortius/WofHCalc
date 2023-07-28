@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -11,16 +12,21 @@ using WofHCalc.Models;
 
 namespace WofHCalc.ExtendedModel
 {
-    internal class ExtendedAccount : Account, INotifyPropertyChanged
+    public class ExtendedAccount : Account, INotifyPropertyChanged
     {
+        [JsonIgnore]
         public ObservableCollection<ExtendedTown> ExtendedTowns { get; set; }
+        [JsonIgnore]
         public ObservableCollection<ExtendedTown> VariantsET1 { get; set; }
+        [JsonIgnore]
         public ObservableCollection<ExtendedTown> VariantsET2 { get; set; }
         //public ObservableCollection<ExtendedTown>? TargetETowns { get; set; }
+        [JsonIgnore]
         private DataWorldConst data;
+        [JsonIgnore]
         public WofHMath WofHFuncs;
-        public ExtendedAccount(Account acc) : base()
-        {
+        public ExtendedAccount(Account acc) : base(acc) //или тут не работает или не тут
+        {            
             data = DataWorldConst.GetInstance(acc.World);
             ExtendedTowns = new ObservableCollection<ExtendedTown>();
             VariantsET1 = new ObservableCollection<ExtendedTown>();
@@ -197,6 +203,16 @@ namespace WofHCalc.ExtendedModel
                 default: return 0;
             }
         }
+
+        public override string ToJSON() //Костыль для сохранения данных
+        {
+            Towns = new ObservableCollection<Town>();
+            for (int i = 0; i < ExtendedTowns.Count; i++)            
+                Towns.Add(new Town(ExtendedTowns[i]));
+            return base.ToJSON();
+        }
+
+        //вспомогательная штука, не стал её куда-то отдельно убирать
         static double[] ArrMinusArr(double[] arr1, double[] arr2)
         {
             if (arr1.Length != arr2.Length) return null;

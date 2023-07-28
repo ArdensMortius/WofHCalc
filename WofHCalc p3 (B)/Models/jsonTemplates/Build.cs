@@ -9,14 +9,17 @@
 namespace WofHCalc.Models.jsonTemplates
 {
     using System;
+    using System.Collections.Generic;
+
     using System.Globalization;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
-    using WofHCalc.Supports;
-    using J = Newtonsoft.Json.JsonPropertyAttribute;    
+    using J = Newtonsoft.Json.JsonPropertyAttribute;
+    using R = Newtonsoft.Json.Required;
     using N = Newtonsoft.Json.NullValueHandling;
+    using WofHCalc.Supports;
 
-    public class Build
+    public partial class Build
     {
         [J("buildtime")] public double[] Buildtime { get; set; }
         [J("cost")] public Cost[] Cost { get; set; }
@@ -31,24 +34,28 @@ namespace WofHCalc.Models.jsonTemplates
         [J("terrain")] public Terrain Terrain { get; set; }
         [J("type")] public BuildType Type { get; set; }
         [J("ungrown")] public double[] Ungrown { get; set; }
-        [J("unitstrain", NullValueHandling = N.Ignore)] public int[] Unitstrain { get; set; }
+        [J("unitstrain", NullValueHandling = N.Ignore)] public long[] Unitstrain { get; set; }
         [J("productres", NullValueHandling = N.Ignore)] public Productre[] Productres { get; set; }
-        [J("wonderradius", NullValueHandling = N.Ignore)] public int? Wonderradius { get; set; }
-        public static Build[] FromJsonToArray(string json) => JsonConvert.DeserializeObject<Build[]>(json, WofHCalc.Models.jsonTemplates.Converter.Settings);
+        //[J("wonderradius", NullValueHandling = N.Ignore)] public long? Wonderradius { get; set; }
     }
 
-    public class Productre
+    public partial class Productre
     {
         [J("res")] public ResName Res { get; set; }
     }
 
-    public struct Cost
+    public partial struct Cost
     {
         public double? Double;
         public double[] DoubleArray;
 
         public static implicit operator Cost(double Double) => new Cost { Double = Double };
         public static implicit operator Cost(double[] DoubleArray) => new Cost { DoubleArray = DoubleArray };
+    }
+
+    public partial class Build
+    {
+        public static Build[] FromJson(string json) => JsonConvert.DeserializeObject<Build[]>(json, WofHCalc.Models.jsonTemplates.Converter.Settings);
     }
 
     public static class Serialize

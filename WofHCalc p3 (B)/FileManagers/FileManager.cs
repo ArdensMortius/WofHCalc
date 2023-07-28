@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WofHCalc.Models;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace WofHCalc.FileManagers
 {
@@ -16,7 +18,8 @@ namespace WofHCalc.FileManagers
             string data = File.ReadAllText(path);
             try
             {
-                System.Text.Json.JsonSerializer.Deserialize<Account>(data);
+                JsonConvert.DeserializeObject<Account>(data);
+                //System.Text.Json.JsonSerializer.Deserialize<Account>(data);
                 return true;
             }
             catch { return false;}

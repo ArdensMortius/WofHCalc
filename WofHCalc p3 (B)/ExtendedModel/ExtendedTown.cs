@@ -7,16 +7,30 @@ using WofHCalc.Models;
 using WofHCalc.MathFuncs;
 using System.Threading;
 using WofHCalc.DataSourses;
+using System.Xml.Linq;
+using WofHCalc.Models.jsonTemplates;
 
 namespace WofHCalc.ExtendedModel
 {
-    internal class ExtendedTown: Town, ICloneable
+    public class ExtendedTown: Town, ICloneable
     {
         private readonly ExtendedAccount acc;
 
-        public ExtendedTown(ExtendedAccount acc, Town town) : base() //вообще не уверен, что это будет работать
+        public ExtendedTown(ExtendedAccount acc, Town town)
         {
-            this.acc = acc;            
+            this.acc = acc;
+            this.science_efficiency = town.science_efficiency;
+            this.Name = town.Name;
+            this.Climate = town.Climate;
+            this.Deposit = town.Deposit;
+            this.WaterPlaces = town.WaterPlaces;
+            this.OnHill = town.OnHill;
+            this.TownBuilds = town.TownBuilds;
+            this.GreatCitizens = town.GreatCitizens;
+            this.LuckyTown = town.LuckyTown;
+            this.ResConsumption = town.ResConsumption;
+            this.Product = town.Product;
+            this.AreaImprovements = town.AreaImprovements;
         }
         public double Growth //прирост
         {
@@ -86,8 +100,11 @@ namespace WofHCalc.ExtendedModel
         {
             get => acc.WofHFuncs.TownProfitForCountry(this, acc);
         }
-        public override object Clone()        
-            => new ExtendedTown(acc, (Town)(this as Town).Clone());
+        public override object Clone()
+        {
+            Town t = (Town)base.Clone();
+            return new ExtendedTown(acc, t);
+        }
         
     }
 }

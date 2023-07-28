@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WofHCalc.DataSourses;
-using WofHCalc.Supports;
+using Newtonsoft.Json;
 
 namespace WofHCalc.Models
 {
@@ -34,7 +29,14 @@ namespace WofHCalc.Models
             Prices = new ObservableCollection<int>(list);
             Taxes= new ObservableCollection<int>(list);
             DepositsTaxes = new ObservableCollection<int>();
-            for (int i = 0; i<53; i++) { DepositsTaxes.Add(0); }
+            for (int i = 0; i<53; i++) { DepositsTaxes.Add(0); } //аналогично
+        }
+        [JsonConstructor]
+        public FinancialPolicy(object sup)
+        {            
+            Prices = new ObservableCollection<int>();
+            Taxes = new ObservableCollection<int>();
+            DepositsTaxes = new ObservableCollection<int>();         
         }
     
     }

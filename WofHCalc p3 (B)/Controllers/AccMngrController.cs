@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Configuration;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using WofHCal.Supports;
 using WofHCalc.FileManagers;
 using WofHCalc.Models;
@@ -30,7 +27,7 @@ namespace WofHCalc.Controllers
             {
                 return add_command ??= new RelayCommand(obj =>
                 {                    
-                    New_acc = new(Input1, byte.Parse(Input2));
+                    New_acc = new(Input1, int.Parse(Input2));
                     string newdata = New_acc.ToJSON();
                     string filepath = $"{saves_path}/{Input2}_{Input1}";
                     if (FileManager.CreateNewAccFile(filepath, newdata)) 
@@ -96,12 +93,11 @@ namespace WofHCalc.Controllers
                 Directory
                     .GetFiles(saves_path)
                     .ToList()
-                    .ForEach(path => {                        
-                        //string path = p.Replace("\\", "/"); //просто так надо
+                    .ForEach(path => {                                                
                         if (FileManager.CheckAccFile(path))
                         {
                             string data = FileManager.ReadAccFile(path);
-                            Account acc = System.Text.Json.JsonSerializer.Deserialize<Account>(data)!;
+                            Account acc = JsonConvert.DeserializeObject<Account>(data);//System.Text.Json.JsonSerializer.Deserialize<Account>(data)!;
                             Accounts.Add(acc);
                         }
                     });

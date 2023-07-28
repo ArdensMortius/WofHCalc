@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using WofHCalc.ExtendedModel;
 using WofHCalc.Supports;
 using WofHCalc.Supports.ForEnumBinds;
 
@@ -88,8 +90,8 @@ namespace WofHCalc.Models
             get=> great_citizens;
             set { great_citizens= value; OnPropertyChanged(nameof(GreatCitizens));}
         }
-        private ObservableCollection<byte> lucky_town;
-        public ObservableCollection<byte> LuckyTown
+        private ObservableCollection<byte?> lucky_town;
+        public ObservableCollection<byte?> LuckyTown
         {
             get => lucky_town;
             set { lucky_town= value; OnPropertyChanged(nameof(LuckyTown)); }
@@ -112,9 +114,10 @@ namespace WofHCalc.Models
             get=> area_improvements;
             set { area_improvements= value; OnPropertyChanged(nameof(AreaImprovements)); }
         }
-        public Town() 
+        [JsonConstructor]
+        public Town(object sup)
         {
-            name = "new town";
+            this.name = "New city";
             Climate = Climate.unknown;
             water_places = 0;
             on_hill = false;
@@ -140,13 +143,63 @@ namespace WofHCalc.Models
                 new BuildSlot(), //17 холм или равнина
                 new BuildSlot(Slot.hill) //18 холм
             };
-            great_citizens = new ObservableCollection<byte>() { 0, 0, 0, 0, 0, 0, 0, };
-            lucky_town = new ObservableCollection<byte>() { 0, 0, 0, 0, 0, 0, };
+            great_citizens = new ObservableCollection<byte>();
+            lucky_town = new ObservableCollection<byte?>();
+            area_improvements = new ObservableCollection<AreaImprovementSlot>();
+            resconsumption = new ObservableCollection<bool>();
+            product = new ObservableCollection<bool>();
+        }
+        public Town() 
+        {
+            this.name = "New city";
+            Climate = Climate.unknown;
+            water_places = 0;
+            on_hill = false;
+            town_buldings = new ObservableCollection<BuildSlot>
+            {
+                new BuildSlot(Slot.wounder), //0 чудо //НЕ МЕНЯТЬ ТИП ЭТОГО СЛОТА
+                new BuildSlot(Slot.fort), //1 защита //НЕ МЕНЯТЬ ТИП ЭТОГО СЛОТА
+                new BuildSlot(Slot.center), //2 центр //НЕ МЕНЯТЬ ТИП ЭТОГО СЛОТА
+                new BuildSlot(), //3
+                new BuildSlot(), //4
+                new BuildSlot(), //5
+                new BuildSlot(), //6
+                new BuildSlot(), //7
+                new BuildSlot(), //8
+                new BuildSlot(), //9
+                new BuildSlot(), //10 равнина или вода
+                new BuildSlot(available: false), //11 равнина или вода
+                new BuildSlot(), //12 равнина или вода
+                new BuildSlot(), //13 равнина или вода
+                new BuildSlot(available: false), //14
+                new BuildSlot(available: false), //15
+                new BuildSlot(available: false), //16 холм или равнина
+                new BuildSlot(), //17 холм или равнина
+                new BuildSlot(Slot.hill) //18 холм
+            };
+            great_citizens = new ObservableCollection<byte>() { 0, 0, 0, 0, 0, 0, 0 };
+            lucky_town = new ObservableCollection<byte?>() { 0, 0, null, 0, 0, 0, null, null, null, 0};
             area_improvements = new ObservableCollection<AreaImprovementSlot>();
             resconsumption = new ObservableCollection<bool>();
             product = new ObservableCollection<bool>();
             for (int i = 0; i < 23; i++) { resconsumption.Add(false); product.Add(false); }
 
+        }        
+        //костыль, чтоб нормально сереализовалось в JSON
+        public Town(ExtendedTown et)
+        {
+            science_ef = et.science_efficiency;
+            name = et.Name;
+            clm = et.Climate;
+            deposit= et.Deposit;
+            water_places = et.WaterPlaces;
+            on_hill = et.OnHill;
+            town_buldings = et.TownBuilds;
+            great_citizens = et.GreatCitizens;
+            lucky_town= et.LuckyTown;
+            resconsumption = et.ResConsumption;
+            product = et.Product;
+            area_improvements = et.AreaImprovements;
         }
         public event PropertyChangedEventHandler? PropertyChanged;        
 

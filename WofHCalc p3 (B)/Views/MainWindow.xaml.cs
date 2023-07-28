@@ -19,6 +19,7 @@ using WofHCalc.FileManagers;
 using WofHCalc.Supports;
 using WofHCalc.Supports.ForEnumBinds;
 using WofHCalc.Views;
+using WofHCalc.ExtendedModel;
 
 namespace WofHCalc
 {
@@ -37,7 +38,7 @@ namespace WofHCalc
                 AccManager AM = new();
                 if (AM.ShowDialog() == true)
                 {
-                    dc.ActiveAccount = AM.open_acc;
+                    dc.ActiveAccount = new ExtendedAccount(AM.open_acc!);
                 }
                 else this.Close();
             }

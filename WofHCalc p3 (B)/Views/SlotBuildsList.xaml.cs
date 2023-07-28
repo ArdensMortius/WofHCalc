@@ -16,7 +16,6 @@ using WofHCalc.DataSourses;
 using WofHCalc.MathFuncs;
 using WofHCalc.Models;
 using WofHCalc.Supports;
-using WofHCalc.Supports.jsonTemplates;
 
 namespace WofHCalc.Views
 {
@@ -197,33 +196,11 @@ namespace WofHCalc.Views
             var builds = town.TownBuilds.Select(x => x.Building).ToArray();
             var lvls = town.TownBuilds.Select(x=> x.Level).ToArray();
             var slot = town.TownBuilds[slot_id].Slot;
-            for (int i = 0; i < ans.Count; i++)
-            {
-                if (!BuildFuncs.AvailableCheck(ans[i], race, town.OnHill, town.WaterPlaces, builds, slot))                                
-                    ans.RemoveAt(i--);
-            }
-
-
-                //for (int i = 0; i < res.Count; i++)
-                //{
-                //    Build b = Data.BuildindsData[(int)(res[i])];
-                //    if (b.Slot != town!.TownBuilds[slot_id].Slot) { res.RemoveAt(i--); continue; } //не подходит в слот+
-                //    if ((b.Race & race) != race) { res.RemoveAt(i--); continue; } //не подходит по расе+
-                //    if (b.Maxcount < town.TownBuilds.Count(x => x.Building == (res[i])))
-                //    { res.RemoveAt(i--); continue; } //достигнуто максимальное количество
-                //    if ((b.Group != 0) && //проверка несовместимых построек+
-                //        (town.TownBuilds //смотрим имеющиеся клеточки
-                //            .Where((x, j) => (j != slot_id) && (x.Building != BuildName.none)) //кроме пустых и проверяемой
-                //            .Where(x => (Data.BuildindsData[(int)x.Building]).Group == b.Group) //ищем совпавшие по группе
-                //            .Any(x=>x.Building != res[i]))) //но с другим id
-                //    { res.RemoveAt(i--); continue; }
-                //    //проверку terrain не особо нужно делать. Это в основном для чудес, а их и так мало
-                //}
-                ////        ((b.Terrain == Terrain.everywhere) || //доступен по типу клетки города
-                ////            ((b.Terrain == Terrain.hill) && (town!.OnHill)) ||
-                ////            ((b.Terrain == Terrain.plane) && (!town!.OnHill)) ||
-                ////            ((b.Terrain == Terrain.plane_no_water) && (!town!.OnHill) && (town!.WaterPlaces == 0)) ||
-                ////            ((b.Terrain == Terrain.plane_water) && (!town!.OnHill) && (town!.WaterPlaces > 0))) &&            
+            //for (int i = 0; i < ans.Count; i++)
+            //{
+            //    if (!BuildFuncs.AvailableCheck(ans[i], race, town.OnHill, town.WaterPlaces, builds, slot))                                
+            //        ans.RemoveAt(i--);
+            //}         
             return ans;
         }
 

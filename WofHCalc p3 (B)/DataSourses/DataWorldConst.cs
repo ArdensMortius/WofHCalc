@@ -185,7 +185,7 @@ namespace WofHCalc.DataSourses
         private static DataWorldConst FromConstJSON (string constjson) 
         {
 #pragma warning disable CS8604 // Possible null reference argument.
-            JObject jdata = JObject.Parse(constjson);
+            JObject jdata = JObject.Parse(constjson);            
             Dictionary<BuildName, double> we = new()
             {
                 { BuildName.Pagan_temple, jdata["wonder"]!["83"]!["effect"].Value<double>() }, //капище, даёт прирост                
@@ -198,14 +198,14 @@ namespace WofHCalc.DataSourses
                 { BuildName.The_Colossus, jdata["wonder"] !["75"] !["local"].Value<double>() }, //монеты, пристань не учтена никак
                 { BuildName.Geoglyph, jdata["wonder"] !["56"] !["effect"].Value<double>() }, //колбы
                 { BuildName.The_Great_Library, jdata["wonder"] !["60"] !["effect"].Value<double>() },//колбы
-                { BuildName.Helioconcentrator, jdata["wonder"] !["91"] !["effect"].Value<double>() }//колбы
-            };            
+                { BuildName.Helioconcentrator, jdata["wonder"]!["91"]!["science"].Value<double>() }//колбы
+            };
 #pragma warning restore CS8604 // Possible null reference argument.
 
             return new DataWorldConst(
                 jdata["resource"]!["data"]!.Children().Select(x => x.ToObject<Resource>()).ToArray()!, //res
                 jdata["map"]!["deposit"]!.Children().Select(x => x.ToObject<Deposit>()).ToArray()!, //deposits
-                jdata["builds"]!.Children().Select(x => x.ToObject<Build>()).ToArray()!, //builds
+                Build.FromJson(jdata["builds"]!.ToString()), //builds
                 jdata["luckbonus"]!["town"]!.Children().Select(x => x.ToObject<LuckBonus>()).ToArray()!,//luck
                 jdata["map"]!["environment"]!.Children().Select(x => x.ToObject<AreaImprovement>()).ToArray()!,//aid
                 jdata["units"]!["list"]!.Children().Select(x=>x.ToObject<Unit>()).ToArray()!,//units

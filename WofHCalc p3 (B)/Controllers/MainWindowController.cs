@@ -10,6 +10,7 @@ using WofHCal.Supports;
 using WofHCalc.DataSourses;
 using WofHCalc.MathFuncs;
 using WofHCalc.Models;
+using WofHCalc.ExtendedModel;
 using WofHCalc.Supports;
 
 namespace WofHCalc.Controllers
@@ -17,31 +18,30 @@ namespace WofHCalc.Controllers
     internal class MainWindowController : INotifyPropertyChanged
     {
         //поля и свойста
-        private Account? active_acc;
-        public Account? ActiveAccount
+        private ExtendedAccount? active_acc;
+        public ExtendedAccount? ActiveAccount
         {
             get => active_acc;
             set
             {
                 active_acc = value;
                 OnPropertyChanged(nameof(ActiveAccount));
-                VisibleTown ??= ActiveAccount!.Towns.FirstOrDefault();
+                //VisibleTown ??= ActiveAccount!.Towns.FirstOrDefault();
             }
         }
-        private Town? visible_town;
-        public Town? VisibleTown
+        private ExtendedTown? visible_town;
+        public ExtendedTown? VisibleTown
         {
             get => visible_town;
             set
             {
                 visible_town = value;
                 OnPropertyChanged(nameof(VisibleTown));
-                Updatecalcinfo();
+                //Updatecalcinfo();
             }
-        }        
-        public ObservableCollection<Town?> clones = new();        
-        private Town? selected;
-        public Town? SelectedTown
+        }                
+        private ExtendedTown? selected;
+        public ExtendedTown? SelectedTown
         {
             get => selected;
             set
@@ -49,143 +49,48 @@ namespace WofHCalc.Controllers
                 selected = value; 
                 OnPropertyChanged(nameof(SelectedTown));
                 VisibleTown = value;
-                for(int i=0; i < clones.Count; i++)
-                    clones[i] = (Town)selected!.Clone(); 
             }
         }
 
         #region вычисляемая инфа по городу
-        private void Updatecalcinfo()
-        {
-            OnPropertyChanged(nameof(Culture));
-            OnPropertyChanged(nameof(Growth));
-            OnPropertyChanged(nameof(Products));
-            OnPropertyChanged(nameof(Eat));
-            OnPropertyChanged(nameof(Upkeep));
-        }
-        public int Culture//+
-        {
-            get
-            {
-                if (ActiveAccount == null) return 0;
-                return TownFuncs.TownCulture(
-                    (int)active_acc!.Culture,
-                    visible_town!.TownBuilds.Select(x=>x.Building).ToArray(),
-                    visible_town.TownBuilds.Select(x=>(int?)x.Level).ToArray(),
-                    active_acc.Race, 
-                    visible_town.GreatCitizens[(int)GreatCitizensNames.Creator],
-                    visible_town.ResConsumption.ToArray(),
-                    visible_town.AreaImprovements.Select( a=> a.AIName).ToArray(),
-                    visible_town.AreaImprovements.Select(a=>a.Level).ToArray(),
-                    visible_town.AreaImprovements.Select(a=>a.Users).ToArray(),
-                    visible_town.LuckyTown[(int)LuckBonusNames.culture]);
-            }
-        }
-        public double Growth//+
-        {
-            get
-            {
-                if (ActiveAccount == null) return 0;
-                return TownFuncs.TownGrowth(
-                    active_acc!.PopulationGrowth,
-                    visible_town!.TownBuilds.Select(x => x.Building).ToArray(),
-                    visible_town.TownBuilds.Select(x => (int?)x.Level).ToArray(),
-                    active_acc.Race,
-                    (visible_town.Deposit != DepositName.none),
-                    visible_town.ResConsumption.ToArray(),
-                    visible_town.GreatCitizens[(int)GreatCitizensNames.Doctor],
-                    visible_town.AreaImprovements.Select(a => a.AIName).ToArray(),
-                    visible_town.AreaImprovements.Select(a => a.Level).ToArray(),
-                    visible_town.AreaImprovements.Select(a => a.Users).ToArray(),
-                    visible_town.LuckyTown[(int)LuckBonusNames.grown]
-                    );
-            }
-        }
-        public double Upkeep
-        {
-            get
-            {
-                if (ActiveAccount == null) return 0;
-                return TownFuncs.BuildsUpkeep(
-                    visible_town!.TownBuilds.Select(x => x.Building).ToArray(),
-                    visible_town.TownBuilds.Select(x => (int?)x.Level).ToArray(),
-                    active_acc!.Race);
-            }
-        }
-        public double[] Eat
-        {
-            get
-            {
-                if (ActiveAccount == null) return null;
-                double swob = 0;
-                if (VisibleTown!.ResConsumption[(int)ResName.books] && VisibleTown.Product[(int)ResName.science])                
-                    swob = Products[(int)ResName.science] / (1 + Data.ResData[(int)ResName.books].effect);
-                else swob = Products[(int)ResName.science];
-                
-                return TownFuncs.GetResConsumption(
-                    visible_town!.ResConsumption.ToArray(),
-                    TownFuncs.TownGrowthWOUngrownAndResourses(
-                        active_acc!.PopulationGrowth,
-                        visible_town.TownBuilds.Select(x => x.Building).ToArray(),
-                        visible_town.TownBuilds.Select(x => (int?)x.Level).ToArray(),
-                        active_acc.Race,
-                        (visible_town.Deposit != DepositName.none),                        
-                        visible_town.GreatCitizens[(int)GreatCitizensNames.Doctor],
-                        visible_town.AreaImprovements.Select(a => a.AIName).ToArray(),
-                        visible_town.AreaImprovements.Select(a => a.Level).ToArray(),
-                        visible_town.AreaImprovements.Select(a => a.Users).ToArray(),
-                        visible_town.LuckyTown[(int)LuckBonusNames.grown]),
-                    TownFuncs.TownCultureWOResourses(
-                        (int)active_acc.Culture,
-                        visible_town.TownBuilds.Select(x => x.Building).ToArray(),
-                        visible_town.TownBuilds.Select(x => (int?)x.Level).ToArray(),
-                        active_acc.Race,
-                        visible_town.GreatCitizens[(int)GreatCitizensNames.Creator],                        
-                        visible_town.AreaImprovements.Select(a => a.AIName).ToArray(),
-                        visible_town.AreaImprovements.Select(a => a.Level).ToArray(),
-                        visible_town.AreaImprovements.Select(a => a.Users).ToArray(),
-                        visible_town.LuckyTown[(int)LuckBonusNames.culture]),
-                    swob    
-                    );
-            }
-        }
-        public double[] Products
-        {
-            get
-            {
-                if (ActiveAccount == null) return null;
-                return TownFuncs.Production(ActiveAccount!,SelectedTown);
-            }
-        }
+        //private void Updatecalcinfo()
+        //{
+        //    //OnPropertyChanged(nameof(Culture));
+        //    //OnPropertyChanged(nameof(Growth));
+        //    //OnPropertyChanged(nameof(Products));
+        //    //OnPropertyChanged(nameof(Eat));
+        //    //OnPropertyChanged(nameof(Upkeep));
+        //}
         #endregion
-        private RelayCommand? reset_clone;        
-        public RelayCommand ResetClone
-        {
-            get
-            {
-                return reset_clone ??= new RelayCommand(
-                    o1 => { clones[clones.IndexOf(VisibleTown)] = (Town)SelectedTown!.Clone(); },
-                    o2 => { return (SelectedTown is not null && clones.Any(t=> t==VisibleTown)); }
-                );
-            }
-        }
-        private RelayCommand? apply_clone;
-        public RelayCommand ApplyClone
-        {
-            get
-            {
-                return apply_clone ??= new RelayCommand(
-                    o1 => 
-                    {
-                        int ind = ActiveAccount!.Towns.IndexOf(SelectedTown!);
-                        ActiveAccount!.Towns[ind] = (Town)VisibleTown!.Clone();
-                        SelectedTown = ActiveAccount.Towns[ind];
-                    },
-                    o2 => { return (SelectedTown is not null && clones.Any(t => t == VisibleTown)); }
-                );
-            }
 
-        }
+        //private RelayCommand? reset_clone;        
+        //public RelayCommand ResetClone
+        //{
+        //    get
+        //    {
+        //        return reset_clone ??= new RelayCommand(
+        //            o1 => { clones[clones.IndexOf(VisibleTown)] = (Town)SelectedTown!.Clone(); },
+        //            o2 => { return (SelectedTown is not null && clones.Any(t=> t==VisibleTown)); }
+        //        );
+        //    }
+        //}        
+        //private RelayCommand? apply_clone;
+        //public RelayCommand ApplyClone
+        //{
+        //    get
+        //    {
+        //        return apply_clone ??= new RelayCommand(
+        //            o1 => 
+        //            {
+        //                int ind = ActiveAccount!.Towns.IndexOf(SelectedTown!);
+        //                ActiveAccount!.Towns[ind] = (Town)VisibleTown!.Clone();
+        //                SelectedTown = ActiveAccount.Towns[ind];
+        //            },
+        //            o2 => { return (SelectedTown is not null && clones.Any(t => t == VisibleTown)); }
+        //        );
+        //    }
+        //}
+
         private RelayCommand? add_town_command;
         public RelayCommand AddTown
         {
@@ -194,9 +99,9 @@ namespace WofHCalc.Controllers
                 return add_town_command ??= new RelayCommand(o1 =>
                 {
                     try
-                    {
-                        ActiveAccount!.Towns.Add(new Town());
-                        VisibleTown = ActiveAccount.Towns.Last();
+                    {                        
+                        ActiveAccount!.ExtendedTowns.Add(new ExtendedTown(ActiveAccount, new Town()));
+                        SelectedTown = ActiveAccount.ExtendedTowns.Last();
                     }
                     catch
                     {
@@ -216,9 +121,9 @@ namespace WofHCalc.Controllers
                 {
                     try
                     {
-                        Town d = SelectedTown!;
-                        SelectedTown = ActiveAccount!.Towns.FirstOrDefault();
-                        ActiveAccount!.Towns.Remove(d);
+                        ExtendedTown d = SelectedTown!;
+                        SelectedTown = ActiveAccount!.ExtendedTowns.FirstOrDefault();
+                        ActiveAccount!.ExtendedTowns.Remove(d);
                     }
                     catch
                     {
@@ -229,45 +134,45 @@ namespace WofHCalc.Controllers
                 );
             }
         }
-        private RelayCommand? updatecalcs;
-        public RelayCommand UpdateCalcs
-        {
-            get
-            {
-                return updatecalcs ??= new RelayCommand(o1 =>
-                { Updatecalcinfo();});
-            }
-        }
+        //private RelayCommand? updatecalcs;
+        //public RelayCommand UpdateCalcs
+        //{
+        //    get
+        //    {
+        //        return updatecalcs ??= new RelayCommand(o1 =>
+        //        { Updatecalcinfo();});
+        //    }
+        //}
 
-        private ObservableCollection<PTDA>? ptda; //устарело
-        public ObservableCollection<PTDA> PriceTaxDataAdapter
-        {            
-            set 
-            { 
-                ptda = value;
-                OnPropertyChanged(nameof(PriceTaxDataAdapter)); 
-            }
-            get
-            {
-                if (ptda != null) return ptda;
-                else
-                {
-                    ptda = new ObservableCollection<PTDA>();
-                    if (ActiveAccount is null) { return ptda; }
-                    for (int i = 0; i < 23; i++)
-                    {
-                        ptda.Add(new PTDA
-                        {
-                            ImgPath = $"/DataSourses/Img/icons/res/res{i}.png",
-                            Resource = ((ResName)i).ToString(),
-                            Price = ActiveAccount!.Financial.Prices[i],
-                            Tax = ActiveAccount!.Financial.Taxes[i]
-                        }); 
-                    }
-                }
-                return ptda;
-            }
-        }
+        //private ObservableCollection<PTDA>? ptda; //устарело
+        //public ObservableCollection<PTDA> PriceTaxDataAdapter
+        //{            
+        //    set 
+        //    { 
+        //        ptda = value;
+        //        OnPropertyChanged(nameof(PriceTaxDataAdapter)); 
+        //    }
+        //    get
+        //    {
+        //        if (ptda != null) return ptda;
+        //        else
+        //        {
+        //            ptda = new ObservableCollection<PTDA>();
+        //            if (ActiveAccount is null) { return ptda; }
+        //            for (int i = 0; i < 23; i++)
+        //            {
+        //                ptda.Add(new PTDA
+        //                {
+        //                    ImgPath = $"/DataSourses/Img/icons/res/res{i}.png",
+        //                    Resource = ((ResName)i).ToString(),
+        //                    Price = ActiveAccount!.Financial.Prices[i],
+        //                    Tax = ActiveAccount!.Financial.Taxes[i]
+        //                }); 
+        //            }
+        //        }
+        //        return ptda;
+        //    }
+        //}
 
 
         public event PropertyChangedEventHandler? PropertyChanged;

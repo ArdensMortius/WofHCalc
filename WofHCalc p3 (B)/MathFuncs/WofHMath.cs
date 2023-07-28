@@ -325,7 +325,7 @@ namespace WofHCalc.MathFuncs
                 if (town.AreaImprovements[i].AIName == AreaImprovementName.Suburb)
                     aiinc += AreaImprovementBonus(AreaImprovementName.Suburb, town.AreaImprovements[i].Level, town.AreaImprovements[i].Users);
             ans *= aiinc;
-            ans *= 1 + data.LuckBonusesData[(int)LuckBonusNames.grown].effect[town.LuckyTown[(int)LuckBonusNames.grown]];
+            ans *= 1 + data.LuckBonusesData[(int)LuckBonusNames.grown].effect[(int)town.LuckyTown[(int)LuckBonusNames.grown]!];
             return ans;
         }        
         private double TownGrowthWOUngrownAndResourses(double basegrown, BuildName[] builds, int?[] lvls, Race race, bool deposit, byte numofdoctors, AreaImprovementName[] areaimps, byte[] ailvls, byte[] aiusers, byte luck_bonus_lvl)
@@ -356,7 +356,7 @@ namespace WofHCalc.MathFuncs
                 else if (town.AreaImprovements[i].AIName == AreaImprovementName.SkiResort) aidec += AreaImprovementBonus(town.AreaImprovements[i].AIName, town.AreaImprovements[i].Level, town.AreaImprovements[i].Users) * 0.027d;
             }
             ans *= aiinc;
-            ans *= 1 + data.LuckBonusesData[(int)LuckBonusNames.grown].effect[town.LuckyTown[(int)LuckBonusNames.grown]];
+            ans *= 1 + data.LuckBonusesData[(int)LuckBonusNames.grown].effect[(int)town.LuckyTown[(int)LuckBonusNames.grown]!];
             double resbonus = 1;
             for (int i = (int)ResName.fruit; i <= (int)ResName.meat; i++)
                 if (town.ResConsumption[i]) resbonus += data.ResData[i].effect;
@@ -427,7 +427,7 @@ namespace WofHCalc.MathFuncs
                 if (ai[i].AIName == AreaImprovementName.Reservation) aiinc += AreaImprovementBonus(ai[i].AIName, ai[i].Level, ai[i].Users);
             ans *= 1 + aiinc;
             //Удача
-            ans *= 1 + data.LuckBonusesData[(int)LuckBonusNames.culture].effect[town.LuckyTown[(int)LuckBonusNames.culture]];
+            ans *= 1 + data.LuckBonusesData[(int)LuckBonusNames.culture].effect[(int)town.LuckyTown[(int)LuckBonusNames.culture]!];
             return ans;
         }
         public double TownCultureWOResourses(int baseculture, BuildName[] builds, int?[] lvls, Race race, byte numofcreators, AreaImprovementName[] areaimps, byte[] ailvls, byte[] aiusers, byte luck_bonus_lvl)
@@ -622,14 +622,14 @@ namespace WofHCalc.MathFuncs
             var LevelLuckBonusProd = town.LuckyTown[(int)LuckBonusNames.production];
             var LevelLuckBonusSciense = town.LuckyTown[(int)LuckBonusNames.science];
             for (int i = 1; i < 23; i++)
-                ans[i] *= 1 + data.LuckBonusesData[(int)LuckBonusNames.production].effect[LevelLuckBonusProd]; //кроме науки
-            ans[(int)ResName.science] *= 1 + data.LuckBonusesData[(int)LuckBonusNames.science].effect[LevelLuckBonusSciense];
+                ans[i] *= 1 + data.LuckBonusesData[(int)LuckBonusNames.production].effect[(int)LevelLuckBonusProd!]; //кроме науки
+            ans[(int)ResName.science] *= 1 + data.LuckBonusesData[(int)LuckBonusNames.science].effect[(int)LevelLuckBonusSciense!];
             //+горнолыжки
             double srb = 0;
             for (int i = 1; i < areaimps.Length; i++)
                 if (areaimps[i] == AreaImprovementName.SkiResort)
                     srb += AreaImprovementBonus(AreaImprovementName.SkiResort, ailvls[i], aiusers[i]);
-            srb *= 1 + data.LuckBonusesData[(int)LuckBonusNames.production].effect[LevelLuckBonusProd];
+            srb *= 1 + data.LuckBonusesData[(int)LuckBonusNames.production].effect[(int)LevelLuckBonusProd!];
             ans[(int)ResName.money] += srb;
             //+чудеса с фиксированным бонусом
             //switch (builds[0])
@@ -1036,14 +1036,14 @@ namespace WofHCalc.MathFuncs
             //+стоунхендж
             if (builds[0] == BuildName.Stonehenge) ans += (int)data.WounderEffects[BuildName.Stonehenge];
             //+торгаши за МУ (мб не совем верно, надо проверять)
-            ans += (int)Math.Round(data.LuckBonusesData[(int)LuckBonusNames.traders].effect[town.LuckyTown[(int)LuckBonusNames.traders]]); 
+            ans += (int)Math.Round(data.LuckBonusesData[(int)LuckBonusNames.traders].effect[(int)town.LuckyTown[(int)LuckBonusNames.traders]!]); 
             return ans;
         }
         //цена за 1 торгаша с учётом ускорительных домиков всяких
         public double TraiderPrice(Town town, Account acc)
         {
             double ans = BuildsUpkeepTraiding(town, acc);
-            ans += LuckBonusPrice(LuckBonusNames.traders, acc.Towns.Count, town.LuckyTown[(int)LuckBonusNames.traders])*acc.Financial.LuckCoinPrice/7d/24d; //затраты му в неделю, а расходы в час
+            ans += LuckBonusPrice(LuckBonusNames.traders, acc.Towns.Count, (int)town.LuckyTown[(int)LuckBonusNames.traders]!)*acc.Financial.LuckCoinPrice/7d/24d; //затраты му в неделю, а расходы в час
             ans /= Traiders(town, acc);
             return ans;
         }
