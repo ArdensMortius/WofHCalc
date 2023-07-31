@@ -19,6 +19,7 @@
 		<conv:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
 		<conv:ResProdConverter x:Key="ResProdConverter"/>
         <conv:ResToImgConverter x:Key="ResToImgConverter"/>
+        <conv:NullableToStringConverter x:Key="NullableToStringConverter"/>
 
         <Style TargetType="{x:Type DataGridCell}">
 			<Setter Property="BorderThickness" Value="1" />
@@ -325,18 +326,18 @@
 							<DataGridTextColumn Binding="{Binding Path=., Mode=TwoWay}"/>
 						</DataGrid.Columns>
 					</DataGrid>
-					<!--<DataGrid Name="LBV" Grid.Row="1" Grid.Column="1" Margin="0,0,5,0" Panel.ZIndex="2"
+					<DataGrid Name="LBV" Grid.Row="1" Grid.Column="1" Margin="0,0,5,0" Panel.ZIndex="2"
 						ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 						AutoGenerateColumns="False"                        
-						ItemsSource="{Binding VisibleTown.LuckyTown}"
 						HeadersVisibility="Row"
 						CanUserAddRows="False" CanUserReorderColumns="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False" CanUserDeleteRows="False" 
+						ItemsSource="{Binding VisibleTown.LuckyTown, Converter={StaticResource NullableToStringConverter}}"
 						LoadingRow="LBV_LoadingRow" CellEditEnding="LBV_CellEditEnding"                                                 
 							  >
 						<DataGrid.Columns>
 							<DataGridTextColumn Binding="{Binding Path=., Mode=TwoWay}"/>
 						</DataGrid.Columns>
-					</DataGrid>-->
+					</DataGrid>
 					<Grid Name="RCV" Grid.Row="1" Grid.Column="2" Margin="0,0,5,0" Panel.ZIndex="2"                        
 						ScrollViewer.HorizontalScrollBarVisibility="Disabled"                        
 							  >

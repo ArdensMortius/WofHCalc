@@ -35,7 +35,7 @@ namespace WofHCalc.Supports.ForEnumBinds
             }
             catch
             {
-                return "перебор";
+                return "none";
             }
         }
     }

@@ -77,8 +77,11 @@ namespace WofHCalc
 
         private void GSV_LoadingRow(object sender, DataGridRowEventArgs e) =>        
             e.Row.Header = ((GreatCitizensNames)e.Row.GetIndex()).Description();
-        private void LBV_LoadingRow(object sender, DataGridRowEventArgs e) =>
+        private void LBV_LoadingRow(object sender, DataGridRowEventArgs e)
+        {            
             e.Row.Header = ((LuckBonusNames)e.Row.GetIndex()).Description();
+            if (e.Row.Header == "none") e.Row.Visibility = Visibility.Collapsed;
+        }
 
 
         private void GSV_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)

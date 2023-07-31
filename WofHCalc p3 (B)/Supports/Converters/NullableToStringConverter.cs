@@ -1,27 +1,31 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Data;
 using System.Windows;
+using System.Windows.Data;
 
 namespace WofHCalc.Supports.Converters
 {
-    [ValueConversion(typeof(string), typeof(Visibility))]
-    public class StringToVisibilityConverter : IValueConverter
+    public class NullableToStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (string.IsNullOrEmpty(value.ToString()) || value.ToString() == "0")
+        {            
+            List<string> ans = new();
+            var vals = (IEnumerable)value;
+            foreach (var v in vals)
             {
-                return Visibility.Collapsed;
+                if (v != null)
+                    ans.Add(v.ToString()!);
+                else
+                    ans.Add("");
             }
-            else
-            {
-                return Visibility.Visible;
-            }
+            return ans;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

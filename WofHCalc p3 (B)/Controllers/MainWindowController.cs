@@ -18,6 +18,7 @@ namespace WofHCalc.Controllers
     internal class MainWindowController : INotifyPropertyChanged
     {
         //поля и свойста
+        //загруженный аккаунт с датой и остальным
         private ExtendedAccount? active_acc;
         public ExtendedAccount? ActiveAccount
         {
@@ -29,7 +30,8 @@ namespace WofHCalc.Controllers
                 //VisibleTown ??= ActiveAccount!.Towns.FirstOrDefault();
             }
         }
-        private ExtendedTown? visible_town;
+        //отображаемый город (оригинальный город или его клон)
+        private ExtendedTown? visible_town; 
         public ExtendedTown? VisibleTown
         {
             get => visible_town;
@@ -39,7 +41,8 @@ namespace WofHCalc.Controllers
                 OnPropertyChanged(nameof(VisibleTown));
                 //Updatecalcinfo();
             }
-        }                
+        }
+        //выбранный город, возможно стоит убрать
         private ExtendedTown? selected;
         public ExtendedTown? SelectedTown
         {
@@ -50,18 +53,8 @@ namespace WofHCalc.Controllers
                 OnPropertyChanged(nameof(SelectedTown));
                 VisibleTown = value;
             }
-        }
-
-        #region вычисляемая инфа по городу
-        //private void Updatecalcinfo()
-        //{
-        //    //OnPropertyChanged(nameof(Culture));
-        //    //OnPropertyChanged(nameof(Growth));
-        //    //OnPropertyChanged(nameof(Products));
-        //    //OnPropertyChanged(nameof(Eat));
-        //    //OnPropertyChanged(nameof(Upkeep));
-        //}
-        #endregion
+        }        
+        //этот функционал уходить в extended model
 
         //private RelayCommand? reset_clone;        
         //public RelayCommand ResetClone
@@ -91,7 +84,7 @@ namespace WofHCalc.Controllers
         //    }
         //}
 
-        private RelayCommand? add_town_command;
+        private RelayCommand? add_town_command; //+
         public RelayCommand AddTown
         {
             get
@@ -112,7 +105,7 @@ namespace WofHCalc.Controllers
                 );
             }
         }
-        private RelayCommand? del_town_command;
+        private RelayCommand? del_town_command; //+
         public RelayCommand DelTown
         {
             get
@@ -182,11 +175,11 @@ namespace WofHCalc.Controllers
         }
     }
 
-    public class PTDA
-    {
-        public string? ImgPath { get; set; }
-        public string? Resource { get; set; }
-        public int Price { get; set; }
-        public int Tax { get; set; }
-    }
+    //public class PTDA
+    //{
+    //    public string? ImgPath { get; set; }
+    //    public string? Resource { get; set; }
+    //    public int Price { get; set; }
+    //    public int Tax { get; set; }
+    //}
 }
