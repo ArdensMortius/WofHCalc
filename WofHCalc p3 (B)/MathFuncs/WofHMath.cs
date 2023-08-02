@@ -299,10 +299,10 @@ namespace WofHCalc.MathFuncs
                     ans += BuildEffect(builds[i], (int)lvls[i]!);
             }
             ans *= 24;
-            //if (builds[0] == BuildName.Pagan_temple && lvls[0] == 20) //пока без чудес
-            //{
-            //    ans += data.WounderEffects[BuildName.Pagan_temple];
-            //}
+            if (builds[0] == BuildName.Pagan_temple && lvls[0] == 20) //пока без чудес
+            {
+                ans += data.WounderEffects[BuildName.Pagan_temple];
+            }
             return ans;
         }
         //спад от домиков в день
