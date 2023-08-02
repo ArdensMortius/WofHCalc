@@ -200,11 +200,11 @@ namespace WofHCalc.Views
             var builds = town.TownBuilds.Select(x => x.Building).ToArray();
             var lvls = town.TownBuilds.Select(x=> x.Level).ToArray();
             var slot = town.TownBuilds[slot_id].Slot;
-            //for (int i = 0; i < ans.Count; i++)
-            //{
-            //    if (!BuildFuncs.AvailableCheck(ans[i], race, town.OnHill, town.WaterPlaces, builds, slot))                                
-            //        ans.RemoveAt(i--);
-            //}         
+            for (int i = 0; i < ans.Count; i++)
+            {
+                if (!WofHFuncs.AvailableCheck(ans[i], race, town.OnHill, town.WaterPlaces, builds, slot))
+                    ans.RemoveAt(i--);
+            }
             return ans;
         }
 
