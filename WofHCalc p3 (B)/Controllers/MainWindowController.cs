@@ -27,7 +27,7 @@ namespace WofHCalc.Controllers
             {
                 active_acc = value;
                 OnPropertyChanged(nameof(ActiveAccount));
-                //VisibleTown ??= ActiveAccount!.Towns.FirstOrDefault();
+                VisibleTown ??= ActiveAccount!.ExtendedTowns.FirstOrDefault();
             }
         }
         //отображаемый город (оригинальный город или его клон)
@@ -39,7 +39,7 @@ namespace WofHCalc.Controllers
             {
                 visible_town = value;
                 OnPropertyChanged(nameof(VisibleTown));
-                //Updatecalcinfo();
+                OnPropertyChanged(nameof(VisibleTown));
             }
         }
         //выбранный город, возможно стоит убрать
@@ -127,15 +127,15 @@ namespace WofHCalc.Controllers
                 );
             }
         }
-        //private RelayCommand? updatecalcs;
-        //public RelayCommand UpdateCalcs
-        //{
-        //    get
-        //    {
-        //        return updatecalcs ??= new RelayCommand(o1 =>
-        //        { Updatecalcinfo();});
-        //    }
-        //}
+        private RelayCommand? updatecalcs;
+        public RelayCommand UpdateCalcs
+        {
+            get
+            {
+                return updatecalcs ??= new RelayCommand(o1 =>
+                { OnPropertyChanged(nameof(VisibleTown)); });
+            }
+        }
 
         //private ObservableCollection<PTDA>? ptda; //устарело
         //public ObservableCollection<PTDA> PriceTaxDataAdapter

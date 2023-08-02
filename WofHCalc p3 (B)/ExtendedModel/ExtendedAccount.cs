@@ -22,7 +22,7 @@ namespace WofHCalc.ExtendedModel
         public ObservableCollection<ExtendedTown> VariantsET2 { get; set; }
         //public ObservableCollection<ExtendedTown>? TargetETowns { get; set; }
         [JsonIgnore]
-        private DataWorldConst data;
+        public DataWorldConst data;
         [JsonIgnore]
         public WofHMath WofHFuncs;
         public ExtendedAccount(Account acc) : base(acc) //или тут не работает или не тут

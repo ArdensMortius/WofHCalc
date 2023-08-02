@@ -9,8 +9,8 @@ using WofHCalc.Models.jsonTemplates;
 
 namespace WofHCalc.DataSourses
 {
-    //Через это класс можно удобно получить нужные константы из *.json файлов и некоторые другие.
-    public static class Data
+    //Через это класс можно удобно получить нужные константы из *.json файлов и некоторые другие. 
+    public static class Data //obsolete
     {
         public static Resource[] ResData { get; } //из файла
         public static Deposit[] DepositsData { get; } //из файла

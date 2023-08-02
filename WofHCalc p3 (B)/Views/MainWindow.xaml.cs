@@ -60,7 +60,7 @@ namespace WofHCalc
         {
             
             byte slot_id = (byte)WrapBuilds.SelectedIndex;
-            SlotBuildsList sbv = new(dc.VisibleTown!, slot_id, dc.ActiveAccount!.Race);
+            SlotBuildsList sbv = new(dc.VisibleTown!, slot_id, dc.ActiveAccount!.Race, dc.ActiveAccount.data, dc.ActiveAccount.WofHFuncs);
             if (sbv.ShowDialog() == true)
             {
                 dc.VisibleTown!.TownBuilds[slot_id].Building = (BuildName)sbv.selected_build!;

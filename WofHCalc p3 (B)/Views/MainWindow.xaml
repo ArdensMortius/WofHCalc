@@ -526,19 +526,19 @@
 								<Border BorderBrush="Gray" BorderThickness="1" Padding="2">
 									<StackPanel Orientation="Horizontal">
 										<TextBlock Text="Культура: "/>
-										<TextBlock Text="{Binding Culture, Mode=OneWay}"/>
+										<TextBlock Text="{Binding VisibleTown.Culture, Mode=OneWay}"/>
 									</StackPanel>
 								</Border>
 								<Border BorderBrush="Gray" BorderThickness="1" Padding="2">
 									<StackPanel Orientation="Horizontal">
 										<TextBlock Text="Прирост: "/>
-										<TextBlock Text="{Binding Growth, Mode=OneWay, StringFormat=N2}"/>
+                                        <TextBlock Text="{Binding VisibleTown.Growth, Mode=OneWay, StringFormat=N2}"/>
 									</StackPanel>
 								</Border>
                                 <Border BorderBrush="Gray" BorderThickness="1" Padding="2">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="Содержание: "/>
-                                        <TextBlock Text="{Binding Upkeep, Mode=OneWay,StringFormat=N2}"/>
+                                        <TextBlock Text="{Binding VisibleTown.TotalUpkeep, Mode=OneWay,StringFormat=N2}"/>
                                     </StackPanel>
                                 </Border>
                             </StackPanel>
@@ -561,7 +561,7 @@
                                         </ItemsControl.ItemTemplate>
                                     </ItemsControl>
                                     <ItemsControl                                                                                                          
-										ItemsSource="{Binding Products}">
+										ItemsSource="{Binding VisibleTown.Products}">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
                                                 <StackPanel Orientation="Vertical"/>
@@ -594,7 +594,7 @@
                                         </ItemsControl.ItemTemplate>
                                     </ItemsControl>
                                     <ItemsControl                                                                                                          
-										ItemsSource="{Binding Eat}">
+										ItemsSource="{Binding VisibleTown.ResoursesConsumption}">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
                                                 <StackPanel Orientation="Vertical"/>
@@ -612,7 +612,7 @@
                     </StackPanel>
                 </Border>
                 <UniformGrid>
-                    <ComboBox>
+                    <!--<ComboBox>
                         <ComboBoxItem>
                             
                         </ComboBoxItem>
@@ -624,7 +624,7 @@
                         </ComboBoxItem>
                     </ComboBox>
                     <Button Command="{Binding ApplyClone}">Принять изменения</Button>
-                    <Button Command="{Binding ResetClone}">Сбросить изменения</Button>
+                    <Button Command="{Binding ResetClone}">Сбросить изменения</Button>-->
                 </UniformGrid>
 			</StackPanel>
 		</ScrollViewer>

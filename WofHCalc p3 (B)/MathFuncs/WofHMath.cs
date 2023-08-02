@@ -31,12 +31,12 @@ namespace WofHCalc.MathFuncs
             else return MainFunc(abcd[0], abcd[1], abcd[2], abcd[3], n);
         }
         #region разное
-        //Эффективность труда (число работников)
+        //Эффективность труда (число работников) //+
         public double LaborEfficiency(int numworkers)
         {
             return Math.Pow(numworkers, -0.12d);
         }
-        //Коррупция (число городов, уровень суда)
+        //Коррупция (число городов, уровень суда) //+
         public double Corruption(int numtowns, byte courthouse_level)
         {
             if (numtowns < 1 || courthouse_level < 0 || courthouse_level > 20) throw new Exception("Corruption error");
@@ -510,7 +510,7 @@ namespace WofHCalc.MathFuncs
                         break;
                     case AreaImprovementName.Mines:
                     case AreaImprovementName.HydrotechnicalFacility:
-                        for (int j = 0; i < 23; i++)
+                        for (int j = 0; j < 23; j++)
                             if (data.ResData[j].prodtype == ResProdType.industry)
                                 ans[j] += bonus;
                         break;
@@ -542,7 +542,7 @@ namespace WofHCalc.MathFuncs
             if (deposit != DepositName.none)
                 foreach (var x in data.DepositsData[(int)deposit].res)
                     ans[(int)x[1]] += x[0];
-            return ans;
+            return ans.Select(x=>(double)(float)x).ToArray(); //в double какие-то лишние цифры появляются, это их отгрызает. Может быть стоит просто не использовать double
         }
         //модификатор производства от ВГ (количество ВГ)
         private double[] GreatSitizensProdBonus(byte[] gs)//+
@@ -569,7 +569,7 @@ namespace WofHCalc.MathFuncs
             int total_wp = 0;
             //считаем все рабочие места для эффективности труда
             //и рабочие места по ресам с учётом эффективности строения
-            int[] workplaces = new int[23];
+            int[] workplaces = new int[23]; //+
             double[] workplaces_efbuildmod = new double[23];
             for (int i = 3; i < builds.Length; i++)
             {

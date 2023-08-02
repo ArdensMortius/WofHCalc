@@ -27,6 +27,8 @@ namespace WofHCalc.Views
         public Race race;
         public Town town;
         public byte slot_id;
+        public DataWorldConst data;
+        public WofHMath WofHFuncs;
         public BuildName? selected_build { get; set; } //для возврата значения
         public List<BuildName>? AllBuilds { get; set; }
         public List<BuildName>? FortBuilds
@@ -35,8 +37,8 @@ namespace WofHCalc.Views
             {
                 List<BuildName>? ans;
                 if (AllBuilds == null) ans = null;
-                else ans = (List<BuildName>?)AllBuilds.Where(x => Data.BuildindsData[(int)x].Type == BuildType.defence 
-                                                               || Data.BuildindsData[(int)x].Type == BuildType.airdef).ToList();
+                else ans = (List<BuildName>?)AllBuilds.Where(x => data.BuildindsData[(int)x].Type == BuildType.defence 
+                                                               || data.BuildindsData[(int)x].Type == BuildType.airdef).ToList();
                 if (ans is null || ans.Count == 0)
                 {
                     Fort.Visibility = Visibility.Hidden;
@@ -52,8 +54,8 @@ namespace WofHCalc.Views
             {
                 List<BuildName>? ans;
                 if (AllBuilds == null) ans = null;
-                else ans = (List<BuildName>?)AllBuilds.Where(x => Data.BuildindsData[(int)x].Type == BuildType.production
-                                                               && Data.BuildindsData[(int)x].Productres[0].Res == ResName.science).ToList();
+                else ans = (List<BuildName>?)AllBuilds.Where(x => data.BuildindsData[(int)x].Type == BuildType.production
+                                                               && data.BuildindsData[(int)x].Productres[0].Res == ResName.science).ToList();
                 if (ans is null || ans.Count == 0)
                 {
                     Science.Visibility = Visibility.Hidden;
@@ -69,9 +71,9 @@ namespace WofHCalc.Views
             {
                 List<BuildName>? ans;
                 if (AllBuilds == null) ans = null;
-                else ans = (List<BuildName>?)AllBuilds.Where(x => (Data.BuildindsData[(int)x].Type == BuildType.production
-                                                                && Data.BuildindsData[(int)x].Productres[0].Res != ResName.science)
-                                                                || Data.BuildindsData[(int)x].Type == BuildType.prodBoost).ToList();
+                else ans = (List<BuildName>?)AllBuilds.Where(x => (data.BuildindsData[(int)x].Type == BuildType.production
+                                                                && data.BuildindsData[(int)x].Productres[0].Res != ResName.science)
+                                                                || data.BuildindsData[(int)x].Type == BuildType.prodBoost).ToList();
                 if (ans is null || ans.Count == 0)
                 {
                     Prod.Visibility = Visibility.Hidden;
@@ -90,7 +92,7 @@ namespace WofHCalc.Views
                 else
                 {
                     var types = new List<BuildType> { BuildType.store, BuildType.tradespeed, BuildType.trade, BuildType.watertradespeed };
-                    ans = (List<BuildName>?)AllBuilds.Where(x => types.Any(t => t == Data.BuildindsData[(int)x].Type)).ToList();
+                    ans = (List<BuildName>?)AllBuilds.Where(x => types.Any(t => t == data.BuildindsData[(int)x].Type)).ToList();
                 }
                 if (ans is null || ans.Count == 0)
                 {
@@ -107,7 +109,7 @@ namespace WofHCalc.Views
             {
                 List<BuildName>? ans;
                 if (AllBuilds == null) ans = null;
-                else ans = (List<BuildName>?)AllBuilds.Where(x => Data.BuildindsData[(int)x].Type == BuildType.culture).ToList();
+                else ans = (List<BuildName>?)AllBuilds.Where(x => data.BuildindsData[(int)x].Type == BuildType.culture).ToList();
                 if (ans is null || ans.Count == 0)
                 {
                     Cult.Visibility = Visibility.Hidden;
@@ -123,7 +125,7 @@ namespace WofHCalc.Views
             {
                 List<BuildName>? ans;
                 if (AllBuilds == null) ans = null;
-                else ans = (List<BuildName>?)AllBuilds.Where(x => Data.BuildindsData[(int)x].Type == BuildType.grown).ToList();
+                else ans = (List<BuildName>?)AllBuilds.Where(x => data.BuildindsData[(int)x].Type == BuildType.grown).ToList();
                 if (ans is null || ans.Count == 0)
                 {
                     Grown.Visibility = Visibility.Hidden;
@@ -139,9 +141,9 @@ namespace WofHCalc.Views
             {
                 List<BuildName>? ans;
                 if (AllBuilds == null) ans = null;
-                else ans = (List<BuildName>?)AllBuilds.Where(x => Data.BuildindsData[(int)x].Type == BuildType.train
-                                                               || Data.BuildindsData[(int)x].Type == BuildType.waterarmyspeed
-                                                               || Data.BuildindsData[(int)x].Type == BuildType.airarmyspeed).ToList();
+                else ans = (List<BuildName>?)AllBuilds.Where(x => data.BuildindsData[(int)x].Type == BuildType.train
+                                                               || data.BuildindsData[(int)x].Type == BuildType.waterarmyspeed
+                                                               || data.BuildindsData[(int)x].Type == BuildType.airarmyspeed).ToList();
                 if (ans is null || ans.Count == 0)
                 {
                     War.Visibility = Visibility.Hidden;
@@ -157,12 +159,12 @@ namespace WofHCalc.Views
             {
                 List<BuildName>? ans;
                 if (AllBuilds == null) ans = null;
-                else ans = (List<BuildName>?)AllBuilds.Where(x => Data.BuildindsData[(int)x].Type == BuildType.fake
-                                                               || Data.BuildindsData[(int)x].Type == BuildType.embassy
-                                                               || Data.BuildindsData[(int)x].Type == BuildType.administration
-                                                               || Data.BuildindsData[(int)x].Type == BuildType.corruption
-                                                               || Data.BuildindsData[(int)x].Type == BuildType.ecology
-                                                               || Data.BuildindsData[(int)x].Type == BuildType.hide                                                               
+                else ans = (List<BuildName>?)AllBuilds.Where(x => data.BuildindsData[(int)x].Type == BuildType.fake
+                                                               || data.BuildindsData[(int)x].Type == BuildType.embassy
+                                                               || data.BuildindsData[(int)x].Type == BuildType.administration
+                                                               || data.BuildindsData[(int)x].Type == BuildType.corruption
+                                                               || data.BuildindsData[(int)x].Type == BuildType.ecology
+                                                               || data.BuildindsData[(int)x].Type == BuildType.hide                                                               
                                                                ).ToList();
                 if (ans is null || ans.Count == 0)
                 {
@@ -175,9 +177,11 @@ namespace WofHCalc.Views
         }
 
 
-        public SlotBuildsList(Town t, byte s, Race race)
+        public SlotBuildsList(Town t, byte s, Race race, DataWorldConst data, WofHMath WofHFuncs)
         {
+            this.data = data;
             this.race = race;
+            this.WofHFuncs = WofHFuncs;
             town = t; slot_id = s;
             this.DataContext = this;
             AllBuilds = GetAvailable();
