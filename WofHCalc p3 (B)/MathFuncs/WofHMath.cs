@@ -299,9 +299,14 @@ namespace WofHCalc.MathFuncs
                     ans += BuildEffect(builds[i], (int)lvls[i]!);
             }
             ans *= 24;
-            if (builds[0] == BuildName.Pagan_temple && lvls[0] == 20) //пока без чудес
+            if (lvls[0] == 20)
             {
-                ans += data.WounderEffects[BuildName.Pagan_temple];
+                switch (builds[0])
+                {
+                    case BuildName.Pagan_temple: ans += data.WounderEffects[BuildName.Pagan_temple]; break;
+                    case BuildName.The_Hanging_Gardens: ans += data.WounderEffects[BuildName.The_Hanging_Gardens]; break;
+                    default: break;                    
+                }                
             }
             return ans;
         }
