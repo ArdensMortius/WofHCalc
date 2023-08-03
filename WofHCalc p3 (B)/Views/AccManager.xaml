@@ -9,6 +9,7 @@
         Title="Accounts_Manager" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
     <Grid>
         <StackPanel>
+            <TextBlock Padding="5">Сохраненные аккаунты</TextBlock>
             <ListBox 
             SelectedItem="{Binding Selected_acc}"
             Grid.Column="0" ItemsSource="{Binding Accounts, UpdateSourceTrigger=PropertyChanged}">
@@ -16,19 +17,29 @@
                     <DataTemplate>
                         <DockPanel
                             Margin="5">
-                            <TextBlock Text="{Binding World}" DockPanel.Dock="Right"/>
-                            <TextBlock Text="{Binding Name}" DockPanel.Dock="Left"/>
+                            <TextBlock Text="{Binding World}" DockPanel.Dock="Left" Margin="0,0,5,0"/>
+                            <TextBlock Text="{Binding Name}" DockPanel.Dock="Right"/>
                         </DockPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
             <Button Padding="5" Click="Open_Click" Command="{Binding Open}">Выбрать</Button>
             <Button Padding="5" Command="{Binding Delete}">Удалить</Button>
-            <StackPanel
-            Orientation="Horizontal">
-                <TextBox Padding="5" Width="150" Text="{Binding Input1, Mode=TwoWay}"></TextBox>
-                <TextBox Padding="5" Width="50" Text="{Binding Input2, Mode=TwoWay}"></TextBox>
-            </StackPanel>
+            <TextBlock Padding="5">Новый акк</TextBlock>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Padding="5" Grid.Column="0" Grid.Row="0">Ник</TextBlock>
+                <TextBlock Padding="5" Grid.Column="1" Grid.Row="0">Мир</TextBlock>
+                <TextBox Padding="5" Width="150" Grid.Column="0" Grid.Row="1" Text="{Binding Input1, Mode=TwoWay}"></TextBox>
+                <TextBox Padding="5" Width="50" Grid.Column="1" Grid.Row="1" Text="{Binding Input2, Mode=TwoWay}"></TextBox>
+            </Grid>
             <Button Padding="5" Command="{Binding Add}">Добавить</Button>
         </StackPanel>
     </Grid>
