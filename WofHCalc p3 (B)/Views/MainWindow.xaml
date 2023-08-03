@@ -20,6 +20,7 @@
 		<conv:ResProdConverter x:Key="ResProdConverter"/>
         <conv:ResToImgConverter x:Key="ResToImgConverter"/>
         <conv:NullableToStringConverter x:Key="NullableToStringConverter"/>
+        <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
 
         <Style TargetType="{x:Type DataGridCell}">
 			<Setter Property="BorderThickness" Value="1" />
@@ -212,7 +213,7 @@
                     <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding ActiveAccount.Financial.ForMillitaryBuildings}"/>
                     <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding ActiveAccount.Financial.ForStrategicBuildings}"/>
                 </Grid>
-                <Button Click="OpenDTE">Налоги на МР</Button>
+                <Button Margin="5,0,5,0" Click="OpenDTE">Налоги на МР</Button>
                 <Grid Name="ScienceBonuses" Panel.ZIndex="2" Margin="5">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="3*"/>
@@ -494,6 +495,8 @@
 							
 							</Grid>
 						</Border>
+                        <TextBlock Visibility="{Binding VisibleTown.Product[0], Converter={StaticResource BoolToVisibilityConverter} }">% влива колб</TextBlock>
+                        <TextBox Visibility="{Binding VisibleTown.Product[0], Converter={StaticResource BoolToVisibilityConverter}}" Text="{Binding VisibleTown.ScienceEfficiency}"></TextBox>
 					</StackPanel>
                     <DataGrid Name="AreaImps" Grid.Row="1" Grid.Column="4" Margin="0,0,5,0" Panel.ZIndex="2"
 							  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -518,98 +521,96 @@
 					</DataGrid>
 				</Grid>
                 <Button Command="{Binding UpdateCalcs}" Margin="5">Вычислить/Обновить</Button>
-                <Border Margin="5" BorderBrush="Gray" BorderThickness="1">
-                    <StackPanel Orientation="Horizontal" Margin="5">
-                        <Border Margin="5" BorderBrush="Gray" BorderThickness="1">
-							<StackPanel Orientation="Vertical">
-								<Border BorderBrush="Gray" BorderThickness="1" Padding="2">
-									<StackPanel Orientation="Horizontal">
-										<TextBlock Text="Культура: "/>
-										<TextBlock Text="{Binding VisibleTown.Culture, Mode=OneWay}"/>
-									</StackPanel>
-								</Border>
-								<Border BorderBrush="Gray" BorderThickness="1" Padding="2">
-									<StackPanel Orientation="Horizontal">
-										<TextBlock Text="Прирост: "/>
-                                        <TextBlock Text="{Binding VisibleTown.Growth, Mode=OneWay, StringFormat=N2}"/>
-									</StackPanel>
-								</Border>
-                                <Border BorderBrush="Gray" BorderThickness="1" Padding="2">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Содержание: "/>
-                                        <TextBlock Text="{Binding VisibleTown.TotalUpkeep, Mode=OneWay,StringFormat=N2}"/>
-                                    </StackPanel>
-                                </Border>
-                            </StackPanel>
-                        </Border>
-                        <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="0" Grid.Column="1" Padding="2">
-                            <StackPanel Orientation="Vertical">
-                                <TextBlock Text="Производство"/>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <Border Margin="5" BorderBrush="Gray" BorderThickness="1">
+                        <StackPanel Orientation="Vertical">
+                            <Border BorderBrush="Gray" BorderThickness="1" Padding="2">
                                 <StackPanel Orientation="Horizontal">
-                                    <ItemsControl                                                                                                          
-										ItemsSource="{Binding VisibleTown.Product, Converter={StaticResource ResProdConverter}}">
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <StackPanel Orientation="Vertical"/>
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <Image Height="20" Source="{Binding Path=., Mode=OneWay}"/>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                    <ItemsControl                                                                                                          
-										ItemsSource="{Binding VisibleTown.Products}">
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <StackPanel Orientation="Vertical"/>
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Height="20" Text="{Binding Path=., Mode=OneWay, StringFormat=N2}" Visibility="{Binding Path=., Converter={StaticResource StringToVisibilityConverter} }"/>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
+                                    <TextBlock Text="Культура: "/>
+                                    <TextBlock Text="{Binding VisibleTown.Culture, Mode=OneWay}"/>
                                 </StackPanel>
-                            </StackPanel>
-                        </Border>
-                        <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="0" Grid.Column="1" Padding="2">
-                            <StackPanel Orientation="Vertical">
-                                <TextBlock Text="Потребление"/>
+                            </Border>
+                            <Border BorderBrush="Gray" BorderThickness="1" Padding="2">
                                 <StackPanel Orientation="Horizontal">
-                                    <ItemsControl                                                                                                          
-										ItemsSource="{Binding VisibleTown.ResConsumption, Converter={StaticResource ResProdConverter}}">
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <StackPanel Orientation="Vertical"/>
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <Image Height="20" Source="{Binding Path=., Mode=OneWay}"/>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                    <ItemsControl                                                                                                          
-										ItemsSource="{Binding VisibleTown.ResoursesConsumption}">
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <StackPanel Orientation="Vertical"/>
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Height="20" Text="{Binding Path=., Mode=OneWay, StringFormat=N2}" Visibility="{Binding Path=., Converter={StaticResource StringToVisibilityConverter} }"/>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
+                                    <TextBlock Text="Прирост: "/>
+                                    <TextBlock Text="{Binding VisibleTown.Growth, Mode=OneWay, StringFormat=N2}"/>
                                 </StackPanel>
+                            </Border>
+                            <Border BorderBrush="Gray" BorderThickness="1" Padding="2">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Содержание: "/>
+                                    <TextBlock Text="{Binding VisibleTown.TotalUpkeep, Mode=OneWay,StringFormat=N2}"/>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                    <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="0" Grid.Column="1" Padding="2">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="Производство"/>
+                            <StackPanel Orientation="Horizontal">
+                                <ItemsControl                                                                                                          
+									ItemsSource="{Binding VisibleTown.Product, Converter={StaticResource ResProdConverter}}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Vertical"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Image Height="20" Source="{Binding Path=., Mode=OneWay}"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <ItemsControl                                                                                                          
+									ItemsSource="{Binding VisibleTown.Products}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Vertical"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Height="20" Text="{Binding Path=., Mode=OneWay, StringFormat=N2}" Visibility="{Binding Path=., Converter={StaticResource StringToVisibilityConverter} }"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
                             </StackPanel>
-                        </Border>
-                    </StackPanel>
-                </Border>
+                        </StackPanel>
+                    </Border>
+                    <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="0" Grid.Column="1" Padding="2">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="Потребление"/>
+                            <StackPanel Orientation="Horizontal">
+                                <ItemsControl                                                                                                          
+									ItemsSource="{Binding VisibleTown.ResConsumption, Converter={StaticResource ResProdConverter}}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Vertical"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Image Height="20" Source="{Binding Path=., Mode=OneWay}"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <ItemsControl                                                                                                          
+									ItemsSource="{Binding VisibleTown.ResoursesConsumption}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Vertical"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Height="20" Text="{Binding Path=., Mode=OneWay, StringFormat=N2}" Visibility="{Binding Path=., Converter={StaticResource StringToVisibilityConverter} }"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
                 <UniformGrid>
                     <!--<ComboBox>
                         <ComboBoxItem>

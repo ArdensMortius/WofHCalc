@@ -18,7 +18,7 @@ namespace WofHCalc.Models
     public class Town : INotifyPropertyChanged, ICloneable
     {
         private double? science_ef; //процент влива колб, потом надо будет переделать на нормальное вычисление по табличке
-        public double? science_efficiency 
+        public double? ScienceEfficiency 
         {
             get => science_ef;
             set => science_ef = value;
@@ -188,7 +188,7 @@ namespace WofHCalc.Models
         //костыль, чтоб нормально сереализовалось в JSON
         public Town(ExtendedTown et)
         {
-            science_ef = et.science_efficiency;
+            science_ef = et.ScienceEfficiency;
             name = et.Name;
             clm = et.Climate;
             deposit= et.Deposit;

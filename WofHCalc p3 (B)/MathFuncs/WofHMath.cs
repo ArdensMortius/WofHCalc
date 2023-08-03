@@ -402,11 +402,11 @@ namespace WofHCalc.MathFuncs
                 if (builds[i] != BuildName.none && data.BuildindsData[(int)builds[i]].Type == BuildType.culture)
                     ans += (int)BuildEffect(builds[i], (int)lvls[i]!);
             //чудо
-            //if ((lvls[0] == 20)
-            //    && ((builds[0] == BuildName.Earth_Mother
-            //        || builds[0] == BuildName.Coliseum
-            //        || builds[0] == BuildName.The_Pyramids)))
-            //    ans += (int)data.WounderEffects[builds[0]];
+            if ((lvls[0] == 20)
+                && ((builds[0] == BuildName.Earth_Mother
+                    || builds[0] == BuildName.Coliseum
+                    || builds[0] == BuildName.The_Pyramids)))
+                ans += (int)data.WounderEffects[builds[0]];
             //центр
             if (builds[2] != BuildName.none)
             {
@@ -435,18 +435,6 @@ namespace WofHCalc.MathFuncs
             ans *= 1 + data.LuckBonusesData[(int)LuckBonusNames.culture].effect[(int)town.LuckyTown[(int)LuckBonusNames.culture]!];
             return ans;
         }
-        public double TownCultureWOResourses(int baseculture, BuildName[] builds, int?[] lvls, Race race, byte numofcreators, AreaImprovementName[] areaimps, byte[] ailvls, byte[] aiusers, byte luck_bonus_lvl)
-        {
-            double ans = baseculture + TownCultureFromBuilds(builds, lvls);            
-            ans *= data.RaceEffect_Culture(race);
-            ans *= GreatCitizenBonus(numofcreators);
-            double aiinc = 0;
-            for (int i = 0; i < areaimps.Length; i++)
-                if (areaimps[i] == AreaImprovementName.Reservation) aiinc += AreaImprovementBonus(areaimps[i], ailvls[i], aiusers[i]);
-            ans *= 1 + aiinc;
-            ans *= 1 + data.LuckBonusesData[(int)LuckBonusNames.culture].effect[luck_bonus_lvl];
-            return ans;
-        }
         //культура города
         public int TownCulture(Account acc, Town town)
         {
@@ -454,15 +442,6 @@ namespace WofHCalc.MathFuncs
             double resbonus = 1;
             for (int i = (int)ResName.wine; i <= (int)ResName.films; i++)
                 if (town.ResConsumption[i]) resbonus += data.ResData[i].effect;
-            ans *= resbonus;
-            return (int)ans;
-        }
-        public int TownCulture(int baseculture, BuildName[] builds, int?[] lvls, Race race, byte numofcreators, bool[] resconsumption, AreaImprovementName[] areaimps, byte[] ailvls, byte[] aiusers, byte luck_bonus_lvl)
-        {
-            double ans = TownCultureWOResourses(baseculture, builds, lvls, race, numofcreators, areaimps, ailvls, aiusers, luck_bonus_lvl);
-            double resbonus = 1;
-            for (int i = (int)ResName.wine; i <= (int)ResName.films; i++)
-                if (resconsumption[i]) resbonus += data.ResData[i].effect;
             ans *= resbonus;
             return (int)ans;
         }
@@ -1122,8 +1101,8 @@ namespace WofHCalc.MathFuncs
             for (int i = 0; i < 23; i++)            
                 ans += (acc.Financial.Taxes[i] < 0 ? -acc.Financial.Taxes[i]*0.001d : 0) * tprod[i];            
             //за влив колб
-            if (tprod[(int)ResName.science] > 0 && town.science_efficiency is not null && acc.Financial.ForKnowledgeInvestment > 0)
-                ans += acc.Financial.ForKnowledgeInvestment * tprod[(int)ResName.science] * (double)town.science_efficiency!;
+            if (tprod[(int)ResName.science] > 0 && town.ScienceEfficiency is not null && acc.Financial.ForKnowledgeInvestment > 0)
+                ans += acc.Financial.ForKnowledgeInvestment * tprod[(int)ResName.science] * (double)town.ScienceEfficiency!*0.01d;
             //за посольки и ПВО
             if (acc.Financial.ForStrategicBuildings > 0)
                 ans += BuildsUpkeepStrategic(town, acc) * acc.Financial.ForStrategicBuildings;

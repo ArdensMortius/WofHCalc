@@ -19,7 +19,7 @@ namespace WofHCalc.ExtendedModel
         public ExtendedTown(ExtendedAccount acc, Town town)
         {
             this.acc = acc;
-            this.science_efficiency = town.science_efficiency;
+            this.ScienceEfficiency = town.ScienceEfficiency;
             this.Name = town.Name;
             this.Climate = town.Climate;
             this.Deposit = town.Deposit;
