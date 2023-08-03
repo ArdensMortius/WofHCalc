@@ -42,7 +42,7 @@ namespace WofHCalc.ExtendedModel
         }
         public double GrowthPricePerOne //цена на +1 челика в день
         {
-            get => GrowthPriceTotal / Growth;
+            get => GrowthPriceTotal / Growth * 24;
         }
         public int Culture //культура
         {

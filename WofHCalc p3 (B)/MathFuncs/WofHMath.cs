@@ -774,10 +774,10 @@ namespace WofHCalc.MathFuncs
         }
         //потребление ресурсов
         //культишка
-        private double CultCons(double cultWOres, ResName res)
+        private double CultCons(double cultWOres, ResName res, Race r)
         {
             if (res < ResName.wine || res > ResName.films) return 0;
-            else return data.ResData[(int)res].consumption * (int)cultWOres * data.ResData[(int)res].effect;
+            else return data.ResData[(int)res].consumption * (int)cultWOres * data.ResData[(int)res].effect * data.RaceEffect_Consumption(r);
         }
         //цена поедаемой культуры
         private double CultConsPrice(Town town, Account acc)
@@ -787,15 +787,15 @@ namespace WofHCalc.MathFuncs
             for (int i = (int)ResName.wine; i <= (int)ResName.films; i++)
             {
                 if (!town.ResConsumption[i]) continue;
-                ans += CultCons(cultWOres, (ResName)i) * acc.Financial.Prices[i] * 0.001d;
+                ans += CultCons(cultWOres, (ResName)i, acc.Race) * acc.Financial.Prices[i] * 0.001d;
             }
             return ans;
         }
         //растишка
-        private double GrowthCons(double growthWOres, ResName res)
+        private double GrowthCons(double growthWOres, ResName res, Race r)
         {
             if (res < ResName.fruit || res > ResName.meat) return 0;
-            else return data.ResData[(int)res].consumption * growthWOres * data.ResData[(int)res].effect;
+            else return data.ResData[(int)res].consumption * growthWOres * data.ResData[(int)res].effect * data.RaceEffect_Consumption(r);
         }
         //цена поедаемых ростов
         private double GrowthConsPrice(Town town, Account acc)
@@ -805,7 +805,7 @@ namespace WofHCalc.MathFuncs
             for (int i = (int)ResName.fruit; i <= (int)ResName.meat; i++)
             {
                 if (!town.ResConsumption[i]) continue;
-                ans += GrowthCons(growthWOres, (ResName)i) * acc.Financial.Prices[i] * 0.001d;
+                ans += GrowthCons(growthWOres, (ResName)i, acc.Race) * acc.Financial.Prices[i] * 0.001d;
             }
             return ans;
         }
@@ -832,21 +832,8 @@ namespace WofHCalc.MathFuncs
             {
                 if (!town.ResConsumption[i]) continue;
                 int t = data.ResData[i].type;
-                if (t == 1) ans[i] = GrowthCons(growthWOres, (ResName)i); //food
-                if (t == 2) ans[i] = CultCons(cultWOres, (ResName)i); //cult
-                if (t == 3) ans[i] = data.ResData[i].effect * scienseWObooks * data.ResData[i].consumption;//books
-            }
-            return ans;
-        }
-        public double[] GetResConsumption(bool[] eat, double growthWOres, double cultWOres, double scienseWObooks = 0)
-        {
-            double[] ans = new double[23];
-            for (int i = 0; i < 23; i++)
-            {
-                if (!eat[i]) continue;
-                int t = data.ResData[i].type;
-                if (t == 1) ans[i] = GrowthCons(growthWOres, (ResName)i); //food
-                if (t == 2) ans[i] = CultCons(cultWOres, (ResName)i); //cult
+                if (t == 1) ans[i] = GrowthCons(growthWOres, (ResName)i, acc.Race); //food
+                if (t == 2) ans[i] = CultCons(cultWOres, (ResName)i, acc.Race); //cult
                 if (t == 3) ans[i] = data.ResData[i].effect * scienseWObooks * data.ResData[i].consumption;//books
             }
             return ans;
@@ -857,7 +844,7 @@ namespace WofHCalc.MathFuncs
             double ans = TownBuildsUpkeep(town, acc);
             var rc = GetResConsumption(acc, town);
             for (int i = 0; i < 23; i++)            
-                ans += rc[i] * acc.Financial.Prices[i];            
+                ans += rc[i] * acc.Financial.Prices[i] * 0.001d;
             return ans;
         }
         //потребление ДЕНЕГ всеми домиками города
@@ -1133,7 +1120,7 @@ namespace WofHCalc.MathFuncs
             double[] tprod = TownProduction(acc, town);
             //за промку
             for (int i = 0; i < 23; i++)            
-                ans += (acc.Financial.Taxes[i] < 0 ? -acc.Financial.Taxes[i] : 0) * tprod[i];            
+                ans += (acc.Financial.Taxes[i] < 0 ? -acc.Financial.Taxes[i]*0.001d : 0) * tprod[i];            
             //за влив колб
             if (tprod[(int)ResName.science] > 0 && town.science_efficiency is not null && acc.Financial.ForKnowledgeInvestment > 0)
                 ans += acc.Financial.ForKnowledgeInvestment * tprod[(int)ResName.science] * (double)town.science_efficiency!;
@@ -1158,7 +1145,7 @@ namespace WofHCalc.MathFuncs
             double ans = 0;
             double[] tprod = TownProduction(acc, town);
             for (int i = 0; i < 23; i++)
-                ans += (acc.Financial.Taxes[i] > 0 ? acc.Financial.Taxes[i] : 0) * tprod[i];
+                ans += (acc.Financial.Taxes[i] > 0 ? acc.Financial.Taxes[i]*0.001d : 0) * tprod[i];
             if (town.Deposit != DepositName.none)
                 ans += acc.Financial.DepositsTaxes[(int)town.Deposit];
             return ans;

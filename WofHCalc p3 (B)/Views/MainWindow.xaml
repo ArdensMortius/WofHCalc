@@ -54,7 +54,7 @@
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" MinWidth="250"/>
 			<ColumnDefinition Width="2*" MinWidth="150"/>
-			<ColumnDefinition Width="*" MinWidth="150"/>
+			<ColumnDefinition Width="2*" MinWidth="150"/>
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
@@ -150,11 +150,10 @@
 						</GridView>
 					</ListView.View>
 				</ListView>
-				<UniformGrid Columns="2">
-					<Button Margin="5" Command="{Binding AddTown}">New Town</Button>
-					<Button Margin="5" Command="{Binding DelTown}">Delete Town</Button>
-				</UniformGrid>
-
+                <UniformGrid Columns="2">
+                    <Button Margin="5" Command="{Binding AddTown}">New Town</Button>
+                    <Button Margin="5" Command="{Binding DelTown}">Delete Town</Button>
+                </UniformGrid>
                 <StackPanel Orientation="Horizontal" Margin="5,0,0,5">
                     <ItemsControl ItemsSource="{Binding Source={enumsup:EnumBindingSourse {x:Type sup:ResName}}}">
                         <ItemsControl.ItemsPanel>
@@ -628,6 +627,154 @@
                 </UniformGrid>
 			</StackPanel>
 		</ScrollViewer>
+        <ScrollViewer Grid.Row="1" Grid.Column="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel Orientation="Vertical" Margin="5">
+                <TextBlock Margin="5" FontWeight="Bold">Прирост наса</TextBlock>
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Прирост"></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.Growth}"></TextBlock>
+                    <TextBlock Grid.Column="2" Text=""></TextBlock>
+                </Grid>
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Расходы на прирост"></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.GrowthPriceTotal}"></TextBlock>
+                    <TextBlock Grid.Column="2" Text=""></TextBlock>
+                </Grid>
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Цена 1 человека"></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.GrowthPricePerOne}"></TextBlock>
+                    <TextBlock Grid.Column="2" Text=""></TextBlock>
+                </Grid>
+                <TextBlock Margin="5" FontWeight="Bold">Культура города</TextBlock>
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Культура"></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.Culture}"></TextBlock>
+                    <TextBlock Grid.Column="2" Text=""></TextBlock>
+                </Grid>
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Расходы на культуру"></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.CulturePriceTotal}"></TextBlock>
+                    <TextBlock Grid.Column="2" Text=""></TextBlock>
+                </Grid>
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Цена за 100 культуры"></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.CulturePricePerHundred}"></TextBlock>
+                    <TextBlock Grid.Column="2" Text=""></TextBlock>
+                </Grid>
+                <TextBlock Margin="5" FontWeight="Bold">Торговцы</TextBlock>
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Количество торгов"></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.Traiders}"></TextBlock>
+                    <TextBlock Grid.Column="2" Text=""></TextBlock>
+                </Grid>
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Стоимость 1 торга"></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.TraiderPrice}"></TextBlock>
+                    <TextBlock Grid.Column="2" Text=""></TextBlock>
+                </Grid>
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Производ реса на торговца"></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.ResPerTraider}"></TextBlock>
+                    <TextBlock Grid.Column="2" Text=""></TextBlock>
+                </Grid>
+                <TextBlock Margin="5" FontWeight="Bold">Разное</TextBlock>
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Ценность произведённого"></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.ProductsValuation}"></TextBlock>
+                    <TextBlock Grid.Column="2" Text=""></TextBlock>
+                </Grid>
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Прочность города"></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.TownStrength}"></TextBlock>
+                    <TextBlock Grid.Column="2" Text=""></TextBlock>
+                </Grid>
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Цена постройки города"></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.TownPrice}"></TextBlock>
+                    <TextBlock Grid.Column="2" Text=""></TextBlock>
+                </Grid>
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Доход владельцу города"></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.TownProfitForOwner}"></TextBlock>
+                    <TextBlock Grid.Column="2" Text=""></TextBlock>
+                </Grid>
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Условный доход страны"></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.TownProfitForCountry}"></TextBlock>
+                    <TextBlock Grid.Column="2" Text=""></TextBlock>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
 
-	</Grid>
+    </Grid>
 </Window>
