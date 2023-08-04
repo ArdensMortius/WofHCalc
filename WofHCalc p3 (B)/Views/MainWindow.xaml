@@ -800,6 +800,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                         <RowDefinition/>
+                        <RowDefinition/>
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Column="0" Grid.Row="0">Время перестройки, часы</TextBlock>
                     <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding ActiveAccount.RebuildTime, StringFormat=N2}"/>
@@ -871,6 +872,8 @@
                             </StackPanel>
                         </StackPanel>
                     </Border>
+                    <TextBlock Grid.Column="0" Grid.Row="2">Срок окупаемости, часы</TextBlock>
+                    <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding ActiveAccount.PaybackPeriod, StringFormat=N2}"/>
                 </Grid>
             </StackPanel>
         </ScrollViewer>

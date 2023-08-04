@@ -295,6 +295,10 @@ namespace WofHCalc.ExtendedModel
                 }
             }
         }
+        public double PaybackPeriod
+        {
+            get => RebuildCost / DTownProfitForOwner;
+        }
         public override string ToJSON() //Костыль для сохранения данных
         {
             Towns = new ObservableCollection<Town>();

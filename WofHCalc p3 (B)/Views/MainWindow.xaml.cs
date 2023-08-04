@@ -76,7 +76,6 @@ namespace WofHCalc
             dc.VisibleTown!.TownBuilds[slot_id].Building = BuildName.none;
             dc.VisibleTown!.TownBuilds[slot_id].Level = null;
         }
-
         private void GSV_LoadingRow(object sender, DataGridRowEventArgs e) =>        
             e.Row.Header = ((GreatCitizensNames)e.Row.GetIndex()).Description();
         private void LBV_LoadingRow(object sender, DataGridRowEventArgs e)
@@ -84,8 +83,6 @@ namespace WofHCalc
             e.Row.Header = ((LuckBonusNames)e.Row.GetIndex()).Description();
             if (e.Row.Header == "none") e.Row.Visibility = Visibility.Collapsed;
         }
-
-
         private void GSV_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
             byte v;
@@ -95,7 +92,6 @@ namespace WofHCalc
                 dc.VisibleTown!.GreatCitizens[e.Row.GetIndex()] = v;                
             }
         }
-
         private void LBV_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
             byte v;
@@ -110,7 +106,6 @@ namespace WofHCalc
             //а всё потому что при binding-е к элементу коллекции она умудряется обновляться через get, а не через set.
             dc.OnPropertyChanged(nameof(dc.VisibleTown));
         }
-
         private void ProdDisplay_MouseDown(object sender, RoutedEventArgs e)
         {
             if (Prod.Visibility == Visibility.Visible) 

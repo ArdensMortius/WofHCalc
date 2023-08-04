@@ -12,6 +12,7 @@ using WofHCalc.MathFuncs;
 using WofHCalc.Models;
 using WofHCalc.ExtendedModel;
 using WofHCalc.Supports;
+using WofHCalc.Views;
 
 namespace WofHCalc.Controllers
 {
@@ -114,9 +115,13 @@ namespace WofHCalc.Controllers
                 {
                     try
                     {
-                        ExtendedTown d = SelectedTown!;
-                        SelectedTown = ActiveAccount!.ExtendedTowns.FirstOrDefault();
-                        ActiveAccount!.ExtendedTowns.Remove(d);
+                        ConfirmAction c = new($"Точно хотите удалить город {SelectedTown!.Name}?");
+                        if (c.ShowDialog()==true)
+                        {
+                            ExtendedTown d = SelectedTown!;
+                            SelectedTown = ActiveAccount!.ExtendedTowns.FirstOrDefault();
+                            ActiveAccount!.ExtendedTowns.Remove(d);
+                        }
                     }
                     catch
                     {
@@ -135,7 +140,8 @@ namespace WofHCalc.Controllers
                 return updatecalcs ??= new RelayCommand(o1 =>
                 { 
                     OnPropertyChanged(nameof(VisibleTown));
-                    if (active_acc!.nvariant > 0) OnPropertyChanged(nameof(ActiveAccount)); 
+                    OnPropertyChanged(nameof(SelectedTown));
+                    OnPropertyChanged(nameof(ActiveAccount)); 
                 });
             }
         }

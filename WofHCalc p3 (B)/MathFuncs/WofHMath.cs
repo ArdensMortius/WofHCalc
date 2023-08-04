@@ -1059,22 +1059,25 @@ namespace WofHCalc.MathFuncs
             int[] rc = new int[23];
             for (int i = 0; i < 19; i++)
             {
-                int[] t = new int[23];
-                bool f = false;
+                int[] t = new int[23];                
                 if (b2[i].Building == BuildName.none || b2[i].Level is null || b2[i].Level == 0) continue; //если в новом городе клетка пустая, то скипаем дальше
                 //перестройка
                 if (b1[i].Building != b2[i].Building)
                 {
                     t = RebuildResCost(b1[i].Building, b1[i].Level, b2[i].Building);
-                    f = true;
+                    for (int j = 0; j < 23; j++) rc[j] += t[j];
+                    if (b2[i].Level > 1)
+                    {
+                        t = BuildUpFromToResCost(b2[i].Building, 1, (int)b2[i].Level!);
+                        for (int j = 0; j < 23; j++) rc[j] += t[j];
+                    }
                 }
                 //ап уровня
                 else if (b1[i].Level < b2[i].Level)
                 {
                     t = BuildUpFromToResCost(b1[i].Building, (int)b1[i].Level!, (int)b2[i].Level!);
-                    f = true;
+                    for (int j = 0; j < 23; j++) rc[j] += t[j];                    
                 }
-                if (f) for (int j = 0; j < 23; j++) rc[j] += t[j];
             }
             //ум
             //хз как считать правильно, потому что могут быть замены и сносы ум
@@ -1097,7 +1100,6 @@ namespace WofHCalc.MathFuncs
             int[] rc = TownRebuildResCost(town_old,town_new,acc,aimultiuser);            
             return ResToMoney<int>(rc, acc.Financial.Prices);
         }
-
         //вреня на перестройку/ап города
         public double TownRebuildTime(Town town_old, Town town_new, Account acc, bool aimultiuser = false)
         {
