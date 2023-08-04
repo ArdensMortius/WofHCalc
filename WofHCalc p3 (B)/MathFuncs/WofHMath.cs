@@ -920,7 +920,7 @@ namespace WofHCalc.MathFuncs
                 ans += (int)Math.Truncate(BuildEffect(builds[i], (int)lvls[i]!));
             }
             //+стоунхендж
-            if (builds[0] == BuildName.Stonehenge) ans += (int)data.WounderEffects[BuildName.Stonehenge];
+            if (builds[0] == BuildName.Stonehenge && lvls[0] == 20) ans += (int)data.WounderEffects[BuildName.Stonehenge];
             //+торгаши за МУ (мб не совем верно, надо проверять)
             ans += (int)Math.Round(data.LuckBonusesData[(int)LuckBonusNames.traders].effect[(int)town.LuckyTown[(int)LuckBonusNames.traders]!]); 
             return ans;
@@ -1129,6 +1129,35 @@ namespace WofHCalc.MathFuncs
                     if (nl[i] > 1) ans += BuildUpTimeFromTo(nb[i], 1, nl[i]);
                     continue; 
                 }                
+            }
+            return ans;
+        }
+        //Доступно всего рабочих мест в городе
+        public int TownWorkplaces(Town town)
+        {
+            int ans = 0;
+            var b = town.TownBuilds;
+            double workplacesmod = Workplacesmod(b.Select(x => x.Building).ToArray(), b.Select(x => (int?)x.Level).ToArray()) ;
+            var areaimps = town.AreaImprovements.Select(x => x.AIName).ToArray();
+            var ailvls = town.AreaImprovements.Select(x => x.Level).ToArray();
+            var aiusers = town.AreaImprovements.Select(x => x.Users).ToArray();
+            double workplacesmodSciense = WorkplacesmodScience(areaimps, ailvls, aiusers);
+            for (int i = 3; i < b.Count; i++)
+            {
+                if (b[i].Building == BuildName.none) continue;
+                if (data.BuildindsData[(int)b[i].Building].Type == BuildType.production)
+                {
+                    double wp = BuildEffect(b[i].Building, (int)b[i].Level!);
+                    int nwp = 0;
+                    foreach (var r in data.BuildindsData[(int)b[i].Building].Productres)
+                    {
+                        if (r.Res == ResName.science)
+                            nwp = (int)(wp * workplacesmodSciense);
+                        else
+                            nwp = (int)(wp * workplacesmod);                        
+                    }
+                    ans += nwp;
+                }
             }
             return ans;
         }

@@ -100,6 +100,10 @@ namespace WofHCalc.ExtendedModel
         {
             get => acc.WofHFuncs.TownProfitForCountry(this, acc);
         }
+        public int Workplaces
+        {
+            get => acc.WofHFuncs.TownWorkplaces(this);
+        }
         public override object Clone()
         {
             Town t = (Town)base.Clone();

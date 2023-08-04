@@ -297,7 +297,7 @@ namespace WofHCalc.ExtendedModel
         }
         public double PaybackPeriod
         {
-            get => RebuildCost / DTownProfitForOwner;
+            get => DTownProfitForOwner > 0 ? RebuildCost / DTownProfitForOwner : 0;
         }
         public override string ToJSON() //Костыль для сохранения данных
         {

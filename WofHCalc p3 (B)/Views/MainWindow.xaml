@@ -544,6 +544,12 @@
                                     <TextBlock Text="{Binding VisibleTown.TotalUpkeep, Mode=OneWay,StringFormat=N2}"/>
                                 </StackPanel>
                             </Border>
+                            <Border BorderBrush="Gray" BorderThickness="1" Padding="2">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Рабочие места: "/>
+                                    <TextBlock Text="{Binding VisibleTown.Workplaces, Mode=OneWay}"/>
+                                </StackPanel>
+                            </Border>
                         </StackPanel>
                     </Border>
                     <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="0" Grid.Column="1" Padding="2">

@@ -19,12 +19,12 @@ namespace WofHCalc.Supports.Converters
                 try
                 {
                     v = (value as ICollection<double>)!
-                    .Select(x => x > 0 ? true : false).ToArray();
+                    .Select(x => x != 0 ? true : false).ToArray();
                 }
                 catch
                 {
                     v = (value as ICollection<int>)!
-                    .Select(x => x > 0 ? true : false).ToArray();
+                    .Select(x => x != 0 ? true : false).ToArray();
                 }                
                 List<string> list = new List<string>();
                 for (int i = 0; i < 23; i++)
