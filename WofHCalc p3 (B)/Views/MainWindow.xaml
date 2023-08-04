@@ -21,6 +21,7 @@
         <conv:ResToImgConverter x:Key="ResToImgConverter"/>
         <conv:NullableToStringConverter x:Key="NullableToStringConverter"/>
         <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <conv:ResListConverter x:Key="ResListConverter"/>
 
         <Style TargetType="{x:Type DataGridCell}">
 			<Setter Property="BorderThickness" Value="1" />
@@ -63,9 +64,9 @@
 		</Grid.RowDefinitions>
 		<Grid Grid.Row="0" Grid.Column="0" Panel.ZIndex="1" Margin="5">
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition/>
-				<ColumnDefinition/>
-				<ColumnDefinition/>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="5*"/>
+				<ColumnDefinition Width="2*"/>
 			</Grid.ColumnDefinitions>
 			<TextBlock Grid.Column="0" Text="{Binding ActiveAccount.World}" VerticalAlignment="Center"/>
 			<TextBlock Grid.Column="1" Text="{Binding ActiveAccount.Name}" VerticalAlignment="Center"/>
@@ -142,11 +143,12 @@
 					Margin="5,5,5,0"
 					Height="auto"
 					ItemsSource="{Binding ActiveAccount.ExtendedTowns}"
-					SelectedItem="{Binding SelectedTown}">
+					SelectedItem="{Binding SelectedTown}"
+                    SelectedIndex="{Binding ActiveAccount.ntown}">
 					<ListView.View>
 						<GridView>
 							<GridViewColumn Width="200" DisplayMemberBinding="{Binding Name}">Название</GridViewColumn>
-							<GridViewColumn Width="50" DisplayMemberBinding="{Binding Deposit}">МР</GridViewColumn>
+							<GridViewColumn Width="50" DisplayMemberBinding="{Binding Deposit, Converter={StaticResource EnumDescriptionConverter}}">МР</GridViewColumn>
 							<GridViewColumn Width="80" DisplayMemberBinding="{Binding Climate}">Климат</GridViewColumn>
 						</GridView>
 					</ListView.View>
@@ -549,7 +551,7 @@
                             <TextBlock Text="Производство"/>
                             <StackPanel Orientation="Horizontal">
                                 <ItemsControl                                                                                                          
-									ItemsSource="{Binding VisibleTown.Product, Converter={StaticResource ResProdConverter}}">
+									ItemsSource="{Binding VisibleTown.Products, Converter={StaticResource ResListConverter}}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <StackPanel Orientation="Vertical"/>
@@ -611,23 +613,36 @@
                         </StackPanel>
                     </Border>
                 </StackPanel>
-                <UniformGrid>
-                    <!--<ComboBox>
-                        <ComboBoxItem>
-                            
-                        </ComboBoxItem>
-                        <ComboBoxItem>
-                            
-                        </ComboBoxItem>
-                        <ComboBoxItem>
-                            
-                        </ComboBoxItem>
-                    </ComboBox>
-                    <Button Command="{Binding ApplyClone}">Принять изменения</Button>
-                    <Button Command="{Binding ResetClone}">Сбросить изменения</Button>-->
-                </UniformGrid>
+                <Border BorderBrush="Gray" BorderThickness="1" Margin="5">
+                    <UniformGrid>
+						<TextBlock>Варианты развития города</TextBlock>
+						<ComboBox SelectedIndex="{Binding ActiveAccount.nvariant}" SelectionChanged="ComboBoxVariants_SelectionChanged">
+							<ComboBoxItem>
+                                <TextBlock>Город сейчас</TextBlock>
+							</ComboBoxItem>
+							<ComboBoxItem>
+                                <TextBlock>Вариант 1</TextBlock>
+                            </ComboBoxItem>
+							<ComboBoxItem>
+                                <TextBlock>Вариант 2</TextBlock>
+                            </ComboBoxItem>
+						</ComboBox>
+						<Button Command="{Binding ApplyClone}">Принять изменения</Button>
+						<Button Command="{Binding ResetClone}">Сбросить изменения</Button>
+					</UniformGrid>
+                </Border>
 			</StackPanel>
 		</ScrollViewer>
+        <Grid Margin="5" Grid.Row="0" Grid.Column="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Margin="5,0,0,0" Grid.Column="0">Вычисляемое</TextBlock>
+            <TextBlock Margin="0" Grid.Column="1">Текущее</TextBlock>
+            <TextBlock Margin="0,0,5,0" Grid.Column="2">Дельта</TextBlock>
+        </Grid>
         <ScrollViewer Grid.Row="1" Grid.Column="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
             <StackPanel Orientation="Vertical" Margin="5">
                 <TextBlock Margin="5" FontWeight="Bold">Прирост наса</TextBlock>
@@ -638,8 +653,8 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Прирост"></TextBlock>
-                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.Growth}"></TextBlock>
-                    <TextBlock Grid.Column="2" Text=""></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.Growth, StringFormat=N2}"></TextBlock>
+                    <TextBlock Grid.Column="2" Text="{Binding ActiveAccount.DGrowth, StringFormat=N2}"></TextBlock>
                 </Grid>
                 <Grid Margin="5">
                     <Grid.ColumnDefinitions>
@@ -648,8 +663,8 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Расходы на прирост"></TextBlock>
-                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.GrowthPriceTotal}"></TextBlock>
-                    <TextBlock Grid.Column="2" Text=""></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.GrowthPriceTotal, StringFormat=N2}"></TextBlock>
+                    <TextBlock Grid.Column="2" Text="{Binding ActiveAccount.DGrowthPriceTotal, StringFormat=N2}"></TextBlock>
                 </Grid>
                 <Grid Margin="5">
                     <Grid.ColumnDefinitions>
@@ -658,8 +673,8 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Цена 1 человека"></TextBlock>
-                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.GrowthPricePerOne}"></TextBlock>
-                    <TextBlock Grid.Column="2" Text=""></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.GrowthPricePerOne, StringFormat=N2}"></TextBlock>
+                    <TextBlock Grid.Column="2" Text="{Binding ActiveAccount.DGrowthPricePerOne, StringFormat=N2}"></TextBlock>
                 </Grid>
                 <TextBlock Margin="5" FontWeight="Bold">Культура города</TextBlock>
                 <Grid Margin="5">
@@ -670,7 +685,7 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Культура"></TextBlock>
                     <TextBlock Grid.Column="1" Text="{Binding VisibleTown.Culture}"></TextBlock>
-                    <TextBlock Grid.Column="2" Text=""></TextBlock>
+                    <TextBlock Grid.Column="2" Text="{Binding ActiveAccount.DCulture, StringFormat=N2}"></TextBlock>
                 </Grid>
                 <Grid Margin="5">
                     <Grid.ColumnDefinitions>
@@ -679,8 +694,8 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Расходы на культуру"></TextBlock>
-                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.CulturePriceTotal}"></TextBlock>
-                    <TextBlock Grid.Column="2" Text=""></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.CulturePriceTotal, StringFormat=N2}"></TextBlock>
+                    <TextBlock Grid.Column="2" Text="{Binding ActiveAccount.DCulturePriceTotal, StringFormat=N2}"></TextBlock>
                 </Grid>
                 <Grid Margin="5">
                     <Grid.ColumnDefinitions>
@@ -689,8 +704,8 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Цена за 100 культуры"></TextBlock>
-                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.CulturePricePerHundred}"></TextBlock>
-                    <TextBlock Grid.Column="2" Text=""></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.CulturePricePerHundred, StringFormat=N2}"></TextBlock>
+                    <TextBlock Grid.Column="2" Text="{Binding ActiveAccount.DCulturePricePerHundred, StringFormat=N2}"></TextBlock>
                 </Grid>
                 <TextBlock Margin="5" FontWeight="Bold">Торговцы</TextBlock>
                 <Grid Margin="5">
@@ -701,7 +716,7 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Количество торгов"></TextBlock>
                     <TextBlock Grid.Column="1" Text="{Binding VisibleTown.Traiders}"></TextBlock>
-                    <TextBlock Grid.Column="2" Text=""></TextBlock>
+                    <TextBlock Grid.Column="2" Text="{Binding ActiveAccount.DTraiders}"></TextBlock>
                 </Grid>
                 <Grid Margin="5">
                     <Grid.ColumnDefinitions>
@@ -710,8 +725,8 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Стоимость 1 торга"></TextBlock>
-                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.TraiderPrice}"></TextBlock>
-                    <TextBlock Grid.Column="2" Text=""></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.TraiderPrice, StringFormat=N2}"></TextBlock>
+                    <TextBlock Grid.Column="2" Text="{Binding ActiveAccount.DTraiderPrice, StringFormat=N2}"></TextBlock>
                 </Grid>
                 <Grid Margin="5">
                     <Grid.ColumnDefinitions>
@@ -720,8 +735,8 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Производ реса на торговца"></TextBlock>
-                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.ResPerTraider}"></TextBlock>
-                    <TextBlock Grid.Column="2" Text=""></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.ResPerTraider, StringFormat=N2}"></TextBlock>
+                    <TextBlock Grid.Column="2" Text="{Binding ActiveAccount.DResPerTraider, StringFormat=N2}"></TextBlock>
                 </Grid>
                 <TextBlock Margin="5" FontWeight="Bold">Разное</TextBlock>
                 <Grid Margin="5">
@@ -731,8 +746,8 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Ценность произведённого"></TextBlock>
-                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.ProductsValuation}"></TextBlock>
-                    <TextBlock Grid.Column="2" Text=""></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.ProductsValuation, StringFormat=N2}"></TextBlock>
+                    <TextBlock Grid.Column="2" Text="{Binding ActiveAccount.DProductsValuation, StringFormat=N2}"></TextBlock>
                 </Grid>
                 <Grid Margin="5">
                     <Grid.ColumnDefinitions>
@@ -742,7 +757,7 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Прочность города"></TextBlock>
                     <TextBlock Grid.Column="1" Text="{Binding VisibleTown.TownStrength}"></TextBlock>
-                    <TextBlock Grid.Column="2" Text=""></TextBlock>
+                    <TextBlock Grid.Column="2" Text="{Binding ActiveAccount.DTownStrength}"></TextBlock>
                 </Grid>
                 <Grid Margin="5">
                     <Grid.ColumnDefinitions>
@@ -752,7 +767,7 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Цена постройки города"></TextBlock>
                     <TextBlock Grid.Column="1" Text="{Binding VisibleTown.TownPrice}"></TextBlock>
-                    <TextBlock Grid.Column="2" Text=""></TextBlock>
+                    <TextBlock Grid.Column="2" Text="{Binding ActiveAccount.DTownPrice}"></TextBlock>
                 </Grid>
                 <Grid Margin="5">
                     <Grid.ColumnDefinitions>
@@ -761,8 +776,8 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Доход владельцу города"></TextBlock>
-                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.TownProfitForOwner}"></TextBlock>
-                    <TextBlock Grid.Column="2" Text=""></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.TownProfitForOwner, StringFormat=N2}"></TextBlock>
+                    <TextBlock Grid.Column="2" Text="{Binding ActiveAccount.DTownProfitForOwner, StringFormat=N2}"></TextBlock>
                 </Grid>
                 <Grid Margin="5">
                     <Grid.ColumnDefinitions>
@@ -771,8 +786,21 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Условный доход страны"></TextBlock>
-                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.TownProfitForCountry}"></TextBlock>
-                    <TextBlock Grid.Column="2" Text=""></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.TownProfitForCountry, StringFormat=N2}"></TextBlock>
+                    <TextBlock Grid.Column="2" Text="{Binding ActiveAccount.DTownProfitForCountry, StringFormat=N2}"></TextBlock>
+                </Grid>
+                <TextBlock Margin="5" FontWeight="Bold">Инфа по перестройке</TextBlock>
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0">Время перестройки</TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding ActiveAccount.RebuildTime}"/>
+                    <TextBlock Grid.Column="2">Цена перестройки</TextBlock>
+                    <TextBlock Grid.Column="3" Text="{Binding ActiveAccount.RebuildCost}"/>
                 </Grid>
             </StackPanel>
         </ScrollViewer>

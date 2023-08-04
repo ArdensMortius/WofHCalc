@@ -30,7 +30,7 @@ namespace WofHCalc.Controllers
                 VisibleTown ??= ActiveAccount!.ExtendedTowns.FirstOrDefault();
             }
         }
-        //отображаемый город (оригинальный город или его клон)
+        //отображаемый город (оригинальный город или его клон/вариант)
         private ExtendedTown? visible_town; 
         public ExtendedTown? VisibleTown
         {
@@ -39,10 +39,10 @@ namespace WofHCalc.Controllers
             {
                 visible_town = value;
                 OnPropertyChanged(nameof(VisibleTown));
-                OnPropertyChanged(nameof(VisibleTown));
+                if (active_acc!.nvariant>0) OnPropertyChanged(nameof(ActiveAccount));
             }
         }
-        //выбранный город, возможно стоит убрать
+        //выбранный город
         private ExtendedTown? selected;
         public ExtendedTown? SelectedTown
         {
@@ -51,38 +51,38 @@ namespace WofHCalc.Controllers
             {
                 selected = value; 
                 OnPropertyChanged(nameof(SelectedTown));
+                ActiveAccount!.nvariant = 0;
                 VisibleTown = value;
             }
-        }        
-        //этот функционал уходить в extended model
-
-        //private RelayCommand? reset_clone;        
-        //public RelayCommand ResetClone
-        //{
-        //    get
-        //    {
-        //        return reset_clone ??= new RelayCommand(
-        //            o1 => { clones[clones.IndexOf(VisibleTown)] = (Town)SelectedTown!.Clone(); },
-        //            o2 => { return (SelectedTown is not null && clones.Any(t=> t==VisibleTown)); }
-        //        );
-        //    }
-        //}        
-        //private RelayCommand? apply_clone;
-        //public RelayCommand ApplyClone
-        //{
-        //    get
-        //    {
-        //        return apply_clone ??= new RelayCommand(
-        //            o1 => 
-        //            {
-        //                int ind = ActiveAccount!.Towns.IndexOf(SelectedTown!);
-        //                ActiveAccount!.Towns[ind] = (Town)VisibleTown!.Clone();
-        //                SelectedTown = ActiveAccount.Towns[ind];
-        //            },
-        //            o2 => { return (SelectedTown is not null && clones.Any(t => t == VisibleTown)); }
-        //        );
-        //    }
-        //}
+        }
+        private RelayCommand? reset_clone;
+        public RelayCommand ResetClone
+        {
+            get
+            {
+                return reset_clone ??= new RelayCommand(
+                    o1 => { active_acc!.variantsET1[active_acc.ntown] = (ExtendedTown)active_acc.ExtendedTowns[active_acc.ntown].Clone(); },
+                    o2 => { return (SelectedTown is not null && active_acc!.nvariant>0); }
+                );
+            }
+        }
+        private RelayCommand? apply_clone;
+        public RelayCommand ApplyClone
+        {
+            get
+            {
+                return apply_clone ??= new RelayCommand(
+                    o1 =>
+                    {
+                        int nt = ActiveAccount!.ntown;
+                        ActiveAccount!.ExtendedTowns[nt] = (ExtendedTown)VisibleTown!.Clone();                        
+                        ActiveAccount!.nvariant = 0;
+                        SelectedTown = ActiveAccount.ExtendedTowns[nt];
+                    },
+                    o2 => { return (SelectedTown is not null && active_acc!.nvariant > 0); }
+                );
+            }
+        }
 
         private RelayCommand? add_town_command; //+
         public RelayCommand AddTown
@@ -133,40 +133,12 @@ namespace WofHCalc.Controllers
             get
             {
                 return updatecalcs ??= new RelayCommand(o1 =>
-                { OnPropertyChanged(nameof(VisibleTown)); });
+                { 
+                    OnPropertyChanged(nameof(VisibleTown));
+                    if (active_acc!.nvariant > 0) OnPropertyChanged(nameof(ActiveAccount)); 
+                });
             }
         }
-
-        //private ObservableCollection<PTDA>? ptda; //устарело
-        //public ObservableCollection<PTDA> PriceTaxDataAdapter
-        //{            
-        //    set 
-        //    { 
-        //        ptda = value;
-        //        OnPropertyChanged(nameof(PriceTaxDataAdapter)); 
-        //    }
-        //    get
-        //    {
-        //        if (ptda != null) return ptda;
-        //        else
-        //        {
-        //            ptda = new ObservableCollection<PTDA>();
-        //            if (ActiveAccount is null) { return ptda; }
-        //            for (int i = 0; i < 23; i++)
-        //            {
-        //                ptda.Add(new PTDA
-        //                {
-        //                    ImgPath = $"/DataSourses/Img/icons/res/res{i}.png",
-        //                    Resource = ((ResName)i).ToString(),
-        //                    Price = ActiveAccount!.Financial.Prices[i],
-        //                    Tax = ActiveAccount!.Financial.Taxes[i]
-        //                }); 
-        //            }
-        //        }
-        //        return ptda;
-        //    }
-        //}
-
 
         public event PropertyChangedEventHandler? PropertyChanged;
         public void OnPropertyChanged(string propertyName = "")
@@ -174,12 +146,4 @@ namespace WofHCalc.Controllers
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
-
-    //public class PTDA
-    //{
-    //    public string? ImgPath { get; set; }
-    //    public string? Resource { get; set; }
-    //    public int Price { get; set; }
-    //    public int Tax { get; set; }
-    //}
 }

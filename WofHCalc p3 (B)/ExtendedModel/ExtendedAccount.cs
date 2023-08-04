@@ -17,193 +17,273 @@ namespace WofHCalc.ExtendedModel
         [JsonIgnore]
         public ObservableCollection<ExtendedTown> ExtendedTowns { get; set; }
         [JsonIgnore]
-        public ObservableCollection<ExtendedTown> VariantsET1 { get; set; }
+        public ObservableCollection<ExtendedTown> variantsET1 { get; set; }
         [JsonIgnore]
-        public ObservableCollection<ExtendedTown> VariantsET2 { get; set; }
+        public ObservableCollection<ExtendedTown> variantsET2 { get; set; }
         //public ObservableCollection<ExtendedTown>? TargetETowns { get; set; }
         [JsonIgnore]
         public DataWorldConst data;
         [JsonIgnore]
         public WofHMath WofHFuncs;
-        public ExtendedAccount(Account acc) : base(acc) //или тут не работает или не тут
+        public ExtendedAccount(Account acc) : base(acc)
         {            
             data = DataWorldConst.GetInstance(acc.World);
             ExtendedTowns = new ObservableCollection<ExtendedTown>();
-            VariantsET1 = new ObservableCollection<ExtendedTown>();
-            VariantsET2 = new ObservableCollection<ExtendedTown>();
+            variantsET1 = new ObservableCollection<ExtendedTown>();
+            variantsET2 = new ObservableCollection<ExtendedTown>();
             foreach (Town town in acc.Towns) 
             {
                 var et = new ExtendedTown (this, town);
                 ExtendedTowns.Add(et);
-                VariantsET1.Add((ExtendedTown)et.Clone());
-                VariantsET2.Add((ExtendedTown)et.Clone());
+                variantsET1.Add((ExtendedTown)et.Clone());
+                variantsET2.Add((ExtendedTown)et.Clone());
             }
             WofHFuncs = new WofHMath(data);
         }
-        public double RebuildCost(int n, byte variant)
-        {
-            switch (variant)
-            {
-                case 1: return WofHFuncs.TownRebuildCost((Town)ExtendedTowns[n], (Town)VariantsET1[n], (Account)this);
-                case 2: return WofHFuncs.TownRebuildCost((Town)ExtendedTowns[n], (Town)VariantsET2[n], (Account)this);
-                default: return 0;
-            }            
-        }
         //все изменения для сравнения с тем, что было
-        public double DGrowth(int n, byte variant)
+        private int nt;
+        [JsonIgnore]
+        public int ntown 
+        { 
+            set { nt = value; OnPropertyChanged("ntown"); }
+            get => nt;
+        }
+        private int nv;
+        [JsonIgnore]
+        public int nvariant 
         {
-            switch (variant)
+            set { nv = value; OnPropertyChanged("nvariant"); } 
+            get => nv;
+        }
+        public double RebuildCost
+        {
+            get 
             {
-                case 1: return (VariantsET1[n].Growth - ExtendedTowns[n].Growth);
-                case 2: return (VariantsET2[n].Growth - ExtendedTowns[n].Growth);
-                default: return 0;
+                switch (nvariant)
+                {
+                    case 1: return WofHFuncs.TownRebuildCost((Town)ExtendedTowns[ntown], (Town)variantsET1[ntown], (Account)this);
+                    case 2: return WofHFuncs.TownRebuildCost((Town)ExtendedTowns[ntown], (Town)variantsET2[ntown], (Account)this);
+                    default: return 0;
+                }            
             }
         }
-        public double DGrowthPriceTotal(int n, byte variant)
+        public double DGrowth
         {
-            switch (variant)
+            get
             {
-                case 1: return (VariantsET1[n].GrowthPriceTotal - ExtendedTowns[n].GrowthPriceTotal);
-                case 2: return (VariantsET2[n].GrowthPriceTotal - ExtendedTowns[n].GrowthPriceTotal);
-                default: return 0;
+                switch (nvariant)
+                {
+                    case 1: return (variantsET1[ntown].Growth - ExtendedTowns[ntown].Growth);
+                    case 2: return (variantsET2[ntown].Growth - ExtendedTowns[ntown].Growth);
+                    default: return 0;
+                }
             }
         }
-        public double DGrowthPricePerOne(int n, byte variant)
+        public double DGrowthPriceTotal
         {
-            switch (variant)
-            {
-                case 1: return (VariantsET1[n].GrowthPricePerOne - ExtendedTowns[n].GrowthPricePerOne);
-                case 2: return (VariantsET2[n].GrowthPricePerOne - ExtendedTowns[n].GrowthPricePerOne);
-                default: return 0;
+            get
+            { 
+                switch (nvariant)
+                {
+                    case 1: return (variantsET1[ntown].GrowthPriceTotal - ExtendedTowns[ntown].GrowthPriceTotal);
+                    case 2: return (variantsET2[ntown].GrowthPriceTotal - ExtendedTowns[ntown].GrowthPriceTotal);
+                    default: return 0;
+                }
             }
         }
-        public int DCulture(int n, byte variant)
+        public double DGrowthPricePerOne
         {
-            switch (variant)
+            get
             {
-                case 1: return (VariantsET1[n].Culture - ExtendedTowns[n].Culture);
-                case 2: return (VariantsET2[n].Culture - ExtendedTowns[n].Culture);
-                default: return 0;
+                switch (nvariant)
+                {
+                    case 1: return (variantsET1[ntown].GrowthPricePerOne - ExtendedTowns[ntown].GrowthPricePerOne);
+                    case 2: return (variantsET2[ntown].GrowthPricePerOne - ExtendedTowns[ntown].GrowthPricePerOne);
+                    default: return 0;
+                }
             }
         }
-        public double DCulturePriceTotal(int n, byte variant)
+        public int DCulture
         {
-            switch (variant)
+            get 
             {
-                case 1: return (VariantsET1[n].CulturePriceTotal - ExtendedTowns[n].CulturePriceTotal);
-                case 2: return (VariantsET2[n].CulturePriceTotal - ExtendedTowns[n].CulturePriceTotal);
-                default: return 0;
+                switch (nvariant)
+                {
+                    case 1: return (variantsET1[ntown].Culture - ExtendedTowns[ntown].Culture);
+                    case 2: return (variantsET2[ntown].Culture - ExtendedTowns[ntown].Culture);
+                    default: return 0;
+                }
             }
         }
-        public double DCulturePricePerHundred(int n, byte variant)
+        public double DCulturePriceTotal
         {
-            switch (variant)
+            get
             {
-                case 1: return (VariantsET1[n].CulturePricePerHundred - ExtendedTowns[n].CulturePricePerHundred);
-                case 2: return (VariantsET2[n].CulturePricePerHundred - ExtendedTowns[n].CulturePricePerHundred);
-                default: return 0;
+                switch (nvariant)
+                {
+                    case 1: return (variantsET1[ntown].CulturePriceTotal - ExtendedTowns[ntown].CulturePriceTotal);
+                    case 2: return (variantsET2[ntown].CulturePriceTotal - ExtendedTowns[ntown].CulturePriceTotal);
+                    default: return 0;
+                }
             }
         }
-        public double[] DProducts(int n, byte variant)
+        public double DCulturePricePerHundred
         {
-            switch (variant)
+            get
             {
-                case 1: return (ArrMinusArr(VariantsET1[n].Products, ExtendedTowns[n].Products));
-                case 2: return (ArrMinusArr(VariantsET2[n].Products, ExtendedTowns[n].Products));
-                default: return new double[23];
+                switch (nvariant)
+                {
+                    case 1: return (variantsET1[ntown].CulturePricePerHundred - ExtendedTowns[ntown].CulturePricePerHundred);
+                    case 2: return (variantsET2[ntown].CulturePricePerHundred - ExtendedTowns[ntown].CulturePricePerHundred);
+                    default: return 0;
+                }
             }
         }
-        public double DProductsValuation(int n, byte variant)
+        public double[] DProducts
         {
-            switch (variant)
+            get
             {
-                case 1: return (VariantsET1[n].ProductsValuation - ExtendedTowns[n].ProductsValuation);
-                case 2: return (VariantsET2[n].ProductsValuation - ExtendedTowns[n].ProductsValuation);
-                default: return 0;
+                switch (nvariant)
+                {
+                    case 1: return (ArrMinusArr(variantsET1[ntown].Products, ExtendedTowns[ntown].Products));
+                    case 2: return (ArrMinusArr(variantsET2[ntown].Products, ExtendedTowns[ntown].Products));
+                    default: return new double[23];
+                }
             }
         }
-        public int DTraiders(int n, byte variant)
+        public double DProductsValuation
         {
-            switch (variant)
+            get
             {
-                case 1: return (VariantsET1[n].Traiders - ExtendedTowns[n].Traiders);
-                case 2: return (VariantsET2[n].Traiders - ExtendedTowns[n].Traiders);
-                default: return 0;
+                switch (nvariant)
+                {
+                    case 1: return (variantsET1[ntown].ProductsValuation - ExtendedTowns[ntown].ProductsValuation);
+                    case 2: return (variantsET2[ntown].ProductsValuation - ExtendedTowns[ntown].ProductsValuation);
+                    default: return 0;
+                }
             }
         }
-        public double DTraiderPrice(int n, byte variant)
+        public int DTraiders
         {
-            switch (variant)
+            get
             {
-                case 1: return (VariantsET1[n].TraiderPrice - ExtendedTowns[n].TraiderPrice);
-                case 2: return (VariantsET2[n].TraiderPrice - ExtendedTowns[n].TraiderPrice);
-                default: return 0;
+                switch (nvariant)
+                {
+                    case 1: return (variantsET1[ntown].Traiders - ExtendedTowns[ntown].Traiders);
+                    case 2: return (variantsET2[ntown].Traiders - ExtendedTowns[ntown].Traiders);
+                    default: return 0;
+                }
             }
         }
-        public double DResPerTraider(int n, byte variant)
+        public double DTraiderPrice
         {
-            switch (variant)
+            get
             {
-                case 1: return (VariantsET1[n].ResPerTraider - ExtendedTowns[n].ResPerTraider);
-                case 2: return (VariantsET2[n].ResPerTraider - ExtendedTowns[n].ResPerTraider);
-                default: return 0;
+                switch (nvariant)
+                {
+                    case 1: return (variantsET1[ntown].TraiderPrice - ExtendedTowns[ntown].TraiderPrice);
+                    case 2: return (variantsET2[ntown].TraiderPrice - ExtendedTowns[ntown].TraiderPrice);
+                    default: return 0;
+                }
             }
         }
-        public double DTotalUpkeep(int n, byte variant)
+        public double DResPerTraider
         {
-            switch (variant)
+            get
             {
-                case 1: return (VariantsET1[n].TotalUpkeep - ExtendedTowns[n].TotalUpkeep);
-                case 2: return (VariantsET2[n].TotalUpkeep - ExtendedTowns[n].TotalUpkeep);
-                default: return 0;
+                switch (nvariant)
+                {
+                    case 1: return (variantsET1[ntown].ResPerTraider - ExtendedTowns[ntown].ResPerTraider);
+                    case 2: return (variantsET2[ntown].ResPerTraider - ExtendedTowns[ntown].ResPerTraider);
+                    default: return 0;
+                }
             }
         }
-        public double[] DResoursesConsumption(int n, byte variant)
+        public double DTotalUpkeep
         {
-            switch (variant)
+            get
             {
-                case 1: return (ArrMinusArr(VariantsET1[n].ResoursesConsumption, ExtendedTowns[n].ResoursesConsumption));
-                case 2: return (ArrMinusArr(VariantsET2[n].ResoursesConsumption, ExtendedTowns[n].ResoursesConsumption));
-                default: return new double[23];
+                switch (nvariant)
+                {
+                    case 1: return (variantsET1[ntown].TotalUpkeep - ExtendedTowns[ntown].TotalUpkeep);
+                    case 2: return (variantsET2[ntown].TotalUpkeep - ExtendedTowns[ntown].TotalUpkeep);
+                    default: return 0;
+                }
             }
         }
-        public long DTownStrength(int n, byte variant)
+        public double[] DResoursesConsumption
         {
-            switch (variant)
+            get
             {
-                case 1: return (VariantsET1[n].TownStrength - ExtendedTowns[n].TownStrength);
-                case 2: return (VariantsET2[n].TownStrength - ExtendedTowns[n].TownStrength);
-                default: return 0;
+                switch (nvariant)
+                {
+                    case 1: return (ArrMinusArr(variantsET1[ntown].ResoursesConsumption, ExtendedTowns[ntown].ResoursesConsumption));
+                    case 2: return (ArrMinusArr(variantsET2[ntown].ResoursesConsumption, ExtendedTowns[ntown].ResoursesConsumption));
+                    default: return new double[23];
+                }
             }
         }
-        public long DTownPrice(int n, byte variant)
+        public long DTownStrength
         {
-            switch (variant)
+            get
             {
-                case 1: return (VariantsET1[n].TownPrice - ExtendedTowns[n].TownPrice);
-                case 2: return (VariantsET2[n].TownPrice - ExtendedTowns[n].TownPrice);
-                default: return 0;
+                switch (nvariant)
+                {
+                    case 1: return (variantsET1[ntown].TownStrength - ExtendedTowns[ntown].TownStrength);
+                    case 2: return (variantsET2[ntown].TownStrength - ExtendedTowns[ntown].TownStrength);
+                    default: return 0;
+                }
             }
         }
-        public double DTownProfitForOwner(int n, byte variant)
+        public long DTownPrice
         {
-            switch (variant)
+            get
             {
-                case 1: return (VariantsET1[n].TownProfitForOwner - ExtendedTowns[n].TownProfitForOwner);
-                case 2: return (VariantsET2[n].TownProfitForOwner - ExtendedTowns[n].TownProfitForOwner);
-                default: return 0;
+                switch (nvariant)
+                {
+                    case 1: return (variantsET1[ntown].TownPrice - ExtendedTowns[ntown].TownPrice);
+                    case 2: return (variantsET2[ntown].TownPrice - ExtendedTowns[ntown].TownPrice);
+                    default: return 0;
+                }
             }
         }
-        public double DTownProfitForCountry(int n, byte variant)
+        public double DTownProfitForOwner
         {
-            switch (variant)
+            get
             {
-                case 1: return (VariantsET1[n].TownProfitForCountry - ExtendedTowns[n].TownProfitForCountry);
-                case 2: return (VariantsET2[n].TownProfitForCountry - ExtendedTowns[n].TownProfitForCountry);
-                default: return 0;
+                switch (nvariant)
+                {
+                    case 1: return (variantsET1[ntown].TownProfitForOwner - ExtendedTowns[ntown].TownProfitForOwner);
+                    case 2: return (variantsET2[ntown].TownProfitForOwner - ExtendedTowns[ntown].TownProfitForOwner);
+                    default: return 0;
+                }
             }
         }
-
+        public double DTownProfitForCountry
+        {
+            get
+            {
+                switch (nvariant)
+                {
+                    case 1: return (variantsET1[ntown].TownProfitForCountry - ExtendedTowns[ntown].TownProfitForCountry);
+                    case 2: return (variantsET2[ntown].TownProfitForCountry - ExtendedTowns[ntown].TownProfitForCountry);
+                    default: return 0;
+                }
+            }
+        }
+        public double RebuildTime
+        {
+            get
+            {
+                switch (nvariant)
+                {
+                    case 1: return WofHFuncs.TownRebuildTime(ExtendedTowns[ntown], variantsET1[ntown], this);
+                    case 2: return WofHFuncs.TownRebuildTime(ExtendedTowns[ntown], variantsET2[ntown], this);
+                    default: return 0;
+                }
+            }
+        }
+        //public double 
         public override string ToJSON() //Костыль для сохранения данных
         {
             Towns = new ObservableCollection<Town>();

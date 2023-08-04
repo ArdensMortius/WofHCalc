@@ -75,7 +75,9 @@ namespace WofHCalc.MathFuncs
         {
             double ans = 0;
             for (int i = 0; i < 23; i++)
-                ans += (double)(object)res[i] * prices[i] * 0.001f;
+                if (res[i].GetType()==typeof(int))                
+                    ans += (double)(int)(object)(res[i]) * (double)prices[i] * 0.001f;
+                else ans += (double)(object)(res[i]) * (double)prices[i] * 0.001f;
             return ans;
         }
         //Прочность МР (число городов)
@@ -120,6 +122,7 @@ namespace WofHCalc.MathFuncs
         private int[] BuildUpResCost(BuildName name, int under_construction_lvl)
         {
             int[] ans = new int[23];
+            if (under_construction_lvl == 0) return ans;
             double A;
             double B;
             double C;
@@ -185,7 +188,7 @@ namespace WofHCalc.MathFuncs
         //Значение "эффект" домика (домик, уровень). Смысл "эффекта" отличается для разных типов домиков.
         public double BuildEffect(BuildName name, int lvl)
         {
-            if (name == BuildName.none) return 0;
+            if (name == BuildName.none || lvl == 0) return 0;
             return MainFunc(data.BuildindsData[(int)name].Effect, lvl);
         }
         //Проверка доступности домика по расе(домик, раса)
@@ -287,6 +290,7 @@ namespace WofHCalc.MathFuncs
                 ans += BuildDestroyTime(current_build, cur_lvl);
             return ans;
         }
+        //время стройки или перестройки
         #endregion
         #region функции города
         //прирост в городе от всех домиков на прирост (застройка и уровни)
@@ -1175,7 +1179,38 @@ namespace WofHCalc.MathFuncs
             }
             return ResToMoney<int>(rc, acc.Financial.Prices);
         }
-
+        //вреня на перестройку/ап города
+        public double TownRebuildTime(Town town_old, Town town_new, Account acc, bool aimultiuser = false)
+        {
+            double ans = 0;
+            var ob = town_old.TownBuilds.Select(x => x.Building).ToArray();
+            var ol = town_old.TownBuilds.Select(x => (int)(x.Level is null ? 0 : x.Level)).ToArray();
+            var nb = town_new.TownBuilds.Select(x => x.Building).ToArray();
+            var nl = town_new.TownBuilds.Select(x => (int)(x.Level is null ? 0 : x.Level)).ToArray();
+            for (int i = 0; i < town_new.TownBuilds.Count; i++)
+            {
+                //пусто или без изменений
+                if (town_new.TownBuilds[i] == town_old.TownBuilds[i]) continue;
+                //ап уровня
+                if (ob[i] == nb[i])
+                {
+                    if (nl[i] > ol[i]) { ans += BuildUpTimeFromTo(nb[i], ol[i], nl[i]); continue; } 
+                    else continue;
+                }
+                //новое
+                if (ob[i] == BuildName.none && nb[i] != BuildName.none && nl[i]>0) { ans += BuildUpTimeFromTo(nb[i], 0, nl[i]); continue; }
+                //снос
+                if (nb[i] == BuildName.none && ob[i] != BuildName.none) { ans += BuildDestroyTime(ob[i], ol[i]); continue; }
+                //перестройка
+                if (ob[i] != BuildName.none && nb[i] != BuildName.none) 
+                {
+                    ans += RebuildTime(ob[i], ol[i], nb[i]);
+                    if (nl[i] > 1) ans += BuildUpTimeFromTo(nb[i], 1, nl[i]);
+                    continue; 
+                }                
+            }
+            return ans;
+        }
         #endregion
     }
 }

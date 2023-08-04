@@ -42,10 +42,12 @@ namespace WofHCalc
                 }
                 else this.Close();
             }
-            if (dc.ActiveAccount != null) InitializeComponent();
-            else this.Close();            
-            //dc.clones.Add(null);
-            //dc.clones.Add(null);
+            if (dc.ActiveAccount != null)
+            {
+                dc.SelectedTown=dc.ActiveAccount.ExtendedTowns.FirstOrDefault();
+                InitializeComponent();
+            }
+            else this.Close();                        
         }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)//пока просто сохранение без диалогового окна
         {
@@ -145,6 +147,24 @@ namespace WofHCalc
             if (DTE.ShowDialog()==true)
             {
                 dc.ActiveAccount!.Financial.DepositsTaxes = DTE.t;
+            }
+        }
+
+        private void ComboBoxVariants_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            switch (dc.ActiveAccount!.nvariant)
+            {
+                case 1:
+                    //dc.ActiveAccount.variantsET1[dc.ActiveAccount.ntown] = (ExtendedTown)dc.SelectedTown!.Clone();
+                    dc.VisibleTown = dc.ActiveAccount.variantsET1[dc.ActiveAccount.ntown]; 
+                    dc.OnPropertyChanged("ActiveAccount"); 
+                    break;
+                case 2:
+                    //dc.ActiveAccount.variantsET2[dc.ActiveAccount.ntown] = (ExtendedTown)dc.SelectedTown!.Clone();
+                    dc.VisibleTown = dc.ActiveAccount.variantsET2[dc.ActiveAccount.ntown]; 
+                    dc.OnPropertyChanged("ActiveAccount"); 
+                    break;
+                default: dc.VisibleTown = dc.SelectedTown; dc.OnPropertyChanged("ActiveAccount"); break;
             }
         }
     }

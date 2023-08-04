@@ -25,13 +25,6 @@ namespace WofHCalc.Models
         public ObservableCollection<int> Science_Bonuses { get; set; } //бонус к производствам в процентах. Индекс по ResProdType.
         public FinancialPolicy Financial { get; set; }
         [JsonConstructor]
-        //public Account()
-        //{
-        //    Name = "";
-        //    World = 0;
-        //    Science_Bonuses= new ObservableCollection<int>();
-        //    Towns = new ObservableCollection<Town>();            
-        //}
         public Account(string name, int world)
         {
             Name = name;
