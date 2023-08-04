@@ -653,7 +653,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Прирост"></TextBlock>
-                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.Growth, StringFormat=N2}"></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding SelectedTown.Growth, StringFormat=N2}"></TextBlock>
                     <TextBlock Grid.Column="2" Text="{Binding ActiveAccount.DGrowth, StringFormat=N2}"></TextBlock>
                 </Grid>
                 <Grid Margin="5">
@@ -663,7 +663,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Расходы на прирост"></TextBlock>
-                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.GrowthPriceTotal, StringFormat=N2}"></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding SelectedTown.GrowthPriceTotal, StringFormat=N2}"></TextBlock>
                     <TextBlock Grid.Column="2" Text="{Binding ActiveAccount.DGrowthPriceTotal, StringFormat=N2}"></TextBlock>
                 </Grid>
                 <Grid Margin="5">
@@ -673,7 +673,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Цена 1 человека"></TextBlock>
-                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.GrowthPricePerOne, StringFormat=N2}"></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding SelectedTown.GrowthPricePerOne, StringFormat=N2}"></TextBlock>
                     <TextBlock Grid.Column="2" Text="{Binding ActiveAccount.DGrowthPricePerOne, StringFormat=N2}"></TextBlock>
                 </Grid>
                 <TextBlock Margin="5" FontWeight="Bold">Культура города</TextBlock>
@@ -684,7 +684,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Культура"></TextBlock>
-                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.Culture}"></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding SelectedTown.Culture}"></TextBlock>
                     <TextBlock Grid.Column="2" Text="{Binding ActiveAccount.DCulture, StringFormat=N2}"></TextBlock>
                 </Grid>
                 <Grid Margin="5">
@@ -694,7 +694,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Расходы на культуру"></TextBlock>
-                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.CulturePriceTotal, StringFormat=N2}"></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding SelectedTown.CulturePriceTotal, StringFormat=N2}"></TextBlock>
                     <TextBlock Grid.Column="2" Text="{Binding ActiveAccount.DCulturePriceTotal, StringFormat=N2}"></TextBlock>
                 </Grid>
                 <Grid Margin="5">
@@ -704,7 +704,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Цена за 100 культуры"></TextBlock>
-                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.CulturePricePerHundred, StringFormat=N2}"></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding SelectedTown.CulturePricePerHundred, StringFormat=N2}"></TextBlock>
                     <TextBlock Grid.Column="2" Text="{Binding ActiveAccount.DCulturePricePerHundred, StringFormat=N2}"></TextBlock>
                 </Grid>
                 <TextBlock Margin="5" FontWeight="Bold">Торговцы</TextBlock>
@@ -715,7 +715,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Количество торгов"></TextBlock>
-                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.Traiders}"></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding SelectedTown.Traiders}"></TextBlock>
                     <TextBlock Grid.Column="2" Text="{Binding ActiveAccount.DTraiders}"></TextBlock>
                 </Grid>
                 <Grid Margin="5">
@@ -725,7 +725,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Стоимость 1 торга"></TextBlock>
-                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.TraiderPrice, StringFormat=N2}"></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding SelectedTown.TraiderPrice, StringFormat=N2}"></TextBlock>
                     <TextBlock Grid.Column="2" Text="{Binding ActiveAccount.DTraiderPrice, StringFormat=N2}"></TextBlock>
                 </Grid>
                 <Grid Margin="5">
@@ -735,7 +735,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Производ реса на торговца"></TextBlock>
-                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.ResPerTraider, StringFormat=N2}"></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding SelectedTown.ResPerTraider, StringFormat=N2}"></TextBlock>
                     <TextBlock Grid.Column="2" Text="{Binding ActiveAccount.DResPerTraider, StringFormat=N2}"></TextBlock>
                 </Grid>
                 <TextBlock Margin="5" FontWeight="Bold">Разное</TextBlock>
@@ -746,7 +746,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Ценность произведённого"></TextBlock>
-                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.ProductsValuation, StringFormat=N2}"></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding SelectedTown.ProductsValuation, StringFormat=N2}"></TextBlock>
                     <TextBlock Grid.Column="2" Text="{Binding ActiveAccount.DProductsValuation, StringFormat=N2}"></TextBlock>
                 </Grid>
                 <Grid Margin="5">
@@ -756,7 +756,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Прочность города"></TextBlock>
-                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.TownStrength}"></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding SelectedTown.TownStrength}"></TextBlock>
                     <TextBlock Grid.Column="2" Text="{Binding ActiveAccount.DTownStrength}"></TextBlock>
                 </Grid>
                 <Grid Margin="5">
@@ -766,7 +766,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Цена постройки города"></TextBlock>
-                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.TownPrice}"></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding SelectedTown.TownPrice}"></TextBlock>
                     <TextBlock Grid.Column="2" Text="{Binding ActiveAccount.DTownPrice}"></TextBlock>
                 </Grid>
                 <Grid Margin="5">
@@ -776,7 +776,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Доход владельцу города"></TextBlock>
-                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.TownProfitForOwner, StringFormat=N2}"></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding SelectedTown.TownProfitForOwner, StringFormat=N2}"></TextBlock>
                     <TextBlock Grid.Column="2" Text="{Binding ActiveAccount.DTownProfitForOwner, StringFormat=N2}"></TextBlock>
                 </Grid>
                 <Grid Margin="5">
@@ -786,7 +786,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Условный доход страны"></TextBlock>
-                    <TextBlock Grid.Column="1" Text="{Binding VisibleTown.TownProfitForCountry, StringFormat=N2}"></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding SelectedTown.TownProfitForCountry, StringFormat=N2}"></TextBlock>
                     <TextBlock Grid.Column="2" Text="{Binding ActiveAccount.DTownProfitForCountry, StringFormat=N2}"></TextBlock>
                 </Grid>
                 <TextBlock Margin="5" FontWeight="Bold">Инфа по перестройке</TextBlock>
@@ -797,10 +797,80 @@
                         <ColumnDefinition Width="2*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0">Время перестройки</TextBlock>
-                    <TextBlock Grid.Column="1" Text="{Binding ActiveAccount.RebuildTime}"/>
-                    <TextBlock Grid.Column="2">Цена перестройки</TextBlock>
-                    <TextBlock Grid.Column="3" Text="{Binding ActiveAccount.RebuildCost}"/>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Column="0" Grid.Row="0">Время перестройки, часы</TextBlock>
+                    <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding ActiveAccount.RebuildTime, StringFormat=N2}"/>
+                    <TextBlock Grid.Column="2" Grid.Row="0">Цена перестройки</TextBlock>
+                    <TextBlock Grid.Column="3" Grid.Row="0" Text="{Binding ActiveAccount.RebuildCost, StringFormat=N2}"/>
+                    <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Padding="2">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="Изменения промки"/>
+                            <StackPanel Orientation="Horizontal">
+                                <ItemsControl                                                                                                          
+									ItemsSource="{Binding ActiveAccount.DProducts, Converter={StaticResource ResListConverter}}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Vertical"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Image Height="20" Source="{Binding Path=., Mode=OneWay}"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <ItemsControl                                                                                                          
+									ItemsSource="{Binding ActiveAccount.DProducts}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Vertical"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Height="20" Text="{Binding Path=., Mode=OneWay, StringFormat=N2}" Visibility="{Binding Path=., Converter={StaticResource StringToVisibilityConverter} }"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                    <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Padding="2">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="Ресы на перестройку"/>
+                            <StackPanel Orientation="Horizontal">
+                                <ItemsControl                                                                                                          
+									ItemsSource="{Binding ActiveAccount.RebuildResCost, Converter={StaticResource ResListConverter}}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Vertical"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Image Height="20" Source="{Binding Path=., Mode=OneWay}"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <ItemsControl                                                                                                          
+									ItemsSource="{Binding ActiveAccount.RebuildResCost}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Vertical"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Height="20" Text="{Binding Path=., Mode=OneWay, StringFormat=N2}" Visibility="{Binding Path=., Converter={StaticResource StringToVisibilityConverter} }"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
                 </Grid>
             </StackPanel>
         </ScrollViewer>

@@ -149,7 +149,6 @@ namespace WofHCalc
                 dc.ActiveAccount!.Financial.DepositsTaxes = DTE.t;
             }
         }
-
         private void ComboBoxVariants_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             switch (dc.ActiveAccount!.nvariant)

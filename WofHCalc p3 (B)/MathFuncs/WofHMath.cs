@@ -1139,9 +1139,9 @@ namespace WofHCalc.MathFuncs
         //доход страны (эта цифра нужна для выбора целей воеводами) 
         public double TownProfitForCountry(Town town, Account acc)
             => TownProductionValue(acc, town) - TownUpkeep(town, acc) + TownTax(town, acc) - TownDotation(town, acc);
-        //стоимость перестройки/апа города
-        public double TownRebuildCost(Town town_old, Town town_new, Account acc, bool aimultiuser = false)
-        {            
+        //затраты ресов на перестройку/ап города
+        public int[] TownRebuildResCost(Town town_old, Town town_new, Account acc, bool aimultiuser = false)
+        {
             //постройки
             var b1 = town_old.TownBuilds;
             var b2 = town_new.TownBuilds;
@@ -1171,14 +1171,22 @@ namespace WofHCalc.MathFuncs
             //потом надо бы переделать
             var ai1 = town_old.AreaImprovements;
             var ai2 = town_new.AreaImprovements;
-            for (int i = 0; i<ai2.Count ; i++)
+            for (int i = 0; i < ai2.Count; i++)
             {
                 rc[(int)ResName.money] += (int)AreaImprovementPrice(ai2[i].AIName, ai2[i].Level, acc.Financial);
                 if (i < ai1.Count)
-                    rc[(int)ResName.money] -= (int)AreaImprovementPrice(ai1[i].AIName, ai1[i].Level, acc.Financial);                                                
+                    rc[(int)ResName.money] -= (int)AreaImprovementPrice(ai1[i].AIName, ai1[i].Level, acc.Financial);
             }
+            return rc;
+        }
+        //стоимость перестройки/апа города
+        public double TownRebuildCost(Town town_old, Town town_new, Account acc, bool aimultiuser = false)
+        {            
+            //постройки            
+            int[] rc = TownRebuildResCost(town_old,town_new,acc,aimultiuser);            
             return ResToMoney<int>(rc, acc.Financial.Prices);
         }
+
         //вреня на перестройку/ап города
         public double TownRebuildTime(Town town_old, Town town_new, Account acc, bool aimultiuser = false)
         {

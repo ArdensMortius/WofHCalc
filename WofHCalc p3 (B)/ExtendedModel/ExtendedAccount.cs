@@ -283,7 +283,18 @@ namespace WofHCalc.ExtendedModel
                 }
             }
         }
-        //public double 
+        public int[] RebuildResCost
+        {
+            get
+            {
+                switch (nvariant)
+                {
+                    case 1: return WofHFuncs.TownRebuildResCost(ExtendedTowns[ntown], variantsET1[ntown], this);
+                    case 2: return WofHFuncs.TownRebuildResCost(ExtendedTowns[ntown], variantsET2[ntown], this);
+                    default: return new int[23];
+                }
+            }
+        }
         public override string ToJSON() //Костыль для сохранения данных
         {
             Towns = new ObservableCollection<Town>();
