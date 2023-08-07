@@ -53,7 +53,7 @@ namespace WofHCalc.MathFuncs
             return Math.Ceiling(baseprice / numtowns * (1 + (costk * (numtowns - 1))));
         }
         //базовая цена за единицу населения для рассчётов цены за УМ 
-        private float BaseOneHumanPrice(FinancialPolicy f)
+        public float BaseOneHumanPrice(FinancialPolicy f)
         {
             int x = (int)ResName.corn;
             int y = (int)ResName.rice;
@@ -104,10 +104,11 @@ namespace WofHCalc.MathFuncs
         {
             try
             {
+                if (ArImp == AreaImprovementName.none || lvl == 0) return 0;
                 double ans = 0;
                 int[] rc = data.AreaImprovementsData[(int)ArImp].levels[lvl-1].GetResCost();
                 for (int i = 0; i < rc.Length; i++)
-                    ans += rc[i] * f.Prices[i];
+                    ans += rc[i] * f.Prices[i] * 0.001d;
                 ans += data.AreaImprovementsData[(int)ArImp].levels[lvl-1].workers * BaseUnitPrice(56, f);
                 return ans;
             }
@@ -638,6 +639,7 @@ namespace WofHCalc.MathFuncs
             }
             if (town.ResConsumption[(int)ResName.books]) ans[(int)ResName.science] *= 1 + data.ResData[(int)ResName.books].effect;
             //вроде ничего не забыл
+            ans = ans.Select(x => x is double.NaN ? 0 : x).ToArray();
             return ans;
         }        
         //Количество реса на одного торга

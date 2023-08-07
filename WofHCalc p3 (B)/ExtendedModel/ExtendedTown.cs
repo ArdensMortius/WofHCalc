@@ -100,9 +100,13 @@ namespace WofHCalc.ExtendedModel
         {
             get => acc.WofHFuncs.TownProfitForCountry(this, acc);
         }
-        public int Workplaces
+        public int Workplaces //количество рабочих мест
         {
             get => acc.WofHFuncs.TownWorkplaces(this);
+        }
+        public double GrowthAsMoney
+        {
+            get => Growth * acc.WofHFuncs.BaseOneHumanPrice(acc.Financial) / 24d;
         }
         public override object Clone()
         {

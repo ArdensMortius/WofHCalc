@@ -103,6 +103,18 @@ namespace WofHCalc.ExtendedModel
                 }
             }
         }
+        public double DGrowthAsMoney
+        {
+            get
+            {
+                switch (nvariant)
+                {
+                    case 1: return (variantsET1[ntown].GrowthAsMoney - ExtendedTowns[ntown].GrowthAsMoney);
+                    case 2: return (variantsET2[ntown].GrowthAsMoney - ExtendedTowns[ntown].GrowthAsMoney);
+                    default: return 0;
+                }
+            }
+        }
         public int DCulture
         {
             get 
@@ -298,6 +310,10 @@ namespace WofHCalc.ExtendedModel
         public double PaybackPeriod
         {
             get => DTownProfitForOwner > 0 ? RebuildCost / DTownProfitForOwner : 0;
+        }
+        public double PaybackWithGrowthPeriod
+        {
+            get => (DTownProfitForOwner + DGrowthAsMoney) > 0 ? RebuildCost / (DTownProfitForOwner + DGrowthAsMoney) : 0;
         }
         public override string ToJSON() //Костыль для сохранения данных
         {

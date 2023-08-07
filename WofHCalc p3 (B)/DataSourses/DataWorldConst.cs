@@ -64,6 +64,7 @@ namespace WofHCalc.DataSourses
         }
         public float ClimateEffect(Climate climate, ResProdType rpt) //пока оставить
         {
+            if (climate == Climate.unknown) return 0;
             //                наука деньги  с/х     пром
             float[,] ans = {{ 0,    0,      0,      0 },
                             { 1,    1,      1.3f,   1 },

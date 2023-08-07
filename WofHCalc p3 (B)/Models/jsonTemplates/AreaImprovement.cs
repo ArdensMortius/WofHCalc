@@ -46,8 +46,8 @@ namespace WofHCalc.Models.jsonTemplates
         }
         private int convert(string s)
         {
-            string ts = s.Remove(0, 1);
-            float tr = float.Parse(ts);
+            string ts = s.Substring(1,s.IndexOf(".")-1);
+            int tr = int.Parse(ts);
             return (int)tr;
         }
     }

@@ -62,7 +62,16 @@ namespace WofHCalc.Controllers
             get
             {
                 return reset_clone ??= new RelayCommand(
-                    o1 => { active_acc!.variantsET1[active_acc.ntown] = (ExtendedTown)active_acc.ExtendedTowns[active_acc.ntown].Clone(); },
+                    o1 =>
+                    {
+                        switch (active_acc!.nvariant)
+                        {
+                            case 1: active_acc!.variantsET1[active_acc.ntown] = (ExtendedTown)active_acc.ExtendedTowns[active_acc.ntown].Clone(); break;
+                            case 2: active_acc!.variantsET2[active_acc.ntown] = (ExtendedTown)active_acc.ExtendedTowns[active_acc.ntown].Clone(); break;
+                            default: break;
+                        }
+                        UpdateAll();
+                    },
                     o2 => { return (SelectedTown is not null && active_acc!.nvariant>0); }
                 );
             }
@@ -137,12 +146,7 @@ namespace WofHCalc.Controllers
         {
             get
             {
-                return updatecalcs ??= new RelayCommand(o1 =>
-                { 
-                    OnPropertyChanged(nameof(VisibleTown));
-                    OnPropertyChanged(nameof(SelectedTown));
-                    OnPropertyChanged(nameof(ActiveAccount)); 
-                });
+                return updatecalcs ??= new RelayCommand(o1 => UpdateAll());
             }
         }
 
@@ -150,6 +154,12 @@ namespace WofHCalc.Controllers
         public void OnPropertyChanged(string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        private void UpdateAll()
+        {
+            OnPropertyChanged(nameof(VisibleTown));
+            OnPropertyChanged(nameof(SelectedTown));
+            OnPropertyChanged(nameof(ActiveAccount));
         }
     }
 }

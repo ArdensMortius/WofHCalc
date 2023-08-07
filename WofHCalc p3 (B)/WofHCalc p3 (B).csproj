@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DataSourses\Data.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="DataSourses\Img\builds\0_1.png" />
     <None Remove="DataSourses\Img\builds\0_10_1.png" />
     <None Remove="DataSourses\Img\builds\0_1_1.png" />

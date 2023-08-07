@@ -682,6 +682,16 @@
                     <TextBlock Grid.Column="1" Text="{Binding SelectedTown.GrowthPricePerOne, StringFormat=N2}"></TextBlock>
                     <TextBlock Grid.Column="2" Text="{Binding ActiveAccount.DGrowthPricePerOne, StringFormat=N2}"></TextBlock>
                 </Grid>
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Денежный эквивалент прироста"></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding SelectedTown.GrowthAsMoney, StringFormat=N2}"></TextBlock>
+                    <TextBlock Grid.Column="2" Text="{Binding ActiveAccount.DGrowthAsMoney, StringFormat=N2}"></TextBlock>
+                </Grid>
                 <TextBlock Margin="5" FontWeight="Bold">Культура города</TextBlock>
                 <Grid Margin="5">
                     <Grid.ColumnDefinitions>
@@ -880,6 +890,8 @@
                     </Border>
                     <TextBlock Grid.Column="0" Grid.Row="2">Срок окупаемости, часы</TextBlock>
                     <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding ActiveAccount.PaybackPeriod, StringFormat=N2}"/>
+                    <TextBlock Grid.Column="2" Grid.Row="2">Окуп. с уч. изм. прироста</TextBlock>
+                    <TextBlock Grid.Column="3" Grid.Row="2" Text="{Binding ActiveAccount.PaybackWithGrowthPeriod, StringFormat=N2}"/>
                 </Grid>
             </StackPanel>
         </ScrollViewer>
