@@ -584,12 +584,7 @@ namespace WofHCalc.MathFuncs
             //базовое производство с учётом МР
             double[] baseprod = BaseProd(town.Deposit, town.OnHill, town.WaterPlaces);
             //модификаторы от ум
-            double[] aibonuses = AIBonuses(areaimps, ailvls, aiusers, town.Deposit);//-
-            //отдельно бонус от горнолыжек
-            double skyresortbonus = 0;
-            for (int i = 0; i < areaimps.Length; i++)
-                if (areaimps[i] == AreaImprovementName.SkiResort)
-                    skyresortbonus += AreaImprovementBonus(AreaImprovementName.SkiResort, ailvls[i], aiusers[i]);
+            double[] aibonuses = AIBonuses(areaimps, ailvls, aiusers, town.Deposit);//+
             //великие граждание по типу производства
             var gsb = GreatSitizensProdBonus(town.GreatCitizens.ToArray());
             //коррупция города
@@ -621,23 +616,25 @@ namespace WofHCalc.MathFuncs
                     srb += AreaImprovementBonus(AreaImprovementName.SkiResort, ailvls[i], aiusers[i]);
             srb *= 1 + data.LuckBonusesData[(int)LuckBonusNames.production].effect[(int)LevelLuckBonusProd!];
             ans[(int)ResName.money] += srb;
-            //+чудеса с фиксированным бонусом
-            switch (builds[0])
-            {
-                case BuildName.Geoglyph:
-                case BuildName.The_Great_Library:
-                case BuildName.Helioconcentrator:
-                    ans[(int)ResName.science] += data.WounderEffects[builds[0]];
-                    break;
-                case BuildName.Earthen_dam:
-                    ans[(int)ResName.fish] += data.WounderEffects[builds[0]];
-                    break;
-                case BuildName.The_Colossus:
-                    ans[(int)ResName.money] += data.WounderEffects[builds[0]];
-                    break;
-                default: break;
-            }
+            //книжки
             if (town.ResConsumption[(int)ResName.books]) ans[(int)ResName.science] *= 1 + data.ResData[(int)ResName.books].effect;
+            //+чудеса с фиксированным бонусом
+            if (lvls[0] == 20)
+                switch (builds[0])
+                {
+                    case BuildName.Geoglyph:
+                    case BuildName.The_Great_Library:
+                    case BuildName.Helioconcentrator:
+                        ans[(int)ResName.science] += data.WounderEffects[builds[0]];
+                        break;
+                    case BuildName.Earthen_dam:
+                        ans[(int)ResName.fish] += data.WounderEffects[builds[0]];
+                        break;
+                    case BuildName.The_Colossus:
+                        ans[(int)ResName.money] += data.WounderEffects[builds[0]];
+                        break;
+                    default: break;
+                }
             //вроде ничего не забыл
             ans = ans.Select(x => x is double.NaN ? 0 : x).ToArray();
             return ans;

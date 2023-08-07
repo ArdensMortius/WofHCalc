@@ -102,7 +102,8 @@ namespace WofHCalc.Controllers
                 return add_town_command ??= new RelayCommand(o1 =>
                 {
                     try
-                    {                        
+                    {   
+                        ActiveAccount!.Towns.Add(new Town());
                         ActiveAccount!.ExtendedTowns.Add(new ExtendedTown(ActiveAccount, new Town()));
                         SelectedTown = ActiveAccount.ExtendedTowns.Last();
                     }
@@ -127,9 +128,10 @@ namespace WofHCalc.Controllers
                         ConfirmAction c = new($"Точно хотите удалить город {SelectedTown!.Name}?");
                         if (c.ShowDialog()==true)
                         {
-                            ExtendedTown d = SelectedTown!;
+                            int n = ActiveAccount!.ntown;                            
                             SelectedTown = ActiveAccount!.ExtendedTowns.FirstOrDefault();
-                            ActiveAccount!.ExtendedTowns.Remove(d);
+                            ActiveAccount!.ExtendedTowns.RemoveAt(n);
+                            ActiveAccount.Towns.RemoveAt(n);
                         }
                     }
                     catch
