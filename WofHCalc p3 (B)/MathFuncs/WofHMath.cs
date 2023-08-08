@@ -187,10 +187,10 @@ namespace WofHCalc.MathFuncs
             else return BuildUpResCost(new_build, 1);
         }
         //Значение "эффект" домика (домик, уровень). Смысл "эффекта" отличается для разных типов домиков.
-        public double BuildEffect(BuildName name, int lvl)
+        public double BuildEffect(BuildName name, int? lvl)
         {
-            if (name == BuildName.none || lvl == 0) return 0;
-            return MainFunc(data.BuildindsData[(int)name].Effect, lvl);
+            if (name == BuildName.none || lvl is null || lvl == 0) return 0;
+            return MainFunc(data.BuildindsData[(int)name].Effect, (int)lvl!);
         }
         //Проверка доступности домика по расе(домик, раса)
         private bool AvailableRaceCheck(BuildName build, Race acc) =>
@@ -250,11 +250,11 @@ namespace WofHCalc.MathFuncs
         //Спад населения от домика (домик, уровень) в день
         public double Ungrown(BuildName name, int? lvl)
         {
-            if (BuildName.none == name || lvl is null) return 0;
+            if (BuildName.none == name || lvl is null || lvl == 0) return 0;
             return MainFunc(data.BuildindsData[(int)name].Ungrown, (int)lvl!)*24;
         }
         //культура от административного домика (замок, ратуша, мерия)
-        public double AdminCulture(BuildName name, int lvl) => 
+        public double AdminCulture(BuildName name, int? lvl) => 
             data.AdministrationCulture[0] + data.AdministrationCulture[1] * BuildEffect(name, lvl);
         //экономия в долях от административного домика
         public double AdminEconimy(BuildName name, int lvl) => 
