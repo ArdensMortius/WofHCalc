@@ -6,6 +6,7 @@
     <RootNamespace>WofHCalc</RootNamespace>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>DataSourses\Img\icons\earth.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -362,6 +363,10 @@
     <None Remove="DataSourses\Img\icons\res\res7.png" />
     <None Remove="DataSourses\Img\icons\res\res8.png" />
     <None Remove="DataSourses\Img\icons\res\res9.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="DataSourses\Img\icons\earth.ico" />
   </ItemGroup>
 
   <ItemGroup>

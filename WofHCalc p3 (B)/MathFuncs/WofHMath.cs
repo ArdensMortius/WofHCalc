@@ -20,10 +20,10 @@ namespace WofHCalc.MathFuncs
         private WofHMath() { } //скрыт, потому что не должен использоваться никогда
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         //основная функция, по которой считается почти всё в двух вариантах её вызова
-        internal static double MainFunc(double A, double B, double C, double D, int n)
+        internal static double MainFunc(double A, double B, double C, double D, int lvl)
         {
-            double k = (n == 0) ? A : 0;
-            return (k + B + C * (Math.Pow(n, D)));
+            double k = (lvl > 1) ? 0 : A;
+            return (k + B + C * (Math.Pow(lvl, D)));
         }
         internal static double MainFunc(double[]? abcd, int n)
         {
@@ -40,7 +40,8 @@ namespace WofHCalc.MathFuncs
         public double Corruption(int numtowns, byte courthouse_level)
         {
             if (numtowns < 1 || courthouse_level < 0 || courthouse_level > 20) throw new Exception("Corruption error");
-            return ((numtowns - 1) * 20 / MainFunc(data.BuildindsData[(int)BuildName.courthouse].Effect, courthouse_level));
+            double ans = ((numtowns - 1) * 20 / MainFunc(data.BuildindsData[(int)BuildName.courthouse].Effect, courthouse_level));
+            return ans > 90 ? 90 : ans;
         }
         //Бонус ВГ
         public double GreatCitizenBonus(int n) =>//конкретные числа должны быть в data где-нибудь, а не тут
@@ -133,7 +134,9 @@ namespace WofHCalc.MathFuncs
                 A = (double)data.BuildindsData[(int)name].Cost[0].DoubleArray[i];
                 B = (double)data.BuildindsData[(int)name].Cost[1].DoubleArray[i];
                 C = (double)data.BuildindsData[(int)name].Cost[2].DoubleArray[i];
-                int res = (int)MainFunc(A, B, C, D, under_construction_lvl-1);
+                int res = (int)MainFunc(A, B, C, D, under_construction_lvl); 
+                //но тогда стоимость апа не верная получается.. Надо подумоть
+                //потому что текущий уровень надо в mainfunc слать
                 if (res < 0) res = 0;
                 ans[i] = res;
             }
