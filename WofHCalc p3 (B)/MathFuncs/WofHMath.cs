@@ -242,7 +242,7 @@ namespace WofHCalc.MathFuncs
         //Сколько денег жрёт домик без учёта экономии (домик, уровень)
         public double Pay(BuildName name, int lvl)
         {
-            if (name == BuildName.none) return 0;
+            if (name == BuildName.none || lvl == 0) return 0;
             double ans = MainFunc(data.BuildindsData[(int)name].Pay, lvl);
             if (ans < 0) return 0;
             else return ans;
@@ -255,10 +255,10 @@ namespace WofHCalc.MathFuncs
         }
         //культура от административного домика (замок, ратуша, мерия)
         public double AdminCulture(BuildName name, int? lvl) => 
-            data.AdministrationCulture[0] + data.AdministrationCulture[1] * BuildEffect(name, lvl);
+            (lvl is null || lvl == 0) ? 0 : data.AdministrationCulture[0] + data.AdministrationCulture[1] * BuildEffect(name, lvl);
         //экономия в долях от административного домика
-        public double AdminEconimy(BuildName name, int lvl) => 
-            1 - 1 / (1 + BuildEffect(name, lvl));
+        public double AdminEconimy(BuildName name, int lvl) =>  
+            lvl > 0 ? (1 - 1 / (1 + BuildEffect(name, lvl))) : 0;
         //прочность домика
         public int BuildStrength(BuildName name, int lvl)
         {
