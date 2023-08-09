@@ -591,7 +591,7 @@ namespace WofHCalc.MathFuncs
             //великие граждание по типу производства
             var gsb = GreatSitizensProdBonus(town.GreatCitizens.ToArray());
             //коррупция города
-            double corruption = Corruption(builds, lvls, acc.Towns.Count);
+            double corruption = TownCorruption(builds, lvls, acc.Towns.Count);
             //теперь всё посчитать!
             for (int i = 0; i < 23; i++)
             {
@@ -657,7 +657,7 @@ namespace WofHCalc.MathFuncs
         public double TownProductionValue(Account acc, Town town)
             => ResToMoney<double>(TownProduction(acc, town), acc.Financial.Prices);
         //коррупция города
-        private double Corruption(BuildName[] builds, int?[] lvls, int numoftowns)//+
+        private double TownCorruption(BuildName[] builds, int?[] lvls, int numoftowns)//+
         {
             byte chl = 0;
             for (int i = 3; i < builds.Length; i++)
@@ -958,6 +958,20 @@ namespace WofHCalc.MathFuncs
             return ans;
         }
         //Полные затраты ресов на постройку города
+        private int TownSlotsCost(Town town)
+        {
+            int ans = 0;
+            //покупаемые слоты: 11,14,15,16
+            List<byte> bs = new List<byte> { 11, 14, 15, 16 };
+            byte c = 0;
+            foreach (byte b in bs)
+                if (town.TownBuilds[b].Available) 
+                { 
+                    ans += 5000 * (int)Math.Pow( 10, c);
+                    c++;
+                }            
+            return ans;
+        }
         public long[] TownTotalResCost(Town town, Account acc, bool aimultiuser = false) 
         {
             long[] ans = new long[23];
@@ -987,17 +1001,7 @@ namespace WofHCalc.MathFuncs
             //слоты под постройки
             //Может некорректно работать, если пользователь отметит некупленными клетки, который не могут быть таковыми.
             //Это очень странный сценарий использования и маловероятный, так что пока можно не чинить.
-            int number_of_slots_not_yet_purchased = town.TownBuilds.Count;
-            for (int i = 0; i < town.TownBuilds.Count; i++)
-                if (town.TownBuilds[i].Available) number_of_slots_not_yet_purchased--;
-            switch (number_of_slots_not_yet_purchased)
-            {                
-                case 3: ans[(int)ResName.money] += 5000; break;
-                case 2: ans[(int)ResName.money] += 55000; break;
-                case 1: ans[(int)ResName.money] += 555000; break;
-                case 0: ans[(int)ResName.money] += 5555000; break;
-                default: break;
-            }
+            ans[(int)ResName.money] += TownSlotsCost(town);
             return ans;
         }
         //Цена города
@@ -1093,6 +1097,8 @@ namespace WofHCalc.MathFuncs
                 if (i < ai1.Count)
                     rc[(int)ResName.money] -= (int)AreaImprovementPrice(ai1[i].AIName, ai1[i].Level, acc.Financial);
             }
+            //клетки
+            rc[(int)ResName.money] += TownSlotsCost(town_new) - TownSlotsCost(town_old);
             return rc;
         }
         //стоимость перестройки/апа города
