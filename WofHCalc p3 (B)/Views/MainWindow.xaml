@@ -203,17 +203,20 @@
                         <RowDefinition/>
                         <RowDefinition/>
                         <RowDefinition/>
+                        <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Вложенная колба"/>
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Научдомики"/>
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Фортификация"/>
-                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Воендомики"/>
-                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Стратегические"/>
-                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding ActiveAccount.Financial.ForKnowledgeInvestment}"/>
-                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ActiveAccount.Financial.ForScientificBuildings}"/>
-                    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding ActiveAccount.Financial.ForFortificationBuildings}"/>
-                    <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding ActiveAccount.Financial.ForMillitaryBuildings}"/>
-                    <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding ActiveAccount.Financial.ForStrategicBuildings}"/>
+                    <TextBlock Grid.Row="0" Grid.Column="0">Рыночная цена МУ:</TextBlock>
+                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding ActiveAccount.Financial.LuckCoinPrice}"/>
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Вложенная колба"/>
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Научдомики"/>
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Фортификация"/>
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Воендомики"/>
+                    <TextBlock Grid.Row="5" Grid.Column="0" Text="Стратегические"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ActiveAccount.Financial.ForKnowledgeInvestment}"/>
+                    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding ActiveAccount.Financial.ForScientificBuildings}"/>
+                    <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding ActiveAccount.Financial.ForFortificationBuildings}"/>
+                    <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding ActiveAccount.Financial.ForMillitaryBuildings}"/>
+                    <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding ActiveAccount.Financial.ForStrategicBuildings}"/>
                 </Grid>
                 <Button Margin="5,0,5,0" Click="OpenDTE">Налоги на МР</Button>
                 <Grid Name="ScienceBonuses" Panel.ZIndex="2" Margin="5">
