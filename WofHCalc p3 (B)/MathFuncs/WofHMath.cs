@@ -319,7 +319,7 @@ namespace WofHCalc.MathFuncs
             return ans;
         }
         //спад от домиков в день
-        private double TownUngrownFromBuilds(BuildName[] builds, int?[] lvls) //+ но погрешность небольшая есть
+        private double TownUngrownFromBuilds(BuildName[] builds, int?[] lvls) //+ 
         {
             double ans = 0;
             for (int i = 2; i < builds.Length; i++)
@@ -327,7 +327,7 @@ namespace WofHCalc.MathFuncs
             return ans;
         }
         //прирост в городе без учета спада и ресурсов, но с учётом остального. Нужен для рассчёта потребления растишек
-        private double TownGrowthWOUngrownAndResourses(Account acc, Town town) //с более удобным вызовом
+        private double TownGrowthWOUngrownAndResourses(Account acc, Town town)
         {
             double ans = TownGrowthFromBuilds(town.TownBuilds.Select(x => x.Building).ToArray(), town.TownBuilds.Select(x => (int?)x.Level).ToArray()) + acc.PopulationGrowth;
             ans *= data.RaceEffect_PopulationGrowth(acc.Race);
@@ -340,22 +340,9 @@ namespace WofHCalc.MathFuncs
             ans *= aiinc;
             ans *= 1 + data.LuckBonusesData[(int)LuckBonusNames.grown].effect[(int)town.LuckyTown[(int)LuckBonusNames.grown]!];
             return ans;
-        }        
-        private double TownGrowthWOUngrownAndResourses(double basegrown, BuildName[] builds, int?[] lvls, Race race, bool deposit, byte numofdoctors, AreaImprovementName[] areaimps, byte[] ailvls, byte[] aiusers, byte luck_bonus_lvl)
-        {
-            double ans = TownGrowthFromBuilds(builds, lvls) + basegrown;
-            ans *= data.RaceEffect_PopulationGrowth(race);
-            ans *= GreatCitizenBonus(numofdoctors);
-            if (deposit) ans *= 0.85f; //число убрать в datasourses
-            double aiinc = 1;
-            for (int i = 0; i < areaimps.Length; i++)
-                if (areaimps[i] == AreaImprovementName.Suburb) aiinc += AreaImprovementBonus(areaimps[i], ailvls[i], aiusers[i]);
-            ans *= aiinc;
-            ans *= 1 + data.LuckBonusesData[(int)LuckBonusNames.grown].effect[luck_bonus_lvl];
-            return ans;
-        }
+        }                
         //прирост в городе с учётом всего
-        public double TownGrowth(Account acc, Town town) //удобный вызов
+        public double TownGrowth(Account acc, Town town)
         {
             double ans = TownGrowthFromBuilds(town.TownBuilds.Select(x => x.Building).ToArray(), town.TownBuilds.Select(x => (int?)x.Level).ToArray()) + acc.PopulationGrowth;
             ans *= data.RaceEffect_PopulationGrowth(acc.Race);
@@ -376,29 +363,6 @@ namespace WofHCalc.MathFuncs
             ans *= resbonus;
             ans -= aidec;
             ans -= TownUngrownFromBuilds(town.TownBuilds.Select(x => x.Building).ToArray(), town.TownBuilds.Select(x => (int?)x.Level).ToArray());
-            return ans;
-        }
-        public double TownGrowth(double basegrown, BuildName[] builds, int?[] lvls, Race race, bool havedeposit, bool[] resconsumption, byte numofdoctors, AreaImprovementName[] areaimps, byte[] ailvls, byte[] aiusers, byte luck_bonus_lvl)
-        {
-            double ans = TownGrowthFromBuilds(builds, lvls) + basegrown;
-            ans *= data.RaceEffect_PopulationGrowth(race);
-            ans *= GreatCitizenBonus(numofdoctors);
-            if (havedeposit) ans *= 0.85f; //число убрать в data
-            double aiinc = 1;
-            double aidec = 0;
-            for (int i = 0; i < areaimps.Length; i++)
-            {
-                if (areaimps[i] == AreaImprovementName.Suburb) aiinc += AreaImprovementBonus(areaimps[i], ailvls[i], aiusers[i]);
-                else if (areaimps[i] == AreaImprovementName.SkiResort) aidec += AreaImprovementBonus(areaimps[i], ailvls[i], aiusers[i]) * 0.027d;
-            }
-            ans *= aiinc;
-            ans *= 1 + data.LuckBonusesData[(int)LuckBonusNames.grown].effect[luck_bonus_lvl];
-            double resbonus = 1;
-            for (int i = (int)ResName.fruit; i <= (int)ResName.meat; i++)
-                if (resconsumption[i]) resbonus += data.ResData[i].effect;
-            ans *= resbonus;
-            ans -= aidec;
-            ans -= TownUngrownFromBuilds(builds, lvls);
             return ans;
         }
         //культура от домиков
@@ -607,6 +571,7 @@ namespace WofHCalc.MathFuncs
                 ans[i] *= aibonuses[i];
                 ans[i] *= data.RaceEffect_ProdMod(acc.Race, (ResName)i);
             }
+            //учёт МУ
             var LevelLuckBonusProd = town.LuckyTown[(int)LuckBonusNames.production];
             var LevelLuckBonusSciense = town.LuckyTown[(int)LuckBonusNames.science];
             for (int i = 1; i < 23; i++)
@@ -641,7 +606,104 @@ namespace WofHCalc.MathFuncs
             //вроде ничего не забыл
             ans = ans.Select(x => x is double.NaN ? 0 : x).ToArray();
             return ans;
-        }        
+        }
+        //производ без му, к сожалению нужно считать целиком отдельно из-за сложной формулы. Потом мб перепишу, поделив всё на множители и слагаемые отдельные
+        private double[] TownProdWOLuck(Town town, Account acc)
+        {
+            double[] ans = new double[23];
+            if (acc is null || town is null) return ans;
+            var builds = town.TownBuilds.Select(x => x.Building).ToArray();
+            var lvls = town.TownBuilds.Select(x => (int?)x.Level).ToArray();
+            var areaimps = town.AreaImprovements.Select(x => x.AIName).ToArray();
+            var ailvls = town.AreaImprovements.Select(x => x.Level).ToArray();
+            var aiusers = town.AreaImprovements.Select(x => x.Users).ToArray();
+            double workplacesmod = Workplacesmod(builds, lvls);
+            double workplacesmodSciense = WorkplacesmodScience(areaimps, ailvls, aiusers);
+            int total_wp = 0;
+            //считаем все рабочие места для эффективности труда
+            //и рабочие места по ресам с учётом эффективности строения
+            int[] workplaces = new int[23]; //+
+            double[] workplaces_efbuildmod = new double[23];
+            for (int i = 3; i < builds.Length; i++)
+            {
+                if (builds[i] == BuildName.none) continue;
+                if (data.BuildindsData[(int)builds[i]].Type == BuildType.production)
+                {
+                    double wp = BuildEffect(builds[i], (int)lvls[i]!);
+                    int nwp = 0;
+                    foreach (var r in data.BuildindsData[(int)builds[i]].Productres)
+                    {
+                        if (r.Res == ResName.science)
+                            nwp = (int)(wp * workplacesmodSciense);
+                        else
+                            nwp = (int)(wp * workplacesmod);
+                        workplaces[(int)r.Res] += nwp;
+                        workplaces_efbuildmod[(int)r.Res] += nwp * data.BuildindsData[(int)builds[i]].Efficiency;
+                    }
+                    total_wp += nwp;
+                }
+            }
+            //ээфективность труда города
+            double townefficiency = LaborEfficiency(total_wp);
+            //базовое производство с учётом МР
+            double[] baseprod = BaseProd(town.Deposit, town.OnHill, town.WaterPlaces);
+            //модификаторы от ум
+            double[] aibonuses = AIBonuses(areaimps, ailvls, aiusers, town.Deposit);//+
+            //великие граждание по типу производства
+            var gsb = GreatSitizensProdBonus(town.GreatCitizens.ToArray());
+            //коррупция города
+            double corruption = TownCorruption(builds, lvls, acc.Towns.Count);
+            //теперь всё посчитать!
+            for (int i = 0; i < 23; i++)
+            {
+                if (town.Product[i]) ans[i] = workplaces_efbuildmod[i];
+                else { ans[i] = 0; continue; }
+                int type = (int)data.ResData[i].prodtype;
+                ans[i] *= townefficiency;
+                ans[i] *= 1 - corruption / 100;
+                ans[i] *= data.ClimateEffect(town.Climate, (ResProdType)type);
+                ans[i] *= (double)acc.Science_Bonuses[type] / 100d;
+                ans[i] *= baseprod[i];
+                ans[i] *= gsb[type];
+                ans[i] *= aibonuses[i];
+                ans[i] *= data.RaceEffect_ProdMod(acc.Race, (ResName)i);
+            }
+            //учёт МУ
+            //var LevelLuckBonusProd = town.LuckyTown[(int)LuckBonusNames.production];
+            //var LevelLuckBonusSciense = town.LuckyTown[(int)LuckBonusNames.science];
+            //for (int i = 1; i < 23; i++)
+            //    ans[i] *= 1 + data.LuckBonusesData[(int)LuckBonusNames.production].effect[(int)LevelLuckBonusProd!]; //кроме науки
+            //ans[(int)ResName.science] *= 1 + data.LuckBonusesData[(int)LuckBonusNames.science].effect[(int)LevelLuckBonusSciense!];
+            //+горнолыжки
+            double srb = 0;
+            for (int i = 1; i < areaimps.Length; i++)
+                if (areaimps[i] == AreaImprovementName.SkiResort)
+                    srb += AreaImprovementBonus(AreaImprovementName.SkiResort, ailvls[i], aiusers[i]);
+            //srb *= 1 + data.LuckBonusesData[(int)LuckBonusNames.production].effect[(int)LevelLuckBonusProd!];
+            ans[(int)ResName.money] += srb;
+            //книжки
+            if (town.ResConsumption[(int)ResName.books]) ans[(int)ResName.science] *= 1 + data.ResData[(int)ResName.books].effect;
+            //+чудеса с фиксированным бонусом
+            if (lvls[0] == 20)
+                switch (builds[0])
+                {
+                    case BuildName.Geoglyph:
+                    case BuildName.The_Great_Library:
+                    case BuildName.Helioconcentrator:
+                        ans[(int)ResName.science] += data.WounderEffects[builds[0]];
+                        break;
+                    case BuildName.Earthen_dam:
+                        ans[(int)ResName.fish] += data.WounderEffects[builds[0]];
+                        break;
+                    case BuildName.The_Colossus:
+                        ans[(int)ResName.money] += data.WounderEffects[builds[0]];
+                        break;
+                    default: break;
+                }
+            //вроде ничего не забыл
+            ans = ans.Select(x => x is double.NaN ? 0 : x).ToArray();
+            return ans;
+        }
         //Количество реса на одного торга
         public double ResPerTraider(Account acc, Town town)
         {
@@ -670,6 +732,7 @@ namespace WofHCalc.MathFuncs
         }
         //потребление ресурсов
         //культишка
+        //сколько жрут реса
         private double CultCons(double cultWOres, ResName res, Race r)
         {
             if (res < ResName.wine || res > ResName.films) return 0;
@@ -734,13 +797,22 @@ namespace WofHCalc.MathFuncs
             }
             return ans;
         }
-        //расходы на содержание города (денежные + закуп растишек и культишек
+        //расходы на содержание города (денежные + закуп растишек и культишек + закуп МУ с рынка на МУ бонусы
         public double TownUpkeep(Town town, Account acc)
         {
+            //домики
             double ans = TownBuildsUpkeep(town, acc);
+            //ресы
             var rc = GetResConsumption(acc, town);
             for (int i = 0; i < 23; i++)            
                 ans += rc[i] * acc.Financial.Prices[i] * 0.001d;
+            //МУ
+            var lc = town.LuckyTown;
+            for (int i = 0; i < lc.Count; i++)
+            {
+                if (lc[i] is null) continue;
+                ans += LuckBonusPrice((LuckBonusNames)i, acc.Towns.Count, (int)lc[i]!) / 168d * acc.Financial.LuckCoinPrice;
+            }
             return ans;
         }
         //потребление ДЕНЕГ всеми домиками города
@@ -781,9 +853,15 @@ namespace WofHCalc.MathFuncs
                 return ans;
             }
         }
-        //полные затраты на прирост без му
+        //полные затраты на прирост с учётом МУ
         public double GrowthFullUpkeep(Town town, Account acc)
-             => BuildsUpkeepGrowth(town, acc) + GrowthConsPrice(town, acc);
+        {
+            double ans = 0;
+            ans += BuildsUpkeepGrowth(town, acc);
+            ans += GrowthConsPrice(town, acc);
+            ans += LuckBonusPrice(LuckBonusNames.grown, acc.Towns.Count, (int)town.LuckyTown[(int)LuckBonusNames.grown]!) / 168d * acc.Financial.LuckCoinPrice;
+            return ans;
+        }     
         //содержание посольки и ПВО
         private double BuildsUpkeepStrategic(Town town, Account acc)
         {
@@ -882,9 +960,14 @@ namespace WofHCalc.MathFuncs
             ans *= TownAdminEconomyMultiplier(town);
             return ans;
         }
-        //полные затраты на культуру без му
+        //полные затраты на культуру с МУ
         public double CultureFullUpkeep(Town town, Account acc)
-            => BuildsUpkeepCulture(town, acc) + CultConsPrice(town, acc);
+        {
+            double ans = 0;
+            ans += BuildsUpkeepCulture(town, acc) + CultConsPrice(town, acc);
+            ans += LuckBonusPrice(LuckBonusNames.culture, acc.Towns.Count, (int)town.LuckyTown[(int)LuckBonusNames.culture]!) / 168d * acc.Financial.LuckCoinPrice;
+            return ans;
+        }
         //содержание торговых домиков
         private double BuildsUpkeepTraiding(Town town, Account acc) 
         {
@@ -1043,7 +1126,7 @@ namespace WofHCalc.MathFuncs
         public double TownTax(Town town, Account acc)
         {
             double ans = 0;
-            double[] tprod = TownProduction(acc, town);
+            double[] tprod = TownProdWOLuck(town,acc);
             for (int i = 0; i < 23; i++)
                 ans += (acc.Financial.Taxes[i] > 0 ? acc.Financial.Taxes[i]*0.001d : 0) * tprod[i];
             if (town.Deposit != DepositName.none)
