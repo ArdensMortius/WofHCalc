@@ -61,14 +61,18 @@ namespace WofHCalc.MathFuncs
             int growth_food_price = f.Prices.Where((item, index) => index >= x && index <= y).Max();//самая дорогая растишка
             return data.ResData[x].consumption * growth_food_price * 0.024f; //домножается, чтоб из расхода в час получить цену за 1 человечка
         }
+        public float OneHumanPriceForRace(Account acc)
+        {
+            return BaseOneHumanPrice(acc.Financial)*data.RaceEffect_PopulationGrowth(acc.Race);
+        }
         //цена юнита рассчётная (от фактической отличается, т.к. цена прироста зависит от города
-        public float BaseUnitPrice(int unit_id, FinancialPolicy f)
+        public float BaseUnitPrice(int unit_id, Account acc)
         {
             float ans =0;
             int[] res = data.Units[unit_id].ResCost;
             for (int i = 0; i < res.Length; i++)             
-                ans += res[i] * f.Prices[i] * 0.001f;
-            ans += data.Units[unit_id].PopCost * BaseOneHumanPrice(f);
+                ans += res[i] * acc.Financial.Prices[i] * 0.001f;
+            ans += data.Units[unit_id].PopCost * OneHumanPriceForRace(acc);
             return ans;
         }
         //Стоимость ресов
@@ -101,7 +105,7 @@ namespace WofHCalc.MathFuncs
         //Затраты ресов на улучшение местности (УМ, уровень) (как учитывать рабочих-то?)
         //public int[] AreaImprovementResCost()
         //Цена улучшения местности
-        public double AreaImprovementPrice(AreaImprovementName ArImp, byte lvl, FinancialPolicy f)
+        public double AreaImprovementPrice(AreaImprovementName ArImp, byte lvl, Account acc)
         {
             try
             {
@@ -109,8 +113,8 @@ namespace WofHCalc.MathFuncs
                 double ans = 0;
                 int[] rc = data.AreaImprovementsData[(int)ArImp].levels[lvl-1].GetResCost();
                 for (int i = 0; i < rc.Length; i++)
-                    ans += rc[i] * f.Prices[i] * 0.001d;
-                ans += data.AreaImprovementsData[(int)ArImp].levels[lvl-1].workers * BaseUnitPrice(56, f);
+                    ans += rc[i] * acc.Financial.Prices[i] * 0.001d;
+                ans += data.AreaImprovementsData[(int)ArImp].levels[lvl-1].workers * BaseUnitPrice(56, acc);
                 return ans;
             }
             catch
@@ -1074,7 +1078,7 @@ namespace WofHCalc.MathFuncs
             //улучшения местности учитываются в виде денег. По другому их учесть затруднительно.
             for (int i = 0; i < town.AreaImprovements.Count; i++)
             {
-                double aic = AreaImprovementPrice(town.AreaImprovements[i].AIName, town.AreaImprovements[i].Level, acc.Financial);
+                double aic = AreaImprovementPrice(town.AreaImprovements[i].AIName, town.AreaImprovements[i].Level, acc);
                 if (aimultiuser)
                 {
                     ans[(int)ResName.money] += (int)(aic / town.AreaImprovements[i].Users);
@@ -1176,9 +1180,9 @@ namespace WofHCalc.MathFuncs
             var ai2 = town_new.AreaImprovements;
             for (int i = 0; i < ai2.Count; i++)
             {
-                rc[(int)ResName.money] += (int)AreaImprovementPrice(ai2[i].AIName, ai2[i].Level, acc.Financial);
+                rc[(int)ResName.money] += (int)AreaImprovementPrice(ai2[i].AIName, ai2[i].Level, acc);
                 if (i < ai1.Count)
-                    rc[(int)ResName.money] -= (int)AreaImprovementPrice(ai1[i].AIName, ai1[i].Level, acc.Financial);
+                    rc[(int)ResName.money] -= (int)AreaImprovementPrice(ai1[i].AIName, ai1[i].Level, acc);
             }
             //клетки
             rc[(int)ResName.money] += TownSlotsCost(town_new) - TownSlotsCost(town_old);

@@ -106,7 +106,7 @@ namespace WofHCalc.ExtendedModel
         }
         public double GrowthAsMoney
         {
-            get => Growth * acc.WofHFuncs.BaseOneHumanPrice(acc.Financial) / 24d;
+            get => Growth * acc.WofHFuncs.OneHumanPriceForRace(acc) / 24d;
         }
         public override object Clone()
         {
