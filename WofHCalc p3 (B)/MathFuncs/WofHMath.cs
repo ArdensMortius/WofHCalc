@@ -94,7 +94,7 @@ namespace WofHCalc.MathFuncs
         private double AreaImprovementEfficiencyPerUser(byte users)
         {
             double u = (double)users;
-            return (u + 1) / (2 * u);
+            return (u + 1) / (2 * u); //результат надо округлить предположительно до сотых
         }
         //Величина бонуса от УМ (УМ, уровень, к-во пользователей)
         public double AreaImprovementBonus(AreaImprovementName name, int lvl, byte users = 1)
@@ -453,7 +453,7 @@ namespace WofHCalc.MathFuncs
         }
         //модификаторы производств от улучшений местности по ресурсам в долях
         private double[] AIBonuses(AreaImprovementName[] areaimps, byte[] ailvls, byte[] aiusers, DepositName deposit)//+
-        {
+        {            
             double[] ans = new double[23];
             for (int i = 0; i < 23; i++)
                 ans[i] = 1;
@@ -491,6 +491,7 @@ namespace WofHCalc.MathFuncs
                     default: break;
                 }
             }
+            ans = ans.Select(x => Math.Round(x, 4)).ToArray(); //не уверен, что округление тут правильное
             return ans;
         }
         //базовое производство ресов в городе с учётом мр и положения города

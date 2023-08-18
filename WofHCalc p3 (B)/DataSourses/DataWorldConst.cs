@@ -60,7 +60,7 @@ namespace WofHCalc.DataSourses
             if (race == Race.europeans && res == ResName.grain) return 1.3f;
             if (race == Race.indians && res == ResName.corn) return 1.3f;
             if (race == Race.africans && res == ResName.fruit) return 1.08f;
-            return 0;
+            return 1;
         }
         public float ClimateEffect(Climate climate, ResProdType rpt) //пока оставить
         {
