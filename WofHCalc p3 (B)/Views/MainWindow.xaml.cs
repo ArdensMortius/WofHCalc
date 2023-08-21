@@ -161,5 +161,11 @@ namespace WofHCalc
                 default: dc.VisibleTown = dc.SelectedTown; dc.OnPropertyChanged("ActiveAccount"); break;
             }
         }
+
+        private void Open_AIPrisesView(object sender, RoutedEventArgs e)
+        {
+            AIPrices v = new AIPrices(dc.ActiveAccount!);
+            v.Show();
+        }
     }
 }

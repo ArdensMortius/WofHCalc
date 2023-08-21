@@ -157,6 +157,7 @@
                     <Button Margin="5" Command="{Binding AddTown}">New Town</Button>
                     <Button Margin="5" Command="{Binding DelTown}">Delete Town</Button>
                 </UniformGrid>
+                <Button Margin="5" Click="Open_AIPrisesView">Просмотр цен УМ</Button>
                 <StackPanel Orientation="Horizontal" Margin="5,0,0,5">
                     <ItemsControl ItemsSource="{Binding Source={enumsup:EnumBindingSourse {x:Type sup:ResName}}}">
                         <ItemsControl.ItemsPanel>
