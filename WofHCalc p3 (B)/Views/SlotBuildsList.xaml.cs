@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -179,6 +180,7 @@ namespace WofHCalc.Views
 
         public SlotBuildsList(Town t, byte s, Race race, DataWorldConst data, WofHMath WofHFuncs)
         {
+            if (s < 0 || s > t.TownBuilds.Count) this.Close();
             this.data = data;
             this.race = race;
             this.WofHFuncs = WofHFuncs;
