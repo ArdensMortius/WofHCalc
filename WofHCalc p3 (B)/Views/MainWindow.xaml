@@ -158,6 +158,7 @@
                     <Button Margin="5" Command="{Binding DelTown}">Delete Town</Button>
                 </UniformGrid>
                 <Button Margin="5" Click="Open_AIPrisesView">Просмотр цен УМ</Button>
+                <Button Margin="5" Click="Open_UnitsInfo">Инфа по юнитам</Button>
                 <StackPanel Orientation="Horizontal" Margin="5,0,0,5">
                     <ItemsControl ItemsSource="{Binding Source={enumsup:EnumBindingSourse {x:Type sup:ResName}}}">
                         <ItemsControl.ItemsPanel>
@@ -274,9 +275,9 @@
 										<RowDefinition Height="auto"/>
 										<RowDefinition Height="auto"/>
 									</Grid.RowDefinitions>
-									<TextBox Grid.Column="0" Grid.Row="0" Panel.ZIndex="2" 
+									<TextBox Name="blvl"  Grid.Column="0" Grid.Row="0" Panel.ZIndex="2" 
 									Text="{Binding Path=Level}"
-									VerticalAlignment="Center" HorizontalAlignment="Center"
+									VerticalAlignment="Center" HorizontalAlignment="Center" PreviewMouseUp="TextBox_SelectALL"
 									/>
 									<Image Grid.Column="1" Grid.Row="0" Panel.ZIndex="2" 
 									Height="45" Width="46" Stretch="Uniform" Source="{Binding Path=Building, Converter={StaticResource BuildToImgConverter}}"

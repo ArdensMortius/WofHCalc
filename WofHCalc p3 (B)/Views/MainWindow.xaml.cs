@@ -167,5 +167,21 @@ namespace WofHCalc
             AIPrices v = new AIPrices(dc.ActiveAccount!);
             v.Show();
         }
+
+        private void Open_UnitsInfo(object sender, RoutedEventArgs e)
+        {
+            UnitsInfoList uil = new UnitsInfoList(null, dc.ActiveAccount!.Financial, dc.ActiveAccount.WofHFuncs);
+            uil.Show();
+        }
+
+        private void TextBox_SelectALL(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                (e.Source as TextBox).SelectAll();
+                //(sender as TextBox).SelectAll();
+            }
+            catch { }
+        }
     }
 }

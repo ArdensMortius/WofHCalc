@@ -37,9 +37,9 @@ namespace WofHCalc.Views
                     new {
                         Name = el.Value,
                         Cost = new double[] {
-                            m.AreaImprovementPrice(el.Key,1,acc),
-                            m.AreaImprovementPrice(el.Key,2,acc),
-                            m.AreaImprovementPrice(el.Key,3,acc)}
+                            m.AreaImprovementPriceBase(el.Key,1,acc),
+                            m.AreaImprovementPriceBase(el.Key,2,acc),
+                            m.AreaImprovementPriceBase(el.Key,3,acc)}
                         }
                     );
             }

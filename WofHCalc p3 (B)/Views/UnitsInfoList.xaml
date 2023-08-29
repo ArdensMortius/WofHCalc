@@ -1,0 +1,47 @@
+﻿<Window x:Class="WofHCalc.Views.UnitsInfoList"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WofHCalc.Views"
+        mc:Ignorable="d"
+        FontSize="15"
+        Title="UnitsInfoList" SizeToContent="WidthAndHeight">
+    <Window.Resources>
+        <BitmapImage x:Key="masterImage" UriSource="https://ru58.waysofhistory.com/img/gui/icons/icons_units-color-a-6.png" />
+    </Window.Resources>
+    <Grid>
+        <StackPanel Orientation="Horizontal">
+            <ListView x:Name="Table"
+                      ItemsSource="{Binding InfoList}"
+                      >
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="ID" DisplayMemberBinding="{Binding id}" Width="40"/>
+                        <GridViewColumn Header="Pic" Width="35">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image x:Name="pic" HorizontalAlignment="Left" VerticalAlignment="Top" Height="23" Width="2714"
+                                           Source="{StaticResource masterImage}"
+                                           Stretch="UniformToFill"
+                                           Margin="{Binding t}"
+                                           >
+                                        <Image.Clip>
+                                            <RectangleGeometry Rect="{Binding rect}"/>
+                                        </Image.Clip>
+                                    </Image>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Юнит" DisplayMemberBinding="{Binding name}"/>
+                        <GridViewColumn Header="Ресы" DisplayMemberBinding="{Binding ResPrice, StringFormat=N2}"/>
+                        <GridViewColumn Header="Нас" DisplayMemberBinding="{Binding PopPrice, StringFormat=N2}"/>
+                        <GridViewColumn Header="Всего" DisplayMemberBinding="{Binding FullPrice, StringFormat=N2}"/>
+                        <GridViewColumn Header="Жрёт" DisplayMemberBinding="{Binding Upkeep, StringFormat=N2}"/>
+                    </GridView>
+                </ListView.View>
+
+            </ListView>
+        </StackPanel>
+    </Grid>
+</Window>

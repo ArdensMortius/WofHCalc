@@ -354,8 +354,8 @@ namespace WofHCalc.Supports
         Attack_aircraft = 91,
         [Description("Двухместная_колесница")]
         TwoSeat_Chariot = 92,
-        [Description("Скользкий_Крыс")]
-        Slippery_Rat = 93,
+        //[Description("Скользкий_Крыс")]
+        //Slippery_Rat = 93,
         [Description("Реактивный_истребитель")]
         Jet_fighter = 94,
         [Description("Реактивный_бомбардировщик")]
@@ -379,15 +379,13 @@ namespace WofHCalc.Supports
         [Description("Огнеметчик")]
         Flamethrower = 104,
         [Description("ЗРПК")]
-        SPAAG = 105,
-        [Description("Резервный_юнит")]
-        Reserved = 110,
-        [Description("Дед")]
-        Santa = 111,
-        [Description("Внучка")]
-        Snowflake = 112,
-        [Description("Лось")]
-        Deer = 113
+        SPAAG = 105,        
+        //[Description("Дед")]
+        //Santa = 111,
+        //[Description("Внучка")]
+        //Snowflake = 112,
+        //[Description("Лось")]
+        //Deer = 113
     }
 
     public enum DepositName //++
