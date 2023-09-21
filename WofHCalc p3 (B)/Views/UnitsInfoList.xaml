@@ -5,16 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WofHCalc.Views"
         mc:Ignorable="d"
-        FontSize="15"
+        FontSize="15"        
         Title="UnitsInfoList" SizeToContent="WidthAndHeight">
+        
     <Window.Resources>
         <BitmapImage x:Key="masterImage" UriSource="https://ru58.waysofhistory.com/img/gui/icons/icons_units-color-a-6.png" />
     </Window.Resources>
     <Grid>
-        <StackPanel Orientation="Horizontal">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" Grid.Row="0">
+                <TextBlock Text="ID: " Margin="5"/>
+                <TextBox Name="id_box"  MinWidth="25" Margin="5"/>
+                <Button Margin="5" Click="ButtonShow">Показать</Button>
+            </StackPanel>
             <ListView x:Name="Table"
-                      ItemsSource="{Binding InfoList}"
-                      >
+                      ItemsSource="{Binding InfoList}" 
+                      Grid.Row="1"
+                        >
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="ID" DisplayMemberBinding="{Binding id}" Width="40"/>
@@ -22,10 +33,10 @@
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Image x:Name="pic" HorizontalAlignment="Left" VerticalAlignment="Top" Height="23" Width="2714"
-                                           Source="{StaticResource masterImage}"
-                                           Stretch="UniformToFill"
-                                           Margin="{Binding t}"
-                                           >
+                                            Source="{StaticResource masterImage}"
+                                            Stretch="UniformToFill"
+                                            Margin="{Binding t}"
+                                            >
                                         <Image.Clip>
                                             <RectangleGeometry Rect="{Binding rect}"/>
                                         </Image.Clip>
@@ -38,10 +49,17 @@
                         <GridViewColumn Header="Нас" DisplayMemberBinding="{Binding PopPrice, StringFormat=N2}"/>
                         <GridViewColumn Header="Всего" DisplayMemberBinding="{Binding FullPrice, StringFormat=N2}"/>
                         <GridViewColumn Header="Жрёт" DisplayMemberBinding="{Binding Upkeep, StringFormat=N2}"/>
+                        <GridViewColumn Header="">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Click="ButtonHide" Tag="{Binding id}">Скрыть</Button>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                     </GridView>
                 </ListView.View>
 
             </ListView>
-        </StackPanel>
+        </Grid>
     </Grid>
 </Window>

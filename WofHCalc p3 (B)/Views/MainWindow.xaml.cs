@@ -170,7 +170,7 @@ namespace WofHCalc
 
         private void Open_UnitsInfo(object sender, RoutedEventArgs e)
         {
-            UnitsInfoList uil = new UnitsInfoList(null, dc.ActiveAccount!.Financial, dc.ActiveAccount.WofHFuncs);
+            UnitsInfoList uil = new UnitsInfoList(dc.ActiveAccount!.UnitsVisibilyty, dc.ActiveAccount!.Financial, dc.ActiveAccount.WofHFuncs);
             uil.Show();
         }
 

@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Ribbon;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -26,18 +27,22 @@ namespace WofHCalc.Views
     public partial class UnitsInfoList : Window, INotifyPropertyChanged
     {
         //public byte scale = 1;
-        public ObservableCollection<int> UnitsList { get; set; }
+        public ObservableCollection<bool> UnitsList { get; set; }
         public ObservableCollection<UnitInfo> InfoList { get; set; }
-        public UnitsInfoList(ObservableCollection<int> units, FinancialPolicy f, WofHMath m)
-        {
-            this.UnitsList = units;
+        private FinancialPolicy f;
+        private WofHMath m;
+        public UnitsInfoList(ObservableCollection<bool> UnitsVisibility, FinancialPolicy f, WofHMath m)
+        {            
 
             //для проверки
-            var t1 = Enum.GetValues(typeof(UnitsNames)).Cast<int>().ToArray();
-            if (units is null) UnitsList = new ObservableCollection<int>(t1);
-
+            //var t1 = Enum.GetValues(typeof(UnitsNames)).Cast<int>().ToArray();
+            this.f = f;
+            this.m = m;
+            this.UnitsList = UnitsVisibility;
             this.InfoList = new();
-            foreach (var unit in UnitsList) InfoList.Add(new UnitInfo((UnitsNames)unit,f,m));
+            for (int i=0; i<UnitsList.Count;i++)
+                if (UnitsList[i])
+                    InfoList.Add(new UnitInfo((UnitsNames)i,f,m));
             this.DataContext = this;
             InitializeComponent();            
         }
@@ -46,6 +51,25 @@ namespace WofHCalc.Views
         public void OnPropertyChanged(string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        private void ButtonHide(object sender, RoutedEventArgs e)
+        {
+            int unit_id = (int)(sender as Button).Tag;
+            this.UnitsList[unit_id] = false; //отправка изменения обратно в источник данных (сейчас это объект типа ActiveAccount)
+            InfoList.Remove(InfoList.Where(x => x.id == unit_id).FirstOrDefault()); //обновление существующей коллекции
+        }
+
+        private void ButtonShow(object sender, RoutedEventArgs e)
+        {
+            int unit_id = -1;
+            if (int.TryParse(this.id_box.Text, out unit_id))            
+                if (!this.UnitsList[unit_id])
+                {
+                    this.UnitsList[unit_id]=true;
+                    int index = this.InfoList.Where(x=> x.id < unit_id).Count();
+                    this.InfoList.Insert(index, new UnitInfo((UnitsNames)unit_id, f, m));
+                }
+            
         }
     }
     public class UnitInfo
