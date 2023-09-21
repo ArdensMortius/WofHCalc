@@ -14,6 +14,7 @@ namespace WofHCalc.ExtendedModel
 {
     public class ExtendedAccount : Account, INotifyPropertyChanged
     {
+        public ObservableCollection<bool> UnitsVisibilyty { get; set; } //видимость юнитов в списках. Позволяет скрывать не актуальных.
         [JsonIgnore]
         public ObservableCollection<ExtendedTown> ExtendedTowns { get; set; }
         [JsonIgnore]
@@ -26,8 +27,10 @@ namespace WofHCalc.ExtendedModel
         [JsonIgnore]
         public WofHMath WofHFuncs;
         public ExtendedAccount(Account acc) : base(acc)
-        {            
+        {          
             data = DataWorldConst.GetInstance(acc.World);
+            UnitsVisibilyty = new ObservableCollection<bool>();
+            for (int i = 0; i < data.Units.Length; i++) { UnitsVisibilyty.Add(true); }
             ExtendedTowns = new ObservableCollection<ExtendedTown>();
             variantsET1 = new ObservableCollection<ExtendedTown>();
             variantsET2 = new ObservableCollection<ExtendedTown>();

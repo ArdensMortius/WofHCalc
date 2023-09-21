@@ -118,8 +118,7 @@ namespace WofHCalc.MathFuncs
             foreach (var x in data.Units[(int)name].Pay)            
                 ans += f.Prices[x[0]] * x[1] * 0.001f;
             return ans;
-        }
-        
+        }        
         #endregion
         #region функции УМ
         //Эффективность УМ (кол-во пользователи)
