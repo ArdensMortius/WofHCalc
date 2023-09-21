@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WofHCalc.Models;
+using WofHCalc.ExtendedModel;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
 
